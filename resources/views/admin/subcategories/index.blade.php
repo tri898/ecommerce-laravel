@@ -26,7 +26,7 @@
 					<h3 class="panel-title">Subcategory Table</h3>
 				</div>
 				<div class="panel-body">
-					<table id="subcategory-table" class="table table-hover">
+					<table id="subcategoryTable" class="table table-hover">
     					<thead>
     					    <tr>
     					        <th>#</th>
@@ -61,7 +61,7 @@
 <script>
     $(document).ready(function () {
 		// get data to table
-        $('#subcategory-table').DataTable({
+        $('#subcategoryTable').DataTable({
   			serverSide: true,
   			ajax:{
    				url: '{{ route('admin.subcategories.index') }}',
@@ -158,7 +158,7 @@
 						$('#btnSave').html('Save changes');
         				$('#btnSave').attr('disabled', false);
 						toastr.success(response.message, 'Success')
-						$('#subcategory-table').DataTable().ajax.reload(null, false);
+						$('#subcategoryTable').DataTable().ajax.reload(null, false);
 					}
 				
 			},
@@ -212,7 +212,7 @@
 
 						toastr.success(response.message, 'Success')
 
-						$('#subcategory-table').DataTable().ajax.reload(null, false);
+						$('#subcategoryTable').DataTable().ajax.reload(null, false);
 					}
 				
 			},
@@ -250,60 +250,61 @@
 					if(jqXHR.status == 200) {
 						$('#deleteModal').modal('hide');
 						toastr.success(response.message, 'Success')
-						$('#subcategory-table').DataTable().ajax.reload(null, false);		
+						$('#subcategoryTable').DataTable().ajax.reload(null, false);		
 					}
 			}
     	});
 	}
 </script>
 <script type="text/javascript">
-	// using select2
-	$('#categoryId').select2({
-		selectOnClose: true,
-		dropdownParent: $('#createEditModal')
-	});
-	/*
-     * When you change the value the select via select2, it triggers
-     * a 'change' event, but the jquery validation plugin
-     * only re-validates on 'blur'
-     */
-    $('#categoryId').on('change', function() {
-      $(this).trigger('blur');
-    });
+	$(document).ready(function() {
+    	// using select2
+		$('#categoryId').select2({
+			selectOnClose: true,
+			dropdownParent: $('#createEditModal')
+		});
+		/*
+    	 * When you change the value the select via select2, it triggers
+    	 * a 'change' event, but the jquery validation plugin
+    	 * only re-validates on 'blur'
+    	 */
+    	$('#categoryId').on('change', function() {
+    	  $(this).trigger('blur');
+    	});
 
-	$('#createEditForm').submit(function(e){
-    	e.preventDefault();
-  	});
-	
-	// validate form
-	$('#createEditForm').validate({
-		rules: {
-			name: {
-				required: true,
-				maxlength: 255
+		$('#createEditForm').submit(function(e){
+    		e.preventDefault();
+  		});
+	  
+		// validate form
+		$('#createEditForm').validate({
+			rules: {
+				name: {
+					required: true,
+					maxlength: 255
+				},
+				categoryId: {
+					required: true,
+				}
 			},
-			categoryId: {
-				required: true,
+			errorPlacement: function(error, element) {
+    			if (element.is('#categoryId')) {
+    	    		error.insertAfter(element.next('.select2-container'));	
+    			} else {
+    	    		error.insertAfter(element);
+    			}
 			}
-		},
-		errorPlacement: function(error, element) {
-    		if (element.is('#categoryId')) {
-        		error.insertAfter(element.next('.select2-container'));	
-    		} else {
-        		error.insertAfter(element);
-    		}
-		}
+		});
+		$('#btnSave').click(function() {
+ 			if($('#createEditForm').valid()) {
+				$('#createEditForm').submit();
+			}
+		});
+		// toastr options
+		toastr.options = {
+			'preventDuplicates': true,
+			'preventOpenDuplicates': true
+		};
 	});
-	$('#btnSave').click(function() {
- 		if($('#createEditForm').valid()) {
-			$('#createEditForm').submit();
-		}
-	});
-	// toastr options
-	toastr.options = {
-		'preventDuplicates': true,
-		'preventOpenDuplicates': true
-	};
-	
 </script>
 @endsection

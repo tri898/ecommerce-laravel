@@ -9,7 +9,8 @@ use App\Http\Controllers\Admin\{
     CategoryController,
     SubcategoryController,
     ColorController,
-    SizeController
+    SizeController,
+    ProductController
 
 };
 
@@ -40,18 +41,17 @@ Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], fun
     })->name('dashboard.index');
 
     // Category route
-    Route::get('category',[CategoryController::class, 'index'])->name('categories.index');
-    Route::get('category/list',[CategoryController::class, 'getCategories'])->name('categories.list');
-    Route::apiResource('categories', CategoryController::class)->except('index');
+    Route::get('categories/list',[CategoryController::class, 'getCategories'])->name('categories.list');
+    Route::apiResource('categories', CategoryController::class);
 
-    Route::get('subcategory',[SubcategoryController::class, 'index'])->name('subcategories.index');
-    Route::apiResource('subcategories', SubcategoryController::class)->except('index');
+    Route::apiResource('subcategories', SubcategoryController::class);
 
-    Route::get('color-attribute',[ColorController::class, 'index'])->name('colors.index');
-    Route::apiResource('colors', ColorController::class)->except('index');
+    Route::prefix('attributes')->group(function () {
+        Route::apiResource('colors', ColorController::class);
+        Route::apiResource('sizes', SizeController::class);
+    });
 
-    Route::get('size-attribute',[SizeController::class, 'index'])->name('sizes.index');
-    Route::apiResource('sizes', SizeController::class)->except('index');
+    Route::resource('products', ProductController::class);
     });
     
     

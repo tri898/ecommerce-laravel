@@ -25,7 +25,7 @@
 					<h3 class="panel-title">Category Table</h3>
 				</div>
 				<div class="panel-body">
-					<table id="category-table" class="table table-hover">
+					<table id="categoryTable" class="table table-hover">
     					<thead>
     					    <tr>
     					        <th>#</th>
@@ -58,7 +58,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#category-table').DataTable({
+        $('#categoryTable').DataTable({
   			serverSide: true,
   			ajax:{
    				url: '{{ route('admin.categories.index') }}',
@@ -131,7 +131,7 @@
 						$('#btnSave').html('Save changes');
         				$('#btnSave').attr('disabled', false);
 						toastr.success(response.message, 'Success')
-						$('#category-table').DataTable().ajax.reload(null, false);
+						$('#categoryTable').DataTable().ajax.reload(null, false);
 					}
 				
 			},
@@ -183,7 +183,7 @@
 
 						toastr.success(response.message, 'Success')
 
-						$('#category-table').DataTable().ajax.reload(null, false);
+						$('#categoryTable').DataTable().ajax.reload(null, false);
 					}
 				
 			},
@@ -218,7 +218,7 @@
 					if(jqXHR.status == 200) {
 						$('#deleteModal').modal('hide');
 						toastr.success(response.message, 'Success')
-						$('#category-table').DataTable().ajax.reload(null, false);		
+						$('#categoryTable').DataTable().ajax.reload(null, false);		
 					}
 			},
 			error: function(jqXHR) {  
@@ -234,26 +234,29 @@
 	}
 </script>
 <script type="text/javascript">
-	$('#createEditForm').submit(function(e){
-    	e.preventDefault();
-  	});
-	//   validate form
-	$('#createEditForm').validate({
-		rules: {
-			name: {
-				required: true,
-				maxlength: 255
+	$(document).ready(function() {
+		$('#createEditForm').submit(function(e){
+    		e.preventDefault();
+  		});
+		//   validate form
+		$('#createEditForm').validate({
+			rules: {
+				name: {
+					required: true,
+					maxlength: 255
+				}
 			}
-		}
+			});
+		$('#btnSave').click(function() {
+ 			if($('#createEditForm').valid()) {
+				$('#createEditForm').submit();
+			}
 		});
-	$('#btnSave').click(function() {
- 		if($('#createEditForm').valid()) {
-			$('#createEditForm').submit();
-		}
+		toastr.options = {
+			'preventDuplicates': true,
+			'preventOpenDuplicates': true
+		};
 	});
-	toastr.options = {
-	'preventDuplicates': true,
-	'preventOpenDuplicates': true
-	};
+	
 </script>
 @endsection

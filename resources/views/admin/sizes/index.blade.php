@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Size Attribute')
+@section('title', 'Size | Attribute')
 
 @section('vendor_css')
 <link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -232,26 +232,29 @@
 	}
 </script>
 <script type="text/javascript">
-	$('#createEditForm').submit(function(e){
-    	e.preventDefault();
-  	});
-	//   validate form
-	$('#createEditForm').validate({
-		rules: {
-			name: {
-				required: true,
-				maxlength: 50
+	$(document).ready(function() {
+		$('#createEditForm').submit(function(e){
+    		e.preventDefault();
+  		});
+		//   validate form
+		$('#createEditForm').validate({
+			rules: {
+				name: {
+					required: true,
+					maxlength: 50
+				}
 			}
-		}
+			});
+		$('#btnSave').click(function() {
+ 			if($('#createEditForm').valid()) {
+				$('#createEditForm').submit();
+			}
 		});
-	$('#btnSave').click(function() {
- 		if($('#createEditForm').valid()) {
-			$('#createEditForm').submit();
-		}
+		toastr.options = {
+			'preventDuplicates': true,
+			'preventOpenDuplicates': true
+		};
 	});
-	toastr.options = {
-	'preventDuplicates': true,
-	'preventOpenDuplicates': true
-	};
+	
 </script>
 @endsection
