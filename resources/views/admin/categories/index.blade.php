@@ -12,35 +12,35 @@
 
 @section('content')
 <div class="main-content">
-		<div class="container-fluid">
-			<h2 class="page-title">Category</h2>
-			<div class="form-group">
-				<div class="input-group">
-					<button type="button" class="btn btn-primary" onclick="onCreate()">Create new</button>
-				</div>
-			</div>
-			<!-- TABLE HOVER -->
-			<div class="panel">
-				<div class="panel-heading">
-					<h3 class="panel-title">Category Table</h3>
-				</div>
-				<div class="panel-body">
-					<table id="categoryTable" class="table table-hover">
-    					<thead>
-    					    <tr>
-    					        <th>#</th>
-    					        <th>Name</th>
-    					        <th>Slug</th>
-    					        <th>Actions</th>
-    					    </tr>
-    					</thead>
-    					<tbody>
-    					    
-    				    </tbody>
-					</table>
-				</div>
-			</div>
-		</div>				
+    <div class="container-fluid">
+        <h2 class="page-title">Category</h2>
+        <div class="form-group">
+            <div class="input-group">
+                <button type="button" class="btn btn-primary" onclick="onCreate()">Create new</button>
+            </div>
+        </div>
+        <!-- TABLE HOVER -->
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title">Category Table</h3>
+            </div>
+            <div class="panel-body">
+                <table id="categoryTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Slug</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 @include('admin.categories.create-edit-modal')
 @include('layouts.admin.elements.delete-modal')
@@ -57,206 +57,222 @@
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('#categoryTable').DataTable({
-  			serverSide: true,
-  			ajax:{
-   				url: '{{ route('admin.categories.index') }}',
-  			},
-			columns: [
-				{data:'DT_RowIndex'},
-				{data:'name'},
-				{data:'slug', orderable: false},
-				{data:'actions', orderable: false}
-				
-			]
-		});
-		
+$(document).ready(function() {
+    $('#categoryTable').DataTable({
+        serverSide: true,
+        ajax: {
+            url: '{{ route('admin.categories.index') }}',
+        },
+        columns: [{
+                data: 'DT_RowIndex'
+            },
+            {
+                data: 'name'
+            },
+            {
+                data: 'slug',
+                orderable: false
+            },
+            {
+                data: 'actions',
+                orderable: false
+            }
+
+        ],
+        columnDefs: [
+            {
+                "targets": [1,2,3] , 
+                "className": "text-center"
+            }
+        ]
     });
+
+});
 </script>
 <script type="text/javascript">
+function onCreate() {
+    $('#createEditForm').validate().resetForm();
+    $('#createEditForm').trigger('reset');
+    $('#modalTitle').html('Create Category');
+    $('#createEditForm').attr('onsubmit', 'storeData()');
+    $('#createEditModal').modal('show');
+}
 
-	function onCreate() {
-		$('#createEditForm').validate().resetForm();
-		$('#createEditForm').trigger('reset');
-		$('#modalTitle').html('Create Category');		
-		$('#createEditForm').attr('onsubmit', 'storeData()');	
-		$('#createEditModal').modal('show');
-	}
-	function onEdit(event) {
-		var id  = $(event).data('id');
-    	let _url = '{{ route('admin.categories.show',':id')}}';
-		_url = _url.replace(':id', id);
-		$.ajax({
-			url: _url,
-			type: 'GET',
-			success: function(response) {
-				if(response) {
-					$('#createEditForm').validate().resetForm();
-					$('#modalTitle').html('Edit Category');
-					$('#id').val(response.id);
-					$('#name').val(response.name);
-					$('#createEditForm').attr('onsubmit', 'updateData()');
-					$('#createEditModal').modal('show');
-				}
-			}
-    	});
-	}
-	function onDelete(event) {
-		$('#delId').val($(event).data('id'));
-		$('#deleteModal').modal('show');
-	}
-	function storeData() {
-		var name = $('#name').val();
-		let _url = '{{ route('admin.categories.store')}}';
-		$.ajaxSetup({
-    		headers: {
-        	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    		}
-		});
-		$.ajax({
-			url: _url,
-			type: 'POST',
-			data: {
-				name: name
-        	},
-			beforeSend: function(){
-				$('#btnSave').html('Please wait...');
-        		$('#btnSave').attr('disabled', true);
-   			},
-			success: function(response,textStatus, jqXHR) {
-					if(jqXHR.status == 201) {
+function onEdit(event) {
+    var id = $(event).data('id');
+    let _url = '{{ route('admin.categories.show',':id')}}';
+    _url = _url.replace(':id', id);
+    $.ajax({
+        url: _url,
+        type: 'GET',
+        success: function(response) {
+            if (response) {
+                $('#createEditForm').validate().resetForm();
+                $('#modalTitle').html('Edit Category');
+                $('#id').val(response.id);
+                $('#name').val(response.name);
+                $('#createEditForm').attr('onsubmit', 'updateData()');
+                $('#createEditModal').modal('show');
+            }
+        }
+    });
+}
 
-						$('#createEditModal').modal('hide');
-						$('#btnSave').html('Save changes');
-        				$('#btnSave').attr('disabled', false);
-						toastr.success(response.message, 'Success')
-						$('#categoryTable').DataTable().ajax.reload(null, false);
-					}
-				
-			},
-			error: function(jqXHR) {  
-               if(jqXHR.status&&jqXHR.status==422){
-					var errors = $.parseJSON(jqXHR.responseText);
-					var errorString = '';
-					$.each(errors['errors'], function (key, value) {
-						errorString += `<p>${value}</p>`;
-        			});
-					toastr.error(errorString, 'Error')
+function onDelete(event) {
+    $('#delId').val($(event).data('id'));
+    $('#deleteModal').modal('show');
+}
 
-					$('#btnSave').html('Save changes');
-        			$('#btnSave').attr('disabled', false); 
-            	}
-			   	else
-			   	{
-				   console.log(jqXHR.responseText);
-			   	}
-			}
-    	});
+function storeData() {
+    var name = $('#name').val();
+    let _url = '{{ route('admin.categories.store')}}';
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: _url,
+        type: 'POST',
+        data: {
+            name: name
+        },
+        beforeSend: function() {
+            $('#btnSave').html('Please wait...');
+            $('#btnSave').attr('disabled', true);
+        },
+        success: function(response, textStatus, jqXHR) {
+            if (jqXHR.status == 201) {
 
-	}
-	function updateData() {
-		var id  = $('#id').val();
-		var name = $('#name').val();
-		let _url = '{{ route('admin.categories.update',':id')}}';
-		_url = _url.replace(':id', id);
-		$.ajaxSetup({
-    		headers: {
-        	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    		}
-		});
-		$.ajax({
-			url: _url,
-			type: 'PUT',
-			data: {
-				name: name
-        	},
-			beforeSend: function(){
-				$('#btnSave').html('Please wait...');
-        		$('#btnSave').attr('disabled', true);
-   			},	
-			success: function(response,textStatus, jqXHR) {
-					if(jqXHR.status == 200) {
-						$('#createEditModal').modal('hide');
-						$('#btnSave').html('Save changes');
-        				$('#btnSave').attr('disabled', false);
+                $('#createEditModal').modal('hide');
+                $('#btnSave').html('Save changes');
+                $('#btnSave').attr('disabled', false);
+                toastr.success(response.message, 'Success')
+                $('#categoryTable').DataTable().ajax.reload(null, false);
+            }
 
-						toastr.success(response.message, 'Success')
+        },
+        error: function(jqXHR) {
+            if (jqXHR.status && jqXHR.status == 422) {
+                var errors = $.parseJSON(jqXHR.responseText);
+                var errorString = '';
+                $.each(errors['errors'], function(key, value) {
+                    errorString += `<p>${value}</p>`;
+                });
+                toastr.error(errorString, 'Error')
 
-						$('#categoryTable').DataTable().ajax.reload(null, false);
-					}
-				
-			},
-			error: function(jqXHR) {  
-               if(jqXHR.status&&jqXHR.status==422){
-					var errors = $.parseJSON(jqXHR.responseText);
-					var errorString = '';
-					$.each(errors['errors'], function (key, value) {
-						errorString += `<p>${value}</p>`;
-        			});
-					toastr.error(errorString, 'Error')
-					$('#btnSave').html('Save changes');
-        			$('#btnSave').attr('disabled', false); 
-            	}
-			}
-    	});
+                $('#btnSave').html('Save changes');
+                $('#btnSave').attr('disabled', false);
+            } else {
+                console.log(jqXHR.responseText);
+            }
+        }
+    });
 
-	}
-	function deleteData() {
-		var id  = $('#delId').val();
-		let _url = '{{ route('admin.categories.destroy',':id')}}';
-		_url = _url.replace(':id', id);
-		$.ajaxSetup({
-    		headers: {
-        	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    		}
-		});
-		$.ajax({
-			url: _url,
-			type: 'DELETE',
-			success: function(response,textStatus, jqXHR) {
-					if(jqXHR.status == 200) {
-						$('#deleteModal').modal('hide');
-						toastr.success(response.message, 'Success')
-						$('#categoryTable').DataTable().ajax.reload(null, false);		
-					}
-			},
-			error: function(jqXHR) {  
-               if(jqXHR.status&&jqXHR.status==409) {
-					$('#deleteModal').modal('hide');
-					var errors = $.parseJSON(jqXHR.responseText);
-					$.each(errors, function (key, value) {
-						toastr.error(value, 'Error')
-        			}); 
-            	}
-			}
-    	});
-	}
+}
+
+function updateData() {
+    var id = $('#id').val();
+    var name = $('#name').val();
+    let _url = '{{ route('admin.categories.update',':id')}}';
+    _url = _url.replace(':id', id);
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: _url,
+        type: 'PUT',
+        data: {
+            name: name
+        },
+        beforeSend: function() {
+            $('#btnSave').html('Please wait...');
+            $('#btnSave').attr('disabled', true);
+        },
+        success: function(response, textStatus, jqXHR) {
+            if (jqXHR.status == 200) {
+                $('#createEditModal').modal('hide');
+                $('#btnSave').html('Save changes');
+                $('#btnSave').attr('disabled', false);
+
+                toastr.success(response.message, 'Success')
+
+                $('#categoryTable').DataTable().ajax.reload(null, false);
+            }
+
+        },
+        error: function(jqXHR) {
+            if (jqXHR.status && jqXHR.status == 422) {
+                var errors = $.parseJSON(jqXHR.responseText);
+                var errorString = '';
+                $.each(errors['errors'], function(key, value) {
+                    errorString += `<p>${value}</p>`;
+                });
+                toastr.error(errorString, 'Error')
+                $('#btnSave').html('Save changes');
+                $('#btnSave').attr('disabled', false);
+            }
+        }
+    });
+
+}
+
+function deleteData() {
+    var id = $('#delId').val();
+    let _url = '{{ route('admin.categories.destroy',':id')}}';
+    _url = _url.replace(':id', id);
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        url: _url,
+        type: 'DELETE',
+        success: function(response, textStatus, jqXHR) {
+            if (jqXHR.status == 200) {
+                $('#deleteModal').modal('hide');
+                toastr.success(response.message, 'Success')
+                $('#categoryTable').DataTable().ajax.reload(null, false);
+            }
+        },
+        error: function(jqXHR) {
+            if (jqXHR.status && jqXHR.status == 409) {
+                $('#deleteModal').modal('hide');
+                var errors = $.parseJSON(jqXHR.responseText);
+                $.each(errors, function(key, value) {
+                    toastr.error(value, 'Error')
+                });
+            }
+        }
+    });
+}
 </script>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('#createEditForm').submit(function(e){
-    		e.preventDefault();
-  		});
-		//   validate form
-		$('#createEditForm').validate({
-			rules: {
-				name: {
-					required: true,
-					maxlength: 255
-				}
-			}
-			});
-		$('#btnSave').click(function() {
- 			if($('#createEditForm').valid()) {
-				$('#createEditForm').submit();
-			}
-		});
-		toastr.options = {
-			'preventDuplicates': true,
-			'preventOpenDuplicates': true
-		};
-	});
-	
+$(document).ready(function() {
+    $('#createEditForm').submit(function(e) {
+        e.preventDefault();
+    });
+    //   validate form
+    $('#createEditForm').validate({
+        rules: {
+            name: {
+                required: true,
+                maxlength: 255
+            }
+        }
+    });
+    $('#btnSave').click(function() {
+        if ($('#createEditForm').valid()) {
+            $('#createEditForm').submit();
+        }
+    });
+    toastr.options = {
+        'preventDuplicates': true,
+        'preventOpenDuplicates': true
+    };
+});
 </script>
 @endsection

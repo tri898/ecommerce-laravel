@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Create | Product')
+@section('title', 'Edit | Product')
 
 @section('vendor_css')
 <link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -18,7 +18,7 @@
         <!-- FORM -->
         <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title">Create Product</h3>
+                <h3 class="panel-title">Edit Product</h3>
             </div>
             <div class="panel-body">
                 @if ($errors->any())
@@ -28,16 +28,17 @@
                     @endforeach
                 </div>
                 @endif
-                <form id="createProductForm" action="{{ route('admin.products.store')}}" method="POST"
-                    enctype='multipart/form-data'>
+                <form id="editProductForm" action="{{ route('admin.products.update', ['product' => $product->id]) }}"
+                    method="POST" enctype='multipart/form-data'>
+                    @method('patch')
                     @csrf
 
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="name">Name(*)</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
-                                    placeholder="Please enter product name">
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="{{ old('name', $product->name) }}" placeholder="Please enter product name">
                             </div>
                         </div>
                     </div>
@@ -52,7 +53,7 @@
                                     <optgroup label="{{$category->name}}">
                                         @foreach ($category->subcategories as $subcategory )
                                         <option value="{{$subcategory->id}}" @if ($subcategory->id ==
-                                            old('subcategory_id')) selected @endif>
+                                            old('subcategory_id', $product->subcategory_id)) selected @endif>
                                             {{$subcategory->name}}</option>
                                         @endforeach
                                     </optgroup>
@@ -64,35 +65,25 @@
                             <div class="form-group">
                                 <label for="price">Price(*)</label>
                                 <input type="text" class="form-control" id="price" name="price"
-                                    value="{{ old('price') }}" placeholder="Please enter product price">
+                                    value="{{ old('price',$product->price) }}" placeholder="Please enter product price">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="discount">Discount(%)</label>
                                 <input type="text" class="form-control" id="discount" name="discount"
-                                    value="{{ old('discount') }}" placeholder="Please enter product discount">
+                                    value="{{ old('discount',$product->discount) }}"
+                                    placeholder="Please enter product discount">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <label for="is_in_stock">Status(*)</label>
                             <select name="is_in_stock" id="is_in_stock" class="form-control">
                                 <option value="1">In stock</option>
-                                <option value="0">Not Available</option>
+                                <option value="0" @if ($product->is_in_stock==0) selected @endif>
+                                    Not Available
+                                </option>
                             </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="prod_image">Images(*)</label>
-                            <div class="metric">
-                                <div class="product-img-preview"></div>
-                                <div class="parent-upload">
-                                    <label class="btn btn-success"><i class="fa fa-upload"></i> Choose images</label>
-                                    <input type="file" id="image" name="prod_images[]" accept=".jpg, .jpeg, .png"
-                                        onchange="imagesPreview(this, 'div.product-img-preview');" multiple required>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -113,32 +104,48 @@
                                     <th class="text-center" width="50%">Option value</th>
                                     <th class="text-center" class="text-center"></th>
                                 </tr>
-                                @if (count(old('attributes', [])) > 0)
-
-                                @foreach (old('attributes') as $index =>$item)
+                                @foreach ($prodAttributeArray as $key =>$value )
                                 <tr>
-                                    <td>{{$attrArray[$index]}}</td>
+                                    <td>{{$attrArray[$key]}}</td>
                                     <td>
-                                        <input type="text" name="attributes[{{$index}}]" data-role="tagsinput"
-                                            class="form-control" value="{{$item}}">
+                                        <input type="text" name="attributes[{{$key}}]" data-role="tagsinput" 
+                                        class="form-control" value="{{$value}}">
                                     </td>
                                     <td>
-                                        <button type="button" name="remove" class="btn btn-danger btn-sm remove"><span
+                                    <button type="button" name="remove" class="btn btn-danger btn-sm remove"><span
                                                 class="glyphicon glyphicon-minus"></span></button>
                                     </td>
                                 </tr>
                                 @endforeach
 
-                                @endif
                             </table>
 
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
+                            <label for="prod_image">Images(*)</label>
+                            <div class="metric">
+                                <div class="product-img-preview">
+                                    @foreach (json_decode($product->image_list) as $img_item)
+                                    <img src="{{ asset('files/'.$img_item) }}" width="80px" style="margin:20px">
+                                    @endforeach
+                                </div>
+                                <div class="parent-upload">
+                                    <label class="btn btn-success"><i class="fa fa-upload"></i> Choose images</label>
+                                    <input type="text" name="old_prod_images" value="{{$product->image_list}}" hidden>
+                                    <input type="file" id="image" name="prod_images[]" accept=".jpg, .jpeg, .png"
+                                        onchange="imagesPreview(this, 'div.product-img-preview');" multiple>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea id="description" name="description">{!! old('description') !!}</textarea>
+                                <textarea id="description"
+                                    name="description">{!! old('description',$product->description) !!}</textarea>
                             </div>
                         </div>
                     </div>
@@ -151,20 +158,22 @@
 @endsection
 
 @section('script')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="{{ asset('admins/assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('admins/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ asset('admins/assets/vendor/tagsinput/bootstrap-tagsinput.js') }}"></script>
 <script src="{{ asset('admins/assets/vendor/toastr/toastr.min.js')}}"></script>
 <script src="{{ asset('admins/assets/scripts/klorofil-common.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="{{ asset('admins/assets/vendor/tagsinput/bootstrap-tagsinput.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js">
+</script>
 <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
 @include('admin.products.script')
 <script type="text/javascript">
 $(document).ready(function() {
     // validate form
-    $('#createProductForm').validate({
+    $('#editProductForm').validate({
         rules: {
             name: {
                 required: true,

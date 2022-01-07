@@ -13,17 +13,7 @@
                         <div class="col-md-12">
                             <label for="name">Name(*)</label>
                             <input type="text" class="form-control" id="name" name="name"
-                                placeholder="Please enter subcategory name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <label for="categoryId">Parent category(*)</label>
-                            <select name="categoryId" id="categoryId" class="form-control"
-                                style="width: 100%; max-height: 100%;">
-                                <option value="">Choose...</option>
-                            </select>
-
+                                placeholder="Please enter attribute name">
                         </div>
                     </div>
                 </form>

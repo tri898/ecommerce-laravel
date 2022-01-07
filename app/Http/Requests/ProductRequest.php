@@ -13,7 +13,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,28 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
+        if(request()->routeIs('admin.products.store')) {
+            $nameRule = 'required|string|unique:products|max:255';
+            $imageRule = 'required|array|max:10';
+            
+        } elseif (request()->routeIs('admin.products.update')) {
+            $id = $this->route('product');
+            $nameRule = 'required|string|max:255|unique:products,name,' . $id;
+            $imageRule = 'nullable|array|max:10';
+        }
         return [
-            //
+            'name' => $nameRule,
+            'subcategory_id' => 'required|integer|exists:subcategories,id',
+            'price' => 'required|integer|min:1|max:999999999',
+            'discount' =>'integer|min:0|max:100|nullable',
+            'is_in_stock' => 'required|boolean',
+            'description' => 'string|nullable',
+            'prod_images' => $imageRule,
+            'old_prod_images' => 'required|string|sometimes',
+            'prod_images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'attributes' => 'required|array|sometimes',
+            'attributes.*' => 'required|string'
         ];
+        
     }
 }

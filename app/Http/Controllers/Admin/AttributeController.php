@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Size;
-use App\Http\Requests\SizeRequest;
+use App\Models\Attribute;
+use App\Http\Requests\AttributeRequest;
 use Illuminate\Http\Request;
 use DataTables;
 
-class SizeController extends Controller
+class AttributeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class SizeController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()) {
-            $sizes = Size::latest()->get();
+            $attributes = Attribute::latest()->get();
            
-            return DataTables::of($sizes)
+            return DataTables::of($attributes)
                                 ->addIndexColumn()
                                 ->addColumn('actions', function($row) {
                                     return '<a href="javascript:void(0)" onclick="onEdit(event.currentTarget)"
@@ -31,7 +31,7 @@ class SizeController extends Controller
                                 ->rawColumns(['actions'])
                                 ->make(true);
         }
-        return view('admin.sizes.index');
+        return view('admin.attributes.index');
     }
 
     /**
@@ -40,12 +40,12 @@ class SizeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SizeRequest $request)
+    public function store(AttributeRequest $request)
     {
         $fields = $request->validated(); 
-        $size= Size::create($fields);
+        $attribute= Attribute::create($fields);
 
-        return response()->json(['message' => 'Created size successfully'],201);
+        return response()->json(['message' => 'Created attribute successfully'],201);
     }
 
     /**
@@ -56,9 +56,9 @@ class SizeController extends Controller
      */
     public function show($id)
     {
-        $size = Size::findOrFail($id);
+        $attribute = Attribute::findOrFail($id);
 
-        return response()->json($size);
+        return response()->json($attribute);
     }
 
     /**
@@ -68,15 +68,15 @@ class SizeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SizeRequest $request, $id)
+    public function update(AttributeRequest $request, $id)
     {
         $fields = $request->validated(); 
 
-        $size = Size::findOrFail($id);
+        $attribute = Attribute::findOrFail($id);
 
-        $size->update($fields);
+        $attribute->update($fields);
 
-        return response()->json(['message' => 'Updated size successfully'],200);
+        return response()->json(['message' => 'Updated attribute successfully'],200);
     }
 
     /**
@@ -87,9 +87,9 @@ class SizeController extends Controller
      */
     public function destroy($id)
     {
-        $size = Size::findOrFail($id);
-        
-        $size->delete();
-        return response()->json(['message' => 'Deleted size successfully'],200);
+        $attribute = Attribute::findOrFail($id);
+        $attribute->delete();
+
+        return response()->json(['message' => 'Deleted attribute successfully'],200);
     }
 }

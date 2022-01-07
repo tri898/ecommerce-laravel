@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Color | Attribute')
+@section('title', 'Attribute')
 
 @section('vendor_css')
 <link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -13,7 +13,7 @@
 @section('content')
 <div class="main-content">
 		<div class="container-fluid">
-			<h2 class="page-title">Color</h2>
+			<h2 class="page-title">Attribute</h2>
 			<div class="form-group">
 				<div class="input-group">
 					<button type="button" class="btn btn-primary" onclick="onCreate()">Create new</button>
@@ -22,10 +22,10 @@
 			<!-- TABLE HOVER -->
 			<div class="panel">
 				<div class="panel-heading">
-					<h3 class="panel-title">Color Table</h3>
+					<h3 class="panel-title">Attribute Table</h3>
 				</div>
 				<div class="panel-body">
-					<table id="colorTable" class="table table-hover">
+					<table id="attributeTable" class="table table-hover">
     					<thead>
     					    <tr>
     					        <th>#</th>
@@ -41,7 +41,7 @@
 			</div>
 		</div>				
 </div>
-@include('admin.colors.create-edit-modal')
+@include('admin.attributes.create-edit-modal')
 @include('layouts.admin.elements.delete-modal')
 @endsection
 
@@ -57,10 +57,10 @@
 
 <script>
     $(document).ready(function () {
-        $('#colorTable').DataTable({
+        $('#attributeTable').DataTable({
   			serverSide: true,
   			ajax:{
-   				url: '{{ route('admin.colors.index') }}',
+   				url: '{{ route('admin.attributes.index') }}',
   			},
 			columns: [
 				{data:'DT_RowIndex'},
@@ -73,17 +73,16 @@
     });
 </script>
 <script type="text/javascript">
-
 	function onCreate() {
 		$('#createEditForm').validate().resetForm();
 		$('#createEditForm').trigger('reset');
-		$('#modalTitle').html('Create Color');		
+		$('#modalTitle').html('Create Attribute');		
 		$('#createEditForm').attr('onsubmit', 'storeData()');	
 		$('#createEditModal').modal('show');
 	}
 	function onEdit(event) {
 		var id  = $(event).data('id');
-    	let _url = '{{ route('admin.colors.show',':id')}}';
+    	let _url = '{{ route('admin.attributes.show',':id')}}';
 		_url = _url.replace(':id', id);
 		$.ajax({
 			url: _url,
@@ -91,7 +90,7 @@
 			success: function(response) {
 				if(response) {
 					$('#createEditForm').validate().resetForm();
-					$('#modalTitle').html('Edit Color');
+					$('#modalTitle').html('Edit Attribute');
 					$('#id').val(response.id);
 					$('#name').val(response.name);
 					$('#createEditForm').attr('onsubmit', 'updateData()');
@@ -106,7 +105,7 @@
 	}
 	function storeData() {
 		var name = $('#name').val();
-		let _url = '{{ route('admin.colors.store')}}';
+		let _url = '{{ route('admin.attributes.store')}}';
 		$.ajaxSetup({
     		headers: {
         	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -124,12 +123,11 @@
    			},
 			success: function(response,textStatus, jqXHR) {
 					if(jqXHR.status == 201) {
-
 						$('#createEditModal').modal('hide');
 						$('#btnSave').html('Save changes');
         				$('#btnSave').attr('disabled', false);
 						toastr.success(response.message, 'Success')
-						$('#colorTable').DataTable().ajax.reload(null, false);
+						$('#attributeTable').DataTable().ajax.reload(null, false);
 					}
 				
 			},
@@ -141,7 +139,6 @@
 						errorString += `<p>${value}</p>`;
         			});
 					toastr.error(errorString, 'Error')
-
 					$('#btnSave').html('Save changes');
         			$('#btnSave').attr('disabled', false); 
             	}
@@ -151,12 +148,11 @@
 			   	}
 			}
     	});
-
 	}
 	function updateData() {
 		var id  = $('#id').val();
 		var name = $('#name').val();
-		let _url = '{{ route('admin.colors.update',':id')}}';
+		let _url = '{{ route('admin.attributes.update',':id')}}';
 		_url = _url.replace(':id', id);
 		$.ajaxSetup({
     		headers: {
@@ -178,10 +174,8 @@
 						$('#createEditModal').modal('hide');
 						$('#btnSave').html('Save changes');
         				$('#btnSave').attr('disabled', false);
-
 						toastr.success(response.message, 'Success')
-
-						$('#colorTable').DataTable().ajax.reload(null, false);
+						$('#attributeTable').DataTable().ajax.reload(null, false);
 					}
 				
 			},
@@ -198,11 +192,10 @@
             	}
 			}
     	});
-
 	}
 	function deleteData() {
 		var id  = $('#delId').val();
-		let _url = '{{ route('admin.colors.destroy',':id')}}';
+		let _url = '{{ route('admin.attributes.destroy',':id')}}';
 		_url = _url.replace(':id', id);
 		$.ajaxSetup({
     		headers: {
@@ -216,7 +209,7 @@
 					if(jqXHR.status == 200) {
 						$('#deleteModal').modal('hide');
 						toastr.success(response.message, 'Success')
-						$('#colorTable').DataTable().ajax.reload(null, false);		
+						$('#attributeTable').DataTable().ajax.reload(null, false);		
 					}
 			},
 			error: function(jqXHR) {  

@@ -19,7 +19,7 @@ class SubcategoryController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()) {
-            $subcategories = Subcategory::with(['category:id,name',])->orderByDesc('id')->get();
+            $subcategories = Subcategory::with(['category:id,name',])->latest()->get();
            
             return DataTables::of($subcategories)
                                 ->addIndexColumn()

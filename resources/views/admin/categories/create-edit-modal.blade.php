@@ -10,7 +10,7 @@
             <input type="hidden" name="id" id="id">
             <div class="form-group">
                 <div class="col-md-12">
-                    <label for="name">Name</label>
+                    <label for="name">Name(*)</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Please enter category name">
                 </div>
             </div>   

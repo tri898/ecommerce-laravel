@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SizeRequest extends FormRequest
+class AttributeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,11 @@ class SizeRequest extends FormRequest
      */
     public function rules()
     {
-        if(request()->routeIs('admin.sizes.store')) {
-            $nameRule = 'required|string|unique:sizes|max:50';
-        } elseif (request()->routeIs('admin.sizes.update')) {
-            $id = $this->route('size');
-            $nameRule ='required|string|max:50|unique:sizes,name,' . $id;
+        if(request()->routeIs('admin.attributes.store')) {
+            $nameRule = 'required|string|unique:attributes|max:50';
+        } elseif (request()->routeIs('admin.attributes.update')) {
+            $id = $this->route('attribute');
+            $nameRule ='required|string|max:50|unique:attributes,name,' . $id;
         }
         return [
             'name' => $nameRule

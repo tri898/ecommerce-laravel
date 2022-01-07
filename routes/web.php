@@ -8,10 +8,8 @@ use App\Http\Controllers\Auth\{
 use App\Http\Controllers\Admin\{
     CategoryController,
     SubcategoryController,
-    ColorController,
-    SizeController,
-    ProductController
-
+    AttributeController,
+    ProductController,
 };
 
 /*
@@ -46,10 +44,7 @@ Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], fun
 
     Route::apiResource('subcategories', SubcategoryController::class);
 
-    Route::prefix('attributes')->group(function () {
-        Route::apiResource('colors', ColorController::class);
-        Route::apiResource('sizes', SizeController::class);
-    });
+    Route::apiResource('attributes', AttributeController::class);
 
     Route::resource('products', ProductController::class);
     });
