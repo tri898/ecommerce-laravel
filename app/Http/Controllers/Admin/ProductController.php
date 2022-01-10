@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\{Category, Attribute, Product};
 use App\Http\Requests\ProductRequest;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use DataTables;
-use File;
 
 class ProductController extends Controller
 {
@@ -20,11 +20,13 @@ class ProductController extends Controller
 	public function index(Request $request)
 	{
 		if($request->ajax()) {
-			$products = Product::with('subcategory:id,name')->latest()->get();
+			$products = Product::with('subcategory:id,name')->latest()
+				->get(['id','name','subcategory_id','price','discount','is_in_stock']);
 			return DataTables::of($products)
 								->addIndexColumn()
 								->addColumn('actions', function($row) {
-									return '<a href="/admin/products/'.$row['id'].'/edit" class="btn btn-warning"><i class="lnr lnr-pencil"></i></a>
+									return '<a href="/admin/products/'.$row['id'].'/edit" class="btn btn-warning">
+											<i class="lnr lnr-pencil"></i></a>
 											<a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
 											 data-id="'.$row['id'].'" class="btn btn-danger"><i class="lnr lnr-trash"></i></a>
 											<a href="javascript:void(0)" onclick="onShow(event.currentTarget)"
@@ -67,7 +69,7 @@ class ProductController extends Controller
 		$productInput['slug'] = Str::slug($fields['name']);
 
 		if($request->hasfile('prod_images')) {
-		    $productInput['image_list'] = json_encode($this->uploadImage('prod_images',$request));
+		    $productInput['image_list'] = json_encode(Helper::uploadImage($fields['prod_images']));
 		}
 		$product = Product::create($productInput);
 		
@@ -148,8 +150,8 @@ class ProductController extends Controller
 		$productInput['slug'] = Str::slug($fields['name']);
 
 		if($request->hasfile('prod_images')) {
-			$this->deleteImage(json_decode($fields['old_prod_images']));
-			$productInput['image_list'] = json_encode($this->uploadImage('prod_images',$request));
+			Helper::deleteImage(json_decode($fields['old_prod_images']));
+			$productInput['image_list'] = json_encode(Helper::uploadImage($fields['prod_images']));
 		}
 		$product->update($productInput);
 		$product->attributes()->detach();
@@ -176,27 +178,15 @@ class ProductController extends Controller
 	public function destroy($id)
 	{
 		$product = Product::findOrFail($id);
+		Helper::deleteImage(json_decode($product->image_list));
 		$product->delete();
 
 		return response()->json(['message' => 'Deleted product successfully'],200);
 	}
-	public function uploadImage($var, $request)
-	{
-		foreach($request->file($var) as $file)
-		{
-			$name = date('YmdHis').rand().'.'.$file->extension();
-			$file->move(public_path().'/files/', $name);
-			$data[] = $name;
-		}
-		return $data;
+	public function getProducts() {
+		$products = Product::get(['id','name']);
+        
+        return response()->json($products);
 	}
-	public function deleteImage($images)
-	{
-		foreach($images as $value) {
-			$destination = 'files/'.$value;
-			if (File::exists($destination)) {
-				File::delete($destination);
-			}
-		}
-	}
+	
 }

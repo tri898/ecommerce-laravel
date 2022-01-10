@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Attribute;
-use App\Http\Requests\AttributeRequest;
+use App\Models\Slider;
+use App\Http\Requests\SliderRequest;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use DataTables;
 
-class AttributeController extends Controller
+class SliderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,10 +18,10 @@ class AttributeController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()) {
-            $attributes = Attribute::latest()->get();
+         if($request->ajax()) {
+            $sliders = Slider::with('product:id,name')->latest()->get();
            
-            return DataTables::of($attributes)
+            return DataTables::of($sliders)
                                 ->addIndexColumn()
                                 ->addColumn('actions', function($row) {
                                     return '<a href="javascript:void(0)" onclick="onEdit(event.currentTarget)"
@@ -31,7 +32,7 @@ class AttributeController extends Controller
                                 ->rawColumns(['actions'])
                                 ->make(true);
         }
-        return view('admin.attributes.index');
+        return view('admin.sliders.index');
     }
 
     /**
@@ -40,12 +41,14 @@ class AttributeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AttributeRequest $request)
+    public function store(SliderRequest $request)
     {
-        $fields = $request->validated(); 
-        $attribute= Attribute::create($fields);
-
-        return response()->json(['message' => 'Created attribute successfully'],201);
+        $fields = $request->safe()->except(['image','old_image']); 
+        if($request->hasfile('image')) {
+		    $fields['image'] = implode(Helper::uploadImage($request->image));
+		}
+        $slider = Slider::create($fields);
+        return response()->json(['message' => 'Created slider successfully'],201);
     }
 
     /**
@@ -56,9 +59,9 @@ class AttributeController extends Controller
      */
     public function show($id)
     {
-        $attribute = Attribute::findOrFail($id);
+        $slider = Slider::with('product:id,name')->findOrFail($id);
 
-        return response()->json($attribute);
+        return response()->json($slider);
     }
 
     /**
@@ -68,15 +71,17 @@ class AttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AttributeRequest $request, $id)
+    public function update(SliderRequest $request, $id)
     {
-        $fields = $request->validated(); 
+        $slider = Slider::findOrFail($id);
 
-        $attribute = Attribute::findOrFail($id);
-
-        $attribute->update($fields);
-
-        return response()->json(['message' => 'Updated attribute successfully'],200);
+        $fields = $request->safe()->except(['image','old_image']); 
+        if($request->hasfile('image')) {
+            Helper::deleteImage(explode(' ',$request->old_image));
+		    $fields['image'] = implode(Helper::uploadImage($request->image));
+		}
+        $slider->update($fields);
+        return response()->json(['message' => 'Updated slider successfully'],200);
     }
 
     /**
@@ -87,12 +92,10 @@ class AttributeController extends Controller
      */
     public function destroy($id)
     {
-        $attribute = Attribute::findOrFail($id);
-        if($attribute->products()->count()) {
-            return response()->json(['message' => 'Can not delete the attribute'],409);
-        }
-        $attribute->delete();
+        $slider = Slider::findOrFail($id);
+		Helper::deleteImage(explode(' ',$slider->image));
+		$slider->delete();
 
-        return response()->json(['message' => 'Deleted attribute successfully'],200);
+		return response()->json(['message' => 'Deleted slider successfully'],200);
     }
 }

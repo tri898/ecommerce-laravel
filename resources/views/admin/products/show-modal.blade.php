@@ -14,6 +14,10 @@
                     <span id="fName">Vlaue</span>
                 </p>
                 <p>
+                    <span><b>Slug: </b></span>
+                    <span id="fSlug">Vlaue</span>
+                </p>
+                <p>
                     <span><b>Category: </b></span>
                     <span id="fCategory">Vlaue</span>
                 </p>
@@ -28,6 +32,12 @@
                 <p>
                     <span><b>Status: </b></span>
                     <span id="fStatus">Vlaue</span>
+                </p>
+                <p>
+                    <span><b>Created at: </b></span>
+                    <span id="fCreatedAt">Vlaue</span>
+                    <span><b> Updated at: </b></span>
+                    <span id="fUpdatedAt">Vlaue</span>
                 </p>
                 <p>
                     <span><b>Images: </b></span>

@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Product')
+@section('title', 'Blog')
 
 @section('vendor_css')
 <link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -13,27 +13,24 @@
 @section('content')
 <div class="main-content">
 	<div class="container-fluid">
-		<h2 class="page-title">Product</h2>
+		<h2 class="page-title">Blog</h2>
 		<div class="form-group">
 			<div class="input-group">
-				<a href="{{ route('admin.products.create')}}" class="btn btn-primary">Create new</a>
+				<a href="{{ route('admin.blogs.create')}}" class="btn btn-primary">Create new</a>
 			</div>
 		</div>
 		<!-- TABLE HOVER -->
 		<div class="panel">
 			<div class="panel-heading">
-				<h3 class="panel-title">Product Table</h3>
+				<h3 class="panel-title">Blog Table</h3>
 			</div>
 			<div class="panel-body">
-				<table id="productTable" class="table table-hover">
+				<table id="blogTable" class="table table-hover">
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Name</th>
-							<th>Category</th>
-							<th>Price</th>
-							<th>Discount(%)</th>
-							<th>Status</th>
+							<th>Title</th>
+							<th>Post by</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -45,7 +42,6 @@
 		</div>
 	</div>
 </div>
-@include('admin.products.show-modal')
 @include('layouts.admin.elements.delete-modal')
 @endsection
 
@@ -58,42 +54,19 @@
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-	$('#productTable').DataTable({
+	$('#blogTable').DataTable({
 		serverSide: true,
 		ajax: {
-			url: '{{ route('admin.products.index') }}',
+			url: '{{ route('admin.blogs.index') }}',
 		},
 		columns: [{
 				data: 'DT_RowIndex'
 			},
 			{
-				data: 'name'
+				data: 'title'
 			},
 			{
-				data: 'subcategory.name',
-			},
-			{
-				data: 'price'
-			},
-			{
-				data: 'discount',
-				render: function(data) {
-					if (data ==null) {
-						return '-';
-					} else {
-						return data;
-					}
-				}
-			},
-			{
-				data: 'is_in_stock',
-				render: function(data) {
-					if (data == 1) {
-						return 'In stock';
-					} else {
-						return 'Not available';
-					}
-				}
+				data: 'user.name',
 			},
 			{
 				data: 'actions',
@@ -102,7 +75,7 @@ $(document).ready(function() {
 
 		],
 		columnDefs: [{
-			"targets": [1, 2, 3, 4, 5,6],
+			"targets": [1, 2, 3],
 			"className": "text-center",
 		}]
 	});
@@ -115,48 +88,6 @@ $(document).ready(function() {
 	toastr.success('{{ session('status') }}', 'Success')
 @endif
 
-function onShow(event) {
-	var id = $(event).data('id');
-	let _url = '{{ route('admin.products.show',':id')}}';
-	_url = _url.replace(':id', id);
-	$.ajax({
-		url: _url,
-		type: 'GET',
-		success: function(response) {
-			if (response) {
-				$('.product-images').empty();
-				$('#fDescription').empty();
-				$('#fDescription').hide();
-
-				$('#fName').text(response.name);
-				$('#fSlug').text(response.slug);
-				$('#fCategory').text(response.subcategory.name);
-				$('#fPrice').text(response.price);
-				$('#fDiscount').text(response.discount);
-				$('#fDescription').append(response.description);
-				$('#fCreatedAt').text(new Date(response.created_at).toLocaleString());
-				$('#fUpdatedAt').text(new Date(response.updated_at).toLocaleString());
-
-				if (response.is_in_stock === 1) {
-					$('#fStatus').text('In stock');
-				} else {
-					$('#fStatus').text('Not available');
-				}
-			   
-				var images = JSON.parse(response.image_list);
-				$.each(images, function(key, value) {
-					var url = '{{ asset('files/') }}/'+value;
-					var htmls= '';
-					htmls += '<img src="'+url+'" width="80px" style="margin:20px">';
-					$('.product-images').append(htmls);
-				});
-
-				$('#showModal').modal('show');
-			}
-		}
-	});
-	
-}
 function onDelete(event) {
 	$('#delId').val($(event).data('id'));
 	$('#deleteModal').modal('show');
@@ -164,7 +95,7 @@ function onDelete(event) {
 
 function deleteData() {
 	var id = $('#delId').val();
-	let _url = '{{ route('admin.products.destroy',':id')}}';
+	let _url = '{{ route('admin.blogs.destroy',':id')}}';
 	_url = _url.replace(':id', id);
 	$.ajaxSetup({
 		headers: {
@@ -178,7 +109,7 @@ function deleteData() {
 			if (jqXHR.status == 200) {
 				$('#deleteModal').modal('hide');
 				toastr.success(response.message, 'Success')
-				$('#productTable').DataTable().ajax.reload(null, false);
+				$('#blogTable').DataTable().ajax.reload(null, false);
 			}
 		},
 		error: function(jqXHR) {
@@ -192,8 +123,6 @@ function deleteData() {
 		}
 	});
 }
-$('#hideShowText').click(function(){
-	$('#fDescription').toggle();
-  });
+
 </script>
 @endsection

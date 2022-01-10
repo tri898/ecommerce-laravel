@@ -11,4 +11,9 @@ class Attribute extends Model
     protected $fillable = [
         'name'
     ];
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'attribute_values', 'attribute_id', 'product_id')
+                ->withPivot('value')->withTimestamps();
+    }
 }

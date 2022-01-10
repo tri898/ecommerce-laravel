@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\{
     SubcategoryController,
     AttributeController,
     ProductController,
+    SliderController,
+    BlogController
 };
 
 /*
@@ -41,12 +43,12 @@ Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], fun
     // Category route
     Route::get('categories/list',[CategoryController::class, 'getCategories'])->name('categories.list');
     Route::apiResource('categories', CategoryController::class);
-
     Route::apiResource('subcategories', SubcategoryController::class);
-
     Route::apiResource('attributes', AttributeController::class);
-
+    Route::get('products/list',[ProductController::class, 'getProducts'])->name('products.list');
     Route::resource('products', ProductController::class);
+    Route::apiResource('sliders', SliderController::class);
+    Route::resource('blogs', BlogController::class);
     });
     
     

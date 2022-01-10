@@ -84,15 +84,20 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <label for="prod_image">Images(*)</label>
-                            <div class="metric">
-                                <div class="product-img-preview"></div>
-                                <div class="parent-upload">
-                                    <label class="btn btn-success"><i class="fa fa-upload"></i> Choose images</label>
-                                    <input type="file" id="image" name="prod_images[]" accept=".jpg, .jpeg, .png"
-                                        onchange="imagesPreview(this, 'div.product-img-preview');" multiple required>
+                            <div class="form-group">
+                                <label for="prod_image">Images(*)</label>
+                                <div class="metric">
+                                    <div class="product-img-preview"></div>
+                                    <div class="parent-upload">
+                                        <label class="btn btn-success"><i class="fa fa-upload"></i> Choose
+                                            images</label>
+                                        <input type="file" id="image" name="prod_images[]" accept=".jpg, .jpeg, .png"
+                                            onchange="imagesPreview(this, 'div.product-img-preview');" multiple
+                                            required>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="row">
