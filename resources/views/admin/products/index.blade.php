@@ -134,8 +134,8 @@ function onShow(event) {
 				$('#fPrice').text(response.price);
 				$('#fDiscount').text(response.discount);
 				$('#fDescription').append(response.description);
-				$('#fCreatedAt').text(new Date(response.created_at).toLocaleString());
-				$('#fUpdatedAt').text(new Date(response.updated_at).toLocaleString());
+				$('#fCreatedAt').text(new Date(response.created_at).toLocaleString('en-ZA'));
+				$('#fUpdatedAt').text(new Date(response.updated_at).toLocaleString('en-ZA'));
 
 				if (response.is_in_stock === 1) {
 					$('#fStatus').text('In stock');

@@ -31,6 +31,7 @@
 							<th>#</th>
 							<th>Title</th>
 							<th>Post by</th>
+							<th>Created at</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
@@ -67,6 +68,14 @@ $(document).ready(function() {
 			},
 			{
 				data: 'user.name',
+			},
+			{
+				data: 'created_at',
+				render: function(data) {
+					if (data !=null) {
+						return new Date(data).toLocaleString('en-ZA');
+					}
+				}
 			},
 			{
 				data: 'actions',

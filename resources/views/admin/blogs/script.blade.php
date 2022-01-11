@@ -8,8 +8,8 @@ function imagesPreview(input, placeToInsertImagePreview) {
             reader.onload = function(event) {
                 $($.parseHTML('<img>')).attr({
                     'src': event.target.result,
-                    'width': '80px',
-                    'style': 'margin: 20px'
+                    'width': '40%',
+                    'style': 'display: block;margin: auto;margin-bottom: 25px'
                 }).appendTo(placeToInsertImagePreview);
             }
             reader.readAsDataURL(input.files[i]);
@@ -17,8 +17,15 @@ function imagesPreview(input, placeToInsertImagePreview) {
     }
 };
 $(document).ready(function() {
- // using ck editor
+    // using ck editor
     var editor = CKEDITOR.replace('content');
+    $('form').submit( function(e) {
+            var contentLength = CKEDITOR.instances['content'].getData().replace(/<[^>]*>/gi, '').length;
+            if( !contentLength ) {
+               toastr.warning('Please enter content', 'Warning')
+                e.preventDefault();
+            }
+        });
 
 });
 </script>

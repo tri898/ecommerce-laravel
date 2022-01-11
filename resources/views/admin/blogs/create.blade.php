@@ -105,18 +105,13 @@ $(document).ready(function() {
                 maxlength: 255
             },
             description: {
-                required: true,
+               required: true,
                 maxlength: 255
-            },
-            content: {
-                required: true
             }
         },
         errorPlacement: function(error, element) {
-            // console.log(element);
-            if (element.is('#subcategoryId')) {
-                error.insertAfter(element.next('.select2-container'));
-            } else if (element.is('input[type=file]')) {
+            console.log(element);
+           if (element.is('input[type=file]')) {
                 error.insertAfter(element.parent());
             } else {
                 error.insertAfter(element);

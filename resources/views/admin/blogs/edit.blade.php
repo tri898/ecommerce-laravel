@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Edit | Product')
+@section('title', 'Edit | Blog')
 
 @section('vendor_css')
 <link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -14,11 +14,11 @@
 @section('content')
 <div class="main-content">
     <div class="container-fluid">
-        <h2 class="page-title">Product</h2>
+        <h2 class="page-title">Blog</h2>
         <!-- FORM -->
         <div class="panel">
             <div class="panel-heading">
-                <h3 class="panel-title">Edit Product</h3>
+                <h3 class="panel-title">Edit Blog</h3>
             </div>
             <div class="panel-body">
                 @if ($errors->any())
@@ -28,129 +28,58 @@
                     @endforeach
                 </div>
                 @endif
-                <form id="editProductForm" action="{{ route('admin.products.update', ['product' => $product->id]) }}"
-                    method="POST" enctype='multipart/form-data'>
+                <form id="editBlogForm" action="{{ route('admin.blogs.update', ['blog' => $blog->id]) }}" method="POST"
+                    enctype='multipart/form-data'>
                     @method('patch')
                     @csrf
 
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="name">Name(*)</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ old('name', $product->name) }}" placeholder="Please enter product name">
+                                <label for="name">Title(*)</label>
+                                <input type="text" class="form-control" id="title" name="title"
+                                    value="{{old('title',$blog->title)}}" placeholder="Please enter title blog">
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="subcategoryId">Category(*)</label>
-                                <select name="subcategory_id" id="subcategoryId" class="form-control"
-                                    style="width: 100%">
-                                    <option value="">Choose...</option>
-                                    @foreach ($categories as $category )
-                                    <optgroup label="{{$category->name}}">
-                                        @foreach ($category->subcategories as $subcategory )
-                                        <option value="{{$subcategory->id}}" @if ($subcategory->id ==
-                                            old('subcategory_id', $product->subcategory_id)) selected @endif>
-                                            {{$subcategory->name}}</option>
-                                        @endforeach
-                                    </optgroup>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="price">Price(*)</label>
-                                <input type="text" class="form-control" id="price" name="price"
-                                    value="{{ old('price',$product->price) }}" placeholder="Please enter product price">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="discount">Discount(%)</label>
-                                <input type="text" class="form-control" id="discount" name="discount"
-                                    value="{{ old('discount',$product->discount) }}"
-                                    placeholder="Please enter product discount">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <label for="is_in_stock">Status(*)</label>
-                            <select name="is_in_stock" id="is_in_stock" class="form-control">
-                                <option value="1">In stock</option>
-                                <option value="0" @if ($product->is_in_stock==0) selected @endif>
-                                    Not Available
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="productAttribute">Product attributes</label>
-                            <table class="table table-bordered" id="attributeTable">
-                                <tr>
-                                    <th class="text-center" width="30%">
-                                        <select name="options" id="attributeOption" class="form-control"
-                                            style="width: 80%">
-                                            <option value="">Select an option</option>
-                                            @foreach ($attrArray as $key => $value)
-                                            <option value="{{$key}}">
-                                                {{$value}}</option>
-                                            @endforeach
-                                        </select>
-                                    </th>
-                                    <th class="text-center" width="50%">Option value</th>
-                                    <th class="text-center" class="text-center"></th>
-                                </tr>
-                                @foreach ($prodAttributeArray as $key =>$value )
-                                <tr>
-                                    <td>{{$attrArray[$key]}}</td>
-                                    <td>
-                                        <input type="text" name="attributes[{{$key}}]" data-role="tagsinput"
-                                            class="form-control" value="{{$value}}">
-                                    </td>
-                                    <td>
-                                        <button type="button" name="remove" class="btn btn-danger btn-sm remove"><span
-                                                class="glyphicon glyphicon-minus"></span></button>
-                                    </td>
-                                </tr>
-                                @endforeach
-
-                            </table>
-
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="prod_image">Images(*)</label>
+                                <label for="description">Description(*)</label>
+                                <input type="text" class="form-control" id="discount" name="description"
+                                    value="{{ old('description',$blog->description) }}"
+                                    placeholder="Please enter description">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="prod_image">Cover Image(*)</label>
                                 <div class="metric">
-                                    <div class="product-img-preview">
-                                        @foreach (json_decode($product->image_list) as $img_item)
-                                        <img src="{{ asset('files/'.$img_item) }}" width="80px" style="margin:20px">
-                                        @endforeach
+                                    <div class="cover-img-preview">
+                                        <img src="{{ asset('files/'.$blog->cover_image) }}" width="40%"
+                                            style="display: block;margin: auto;margin-bottom: 25px">
                                     </div>
                                     <div class="parent-upload">
                                         <label class="btn btn-success"><i class="fa fa-upload"></i> Choose
-                                            images</label>
-                                        <input type="text" name="old_prod_images" value="{{$product->image_list}}"
+                                            image</label>
+											<input type="text" name="old_cover_image" value="{{$blog->cover_image}}"
                                             hidden>
-                                        <input type="file" id="image" name="prod_images[]" accept=".jpg, .jpeg, .png"
-                                            onchange="imagesPreview(this, 'div.product-img-preview');" multiple>
+                                        <input type="file" id="image" name="cover_image[]" accept=".jpg, .jpeg, .png"
+                                            onchange="imagesPreview(this, 'div.cover-img-preview');">
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea id="description"
-                                    name="description">{!! old('description',$product->description) !!}</textarea>
+                                <label for="content">Content(*)</label>
+                                <textarea id="content" name="content">{!! old('content',$blog->content) !!}</textarea>
                             </div>
                         </div>
                     </div>
@@ -174,34 +103,24 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js">
 </script>
 <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
-@include('admin.products.script')
+@include('admin.blogs.script')
 <script type="text/javascript">
 $(document).ready(function() {
     // validate form
-    $('#editProductForm').validate({
+    $('#editBlogForm').validate({
         rules: {
-            name: {
+            title: {
                 required: true,
                 maxlength: 255
             },
-            subcategory_id: {
+            description: {
                 required: true,
-            },
-            price: {
-                required: true,
-                number: true,
-                maxlength: 16
-            },
-            discount: {
-                number: true,
-                range: [0, 100]
+                maxlength: 255
             }
         },
         errorPlacement: function(error, element) {
-            // console.log(element);
-            if (element.is('#subcategoryId')) {
-                error.insertAfter(element.next('.select2-container'));
-            } else if (element.is('input[type=file]')) {
+            console.log(element);
+            if (element.is('input[type=file]')) {
                 error.insertAfter(element.parent());
             } else {
                 error.insertAfter(element);

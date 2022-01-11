@@ -21,7 +21,7 @@ class BlogController extends Controller
     {
         if($request->ajax()) {
 			$blogs = Blog::with('user:id,name')->latest()
-				->get(['id','title','user_id']);
+				->get(['id','title','user_id','created_at']);
 			return DataTables::of($blogs)
 								->addIndexColumn()
 								->addColumn('actions', function($row) {
@@ -29,8 +29,6 @@ class BlogController extends Controller
 											<i class="lnr lnr-pencil"></i></a>
 											<a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
 											 data-id="'.$row['id'].'" class="btn btn-danger"><i class="lnr lnr-trash"></i></a>
-											<a href="javascript:void(0)" onclick="onShow(event.currentTarget)"
-											 data-id="'.$row['id'].'" class="btn btn-success"><i class="lnr lnr-eye"></i></a>
 											 ';
 								})
 								->rawColumns(['actions'])
@@ -55,14 +53,17 @@ class BlogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
-        $fields = $request->safe()->except(['image','old_image']); 
-        if($request->hasfile('image')) {
-		    $fields['image'] = implode(Helper::uploadImage($request->image));
+        $fields = $request->safe()->except(['cover_image']); 
+        $fields['slug'] = Str::slug($fields['title']);
+        $fields['user_id'] =  auth()->user()->id;
+        if($request->hasfile('cover_image')) {
+		    $fields['cover_image'] = implode(Helper::uploadImage($request->cover_image));
 		}
-        $slider = Slider::create($fields);
-        return response()->json(['message' => 'Created slider successfully'],201);
+        $blog = Blog::create($fields);
+        return redirect()->route('admin.blogs.index')
+		                        ->with('status', 'Blog created successfully!');
     }
 
     /**
@@ -84,7 +85,9 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        //
+       $blog = Blog::findOrFail($id);
+       
+       return view('admin.blogs.edit', compact('blog'));
     }
 
     /**
@@ -94,9 +97,20 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BlogRequest $request, $id)
     {
-        //
+        $blog = Blog::findOrFail($id);
+
+        $fields = $request->safe()->except(['cover_image','old_cover_image']); 
+        $fields['slug'] = Str::slug($fields['title']);
+
+        if($request->hasfile('cover_image')) {
+            Helper::deleteImage(explode(' ',$request->old_cover_image));
+		    $fields['cover_image'] = implode(Helper::uploadImage($request->cover_image));
+		}
+        $blog->update($fields);
+        return redirect()->route('admin.blogs.index')
+		                        ->with('status', 'Blog updated successfully!');
     }
 
     /**
@@ -107,6 +121,10 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $blog = Blog::findOrFail($id);
+		Helper::deleteImage(explode(' ',$blog->cover_image));
+		$blog->delete();
+
+		return response()->json(['message' => 'Deleted blog successfully'],200);
     }
 }
