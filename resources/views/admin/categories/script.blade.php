@@ -46,6 +46,7 @@ function onCreate() {
 }
 
 function onEdit(event) {
+
     var id = $(event).data('id');
     let _url = '{{ route('admin.categories.show',':id')}}';
     _url = _url.replace(':id', id);

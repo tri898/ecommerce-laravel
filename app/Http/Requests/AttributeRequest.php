@@ -26,7 +26,7 @@ class AttributeRequest extends FormRequest
         if(request()->routeIs('admin.attributes.store')) {
             $nameRule = 'required|string|unique:attributes|max:50';
         } elseif (request()->routeIs('admin.attributes.update')) {
-            $id = $this->route('attribute');
+            $id = $this->route('attribute')->id;
             $nameRule ='required|string|max:50|unique:attributes,name,' . $id;
         }
         return [

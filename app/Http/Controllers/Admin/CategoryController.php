@@ -22,15 +22,17 @@ class CategoryController extends Controller
             $categories = Category::latest()->get();
            
             return DataTables::of($categories)
-                                ->addIndexColumn()
-                                ->addColumn('actions', function($row) {
-                                    return '<a href="javascript:void(0)" onclick="onEdit(event.currentTarget)"
-                                             data-id="'.$row['id'].'" class="btn btn-warning"><i class="lnr lnr-pencil"></i></a>
-                                            <a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
-                                             data-id="'.$row['id'].'" class="btn btn-danger"><i class="lnr lnr-trash"></i></a>';
-                                })
-                                ->rawColumns(['actions'])
-                                ->make(true);
+                ->addIndexColumn()
+                ->addColumn('actions', function($row) {
+                    return '<a href="javascript:void(0)" onclick="onEdit(event.currentTarget)"
+                             data-id="'.$row['id'].'" class="btn btn-warning">
+                             <i class="lnr lnr-pencil"></i></a>
+                            <a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
+                             data-id="'.$row['id'].'" class="btn btn-danger">
+                             <i class="lnr lnr-trash"></i></a>';
+                })
+                ->rawColumns(['actions'])
+                ->make(true);
         }
         return view('admin.categories.index');
     }
@@ -44,9 +46,11 @@ class CategoryController extends Controller
     {
         $fields = $request->validated(); 
         $fields['slug'] = Str::slug($fields['name']);
+
         $category = Category::create($fields);
 
-        return response()->json(['message' => 'Created category successfully'],201);
+        return response()->json([
+            'message' => 'Created category successfully'],201);
     }
 
     /**
@@ -55,10 +59,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        $category = Category::findOrFail($id);
-
         return response()->json($category);
     }
 
@@ -69,16 +71,15 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $id)
+    public function update(CategoryRequest $request, Category $category)
     {
         $fields = $request->validated(); 
         $fields['slug'] = Str::slug($fields['name']);
 
-        $category = Category::findOrFail($id);
-
         $category->update($fields);
 
-        return response()->json(['message' => 'Updated category successfully'],200);
+        return response()->json([
+            'message' => 'Updated category successfully'],200);
     }
 
     /**
@@ -87,17 +88,16 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $category = Category::findOrFail($id);
-
         if($category->subcategories()->count()) {
-            return response()->json(['message' => 'Can not delete the category'],409);
-        }
-        
+            return response()->json(
+                ['message' => 'Can not delete the category'],409);
+        } 
         $category->delete();
 
-        return response()->json(['message' => 'Deleted category successfully'],200);
+        return response()->json([
+            'message' => 'Deleted category successfully'],200);
     }
     public function getCategories()
     {

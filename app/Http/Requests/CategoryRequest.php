@@ -26,7 +26,7 @@ class CategoryRequest extends FormRequest
         if(request()->routeIs('admin.categories.store')) {
             $nameRule = 'required|string|unique:categories|max:255';
         } elseif (request()->routeIs('admin.categories.update')) {
-            $id = $this->route('category');
+            $id = $this->route('category')->id;
             $nameRule ='required|string|max:255|unique:categories,name,' . $id;
         }
         return [

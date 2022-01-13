@@ -22,19 +22,21 @@ class ProductController extends Controller
 		if($request->ajax()) {
 			$products = Product::with('subcategory:id,name')->latest()
 				->get(['id','name','subcategory_id','price','discount','is_in_stock']);
+
 			return DataTables::of($products)
-								->addIndexColumn()
-								->addColumn('actions', function($row) {
-									return '<a href="/admin/products/'.$row['id'].'/edit" class="btn btn-warning">
-											<i class="lnr lnr-pencil"></i></a>
-											<a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
-											 data-id="'.$row['id'].'" class="btn btn-danger"><i class="lnr lnr-trash"></i></a>
-											<a href="javascript:void(0)" onclick="onShow(event.currentTarget)"
-											 data-id="'.$row['id'].'" class="btn btn-success"><i class="lnr lnr-eye"></i></a>
-											 ';
-								})
-								->rawColumns(['actions'])
-								->make(true);
+				->addIndexColumn()
+				->addColumn('actions', function($row) {
+					return '<a href="/admin/products/'.$row['id'].'/edit" class="btn btn-warning">
+							<i class="lnr lnr-pencil"></i></a>
+							<a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
+							 data-id="'.$row['id'].'" class="btn btn-danger">
+							 <i class="lnr lnr-trash"></i></a>
+							<a href="javascript:void(0)" onclick="onShow(event.currentTarget)"
+							 data-id="'.$row['id'].'" class="btn btn-success">
+							 <i class="lnr lnr-eye"></i></a>';
+				})
+				->rawColumns(['actions'])
+				->make(true);
 		}
 		return view('admin.products.index');
 	}
@@ -47,13 +49,13 @@ class ProductController extends Controller
 	public function create()
 	{
 		$categories = Category::with('subcategories:id,name,category_id')
-								->get(['id','name']);
+			->get(['id','name']);
+
 		$attributes = Attribute::get(['id','name']);
-		$attrArray = [];
-		foreach($attributes as $attribute) {
-			$attrArray[$attribute->id] = $attribute->name; 
-		}
-		return view('admin.products.create',compact('categories','attrArray'));
+		$attrArray = $this->convertCollectionToArray($attributes);
+
+		return view('admin.products.create',compact(
+			'categories','attrArray'));
 	}
 
 	/**
@@ -65,25 +67,23 @@ class ProductController extends Controller
 	public function store(ProductRequest $request)
 	{
 		$fields = $request->validated();
+		
 		$productInput = $request->safe()->except(['prod_images','attributes']);
 		$productInput['slug'] = Str::slug($fields['name']);
 
 		if($request->hasfile('prod_images')) {
-		    $productInput['image_list'] = json_encode(Helper::uploadImage($fields['prod_images']));
+		    $productInput['image_list'] = json_encode(
+				Helper::uploadImage($fields['prod_images']));
 		}
+
 		$product = Product::create($productInput);
 		
 		if($request->has('attributes')){
-			foreach($fields['attributes'] as $key => $attrValue) {
-				$values = explode(',',$attrValue);
-				foreach($values as $value) {
-					$prodAttr[] = ['attribute_id'=> $key,'value'=>$value];
-				}
-			}
+			$prodAttr = $this->splitArrayIntoChunks($fields['attributes']);
 			$product->attributeValues()->createMany($prodAttr);
 		}
 		return redirect()->route('admin.products.index')
-		                        ->with('status', 'Product created successfully!');
+		    ->with('status', 'Product created successfully!');
 	}
 
 	/**
@@ -92,10 +92,10 @@ class ProductController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($id)
+	public function show(Product $product)
 	{
-		$product = Product::with('subcategory:id,name')->findOrFail($id);
-		
+		$product->load('subcategory:id,name');
+
 		return response()->json($product);
 	}
 
@@ -105,33 +105,21 @@ class ProductController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($id)
+	public function edit(Product $product)
 	{
-		$product = Product::findOrFail($id);
-
 		$categories = Category::with('subcategories:id,name,category_id')
-								->get(['id','name']);
+			->get(['id','name']);
 
 		$attributes = Attribute::get(['id','name']);
-		$attrArray = [];
-		foreach($attributes as $attribute) {
-			$attrArray[$attribute->id] = $attribute->name; 
-		}
+		$attrArray = $this->convertCollectionToArray($attributes);
 
 		$productAttributes = $product->attributeValues()
-					->get(['attribute_id','value'])
-					->groupBy('attribute_id');
-		$prodAttributeArray= [];
-		foreach($productAttributes as $key => $productAttribute) {
-			$str = '';	
-			foreach($productAttribute as $attribute) {
-				$str .= $attribute->value . ',';
-			}
-			$prodAttributeArray[$key] = $str;
-		}
+			->get(['attribute_id','value'])
+			->groupBy('attribute_id');
+		$prodAttributeArray = $this->mergeValuesInArray($productAttributes);
 
 		return view('admin.products.edit',
-				compact('product','categories','attrArray','prodAttributeArray'));
+			compact('product','categories','attrArray','prodAttributeArray'));
 	}
 
 	/**
@@ -141,32 +129,29 @@ class ProductController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(ProductRequest $request, $id)
-	{
-		$product = Product::findOrFail($id);
-		
+	public function update(ProductRequest $request, Product $product)
+	{	
 		$fields = $request->validated();
-		$productInput = $request->safe()->except(['prod_images','old_prod_images','attributes']);
+		$productInput = $request->safe()->except([
+			'prod_images','old_prod_images','attributes']);
 		$productInput['slug'] = Str::slug($fields['name']);
 
 		if($request->hasfile('prod_images')) {
 			Helper::deleteImage(json_decode($fields['old_prod_images']));
-			$productInput['image_list'] = json_encode(Helper::uploadImage($fields['prod_images']));
+
+			$productInput['image_list'] = json_encode(
+				Helper::uploadImage($fields['prod_images']));
 		}
 		$product->update($productInput);
+		
 		$product->attributes()->detach();
 
 		if($request->has('attributes')){
-			foreach($fields['attributes'] as $key => $attrValue) {
-				$values = explode(',',$attrValue);
-				foreach($values as $value) {
-					$prodAttr[] = ['attribute_id'=> $key,'value'=>$value];
-				}
-			}
+			$prodAttr = $this->splitArrayIntoChunks($fields['attributes']);
 			$product->attributeValues()->createMany($prodAttr);	
 		}
 		return redirect()->route('admin.products.index')
-								->with('status', 'Product updated successfully!');
+			->with('status', 'Product updated successfully!');
 	}
 
 	/**
@@ -175,17 +160,66 @@ class ProductController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id)
+	public function destroy(Product $product)
 	{
-		$product = Product::findOrFail($id);
 		Helper::deleteImage(json_decode($product->image_list));
 		$product->delete();
 
-		return response()->json(['message' => 'Deleted product successfully'],200);
+		return response()->json([
+			'message' => 'Deleted product successfully'],200);
 	}
-	public function getProducts() {
-		$products = Product::get(['id','name']);
-        
+	/**
+	 * Convert collection (id-name) to associative array.
+	 *
+	 * @param Collection $inputs
+	 * @return Associative Array
+	 */
+	public function convertCollectionToArray($inputs)
+	{
+		$result = [];
+		foreach($inputs as $input) {
+			$result[$input->id] = $input->name; 
+		}
+		return $result;
+	}
+	/**
+	 * Split array into chunks.
+	 *
+	 * @param  arr $array
+	 * @return array
+	 */
+	public function splitArrayIntoChunks($array)
+	{
+		$result = [];
+		foreach($array as $key => $item) {
+			$values = explode(',',$item);
+			foreach($values as $value) {
+				$result[] = ['attribute_id'=> $key,'value'=>$value];
+			}
+		}
+		return $result;
+	}
+	/**
+	 * Merge values in an array.
+	 *
+	 * @param  arr $array
+	 * @return array
+	 */
+	public function mergeValuesInArray($array) {
+		$result= [];
+		foreach($array as $key => $item) {
+			$str = '';	
+			foreach($item as $attribute) {
+				$str .= $attribute->value . ',';
+			}
+			$result[$key] = $str;
+		}
+		return $result;
+
+	}
+	public function getProducts()
+	{
+		$products = Product::get(['id','name']);   
         return response()->json($products);
 	}
 	

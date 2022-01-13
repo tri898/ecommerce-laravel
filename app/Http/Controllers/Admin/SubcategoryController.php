@@ -20,19 +20,23 @@ class SubcategoryController extends Controller
     {
         if($request->ajax()) {
             $subcategories = Subcategory::with(['category:id,name',])
-                ->orderBy(Category::select('name')->whereColumn('categories.id', 'subcategories.category_id'))
+                ->orderBy(Category::select('name')
+                    ->whereColumn('categories.id',
+                    'subcategories.category_id'))
                 ->get();
            
             return DataTables::of($subcategories)
-                                ->addIndexColumn()
-                                ->addColumn('actions', function($row) {
-                                    return '<a href="javascript:void(0)" onclick="onEdit(event.currentTarget)"
-                                             data-id="'.$row['id'].'" class="btn btn-warning"><i class="lnr lnr-pencil"></i></a>
-                                            <a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
-                                             data-id="'.$row['id'].'" class="btn btn-danger"><i class="lnr lnr-trash"></i></a>';
-                                })
-                                ->rawColumns(['actions'])
-                                ->make(true);
+                ->addIndexColumn()
+                ->addColumn('actions', function($row) {
+                    return '<a href="javascript:void(0)" onclick="onEdit(event.currentTarget)"
+                             data-id="'.$row['id'].'" class="btn btn-warning">
+                             <i class="lnr lnr-pencil"></i></a>
+                            <a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
+                             data-id="'.$row['id'].'" class="btn btn-danger">
+                             <i class="lnr lnr-trash"></i></a>';
+                })
+                ->rawColumns(['actions'])
+                ->make(true);
         }
         return view('admin.subcategories.index');
     }
@@ -47,10 +51,11 @@ class SubcategoryController extends Controller
     {
         $fields = $request->validated(); 
         $fields['slug'] = Str::slug($fields['name']);
+        
         $subcategory = Subcategory::create($fields);
 
-        return response()->json(['message' => 'Created subcategory successfully',
-                                 'data' => $subcategory],201);
+        return response()->json([
+            'message' => 'Created subcategory successfully'],201);
     }
 
     /**
@@ -59,10 +64,8 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Subcategory $subcategory)
     {
-        $subcategory = Subcategory::findOrFail($id);
-
         return response()->json($subcategory);
     }
 
@@ -73,12 +76,10 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SubcategoryRequest $request, $id)
+    public function update(SubcategoryRequest $request, Subcategory $subcategory)
     {
         $fields = $request->validated(); 
         $fields['slug'] = Str::slug($fields['name']);
-
-        $subcategory = Subcategory::findOrFail($id);
 
         $subcategory->update($fields);
 
@@ -91,10 +92,8 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Subcategory $subcategory)
     { 
-        $subcategory = Subcategory::findOrFail($id);
-
         $subcategory->delete();
 
         return response()->json(['message' => 'Deleted subcategory successfully'],200);

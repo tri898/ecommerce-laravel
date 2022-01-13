@@ -28,7 +28,7 @@ class ProductRequest extends FormRequest
             $imageRule = 'required|array|max:10';
             
         } elseif (request()->routeIs('admin.products.update')) {
-            $id = $this->route('product');
+            $id = $this->route('product')->id;
             $nameRule = 'required|string|max:255|unique:products,name,' . $id;
             $imageRule = 'nullable|array|max:10';
         }

@@ -30,6 +30,7 @@
     					    <tr>
     					        <th>#</th>
     					        <th>Name</th>
+    					        <th>Created at</th>
     					        <th>Actions</th>
     					    </tr>
     					</thead>

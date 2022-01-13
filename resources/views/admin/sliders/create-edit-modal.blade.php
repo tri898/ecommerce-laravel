@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label for="prod_image">Images*</label>
+                            <label for="prod_image">Image*</label>
                             <div class="metric">
                                 <div class="slider-img-preview"></div>
                                 <div class="parent-upload">

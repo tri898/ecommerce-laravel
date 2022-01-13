@@ -6,14 +6,31 @@
    				url: '{{ route('admin.attributes.index') }}',
   			},
 			columns: [
-				{data:'DT_RowIndex'},
-				{data:'name'},
-				{data:'actions', orderable: false}
+				{
+					data:'DT_RowIndex'
+				},
+				{
+					data:'name'
+				},
+				{
+					data:'created_at',
+					orderable: false,
+                	render: function(data) {
+						if (data !=null) {
+							return new Date(data).toLocaleString('en-ZA');
+						}
+				}
+					
+				},
+				{
+					data:'actions',
+					orderable: false
+				}
 				
 			],
         	columnDefs: [
         	    {
-        	        "targets": [1,2] , 
+        	        "targets": [1, 2, 3] , 
         	        "className": "text-center"
         	    }
         	]

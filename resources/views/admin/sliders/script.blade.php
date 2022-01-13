@@ -32,7 +32,7 @@ $(document).ready(function() {
         ],
         columnDefs: [
             {
-                "targets": [1,2,3,4] , 
+                "targets": [2,3,4] , 
                 "className": "text-center"
             }
         ]

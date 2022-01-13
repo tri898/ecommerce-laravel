@@ -19,18 +19,21 @@ class SliderController extends Controller
     public function index(Request $request)
     {
          if($request->ajax()) {
-            $sliders = Slider::with('product:id,name')->latest()->get();
+            $sliders = Slider::with('product:id,name')
+                ->latest()->get();
            
             return DataTables::of($sliders)
-                                ->addIndexColumn()
-                                ->addColumn('actions', function($row) {
-                                    return '<a href="javascript:void(0)" onclick="onEdit(event.currentTarget)"
-                                             data-id="'.$row['id'].'" class="btn btn-warning"><i class="lnr lnr-pencil"></i></a>
-                                            <a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
-                                             data-id="'.$row['id'].'" class="btn btn-danger"><i class="lnr lnr-trash"></i></a>';
-                                })
-                                ->rawColumns(['actions'])
-                                ->make(true);
+                ->addIndexColumn()
+                ->addColumn('actions', function($row) {
+                    return '<a href="javascript:void(0)" onclick="onEdit(event.currentTarget)"
+                             data-id="'.$row['id'].'" class="btn btn-warning">
+                             <i class="lnr lnr-pencil"></i></a>
+                            <a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
+                             data-id="'.$row['id'].'" class="btn btn-danger">
+                             <i class="lnr lnr-trash"></i></a>';
+                })
+                ->rawColumns(['actions'])
+                ->make(true);
         }
         return view('admin.sliders.index');
     }
@@ -44,11 +47,14 @@ class SliderController extends Controller
     public function store(SliderRequest $request)
     {
         $fields = $request->safe()->except(['image','old_image']); 
+
         if($request->hasfile('image')) {
 		    $fields['image'] = implode(Helper::uploadImage($request->image));
 		}
         $slider = Slider::create($fields);
-        return response()->json(['message' => 'Created slider successfully'],201);
+
+        return response()->json([
+            'message' => 'Created slider successfully'],201);
     }
 
     /**
@@ -57,10 +63,8 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Slider $slider)
     {
-        $slider = Slider::with('product:id,name')->findOrFail($id);
-
         return response()->json($slider);
     }
 
@@ -71,17 +75,18 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SliderRequest $request, $id)
+    public function update(SliderRequest $request, Slider $slider)
     {
-        $slider = Slider::findOrFail($id);
-
         $fields = $request->safe()->except(['image','old_image']); 
+
         if($request->hasfile('image')) {
             Helper::deleteImage(explode(' ',$request->old_image));
 		    $fields['image'] = implode(Helper::uploadImage($request->image));
 		}
         $slider->update($fields);
-        return response()->json(['message' => 'Updated slider successfully'],200);
+
+        return response()->json([
+            'message' => 'Updated slider successfully'],200);
     }
 
     /**
@@ -90,12 +95,12 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Slider $slider)
     {
-        $slider = Slider::findOrFail($id);
 		Helper::deleteImage(explode(' ',$slider->image));
 		$slider->delete();
 
-		return response()->json(['message' => 'Deleted slider successfully'],200);
+		return response()->json([
+            'message' => 'Deleted slider successfully'],200);
     }
 }

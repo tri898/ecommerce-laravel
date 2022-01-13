@@ -11,33 +11,33 @@
             <div class="modal-body">
                 <p>
                     <span><b>Name: </b></span>
-                    <span id="fName">Vlaue</span>
+                    <span id="fName"></span>
                 </p>
                 <p>
                     <span><b>Slug: </b></span>
-                    <span id="fSlug">Vlaue</span>
+                    <span id="fSlug"></span>
                 </p>
                 <p>
                     <span><b>Category: </b></span>
-                    <span id="fCategory">Vlaue</span>
+                    <span id="fCategory"></span>
                 </p>
                 <p>
                     <span><b>Price: </b></span>
-                    <span id="fPrice">Vlaue</span>
+                    <span id="fPrice"></span><span>$</span>
                 </p>
                 <p>
-                    <span><b>Discount(%): </b></span>
-                    <span id="fDiscount">Vlaue</span>
+                    <span><b>Discount (%): </b></span>
+                    <span id="fDiscount"></span>
                 </p>
                 <p>
                     <span><b>Status: </b></span>
-                    <span id="fStatus">Vlaue</span>
+                    <span id="fStatus"></span>
                 </p>
                 <p>
                     <span><b>Created at: </b></span>
-                    <span id="fCreatedAt">Vlaue</span>
+                    <span id="fCreatedAt"></span>
                     <span><b> Updated at: </b></span>
-                    <span id="fUpdatedAt">Vlaue</span>
+                    <span id="fUpdatedAt"></span>
                 </p>
                 <p>
                     <span><b>Images: </b></span>
@@ -45,7 +45,7 @@
                 </p>
                 <p>
                     <span><b>Description: </b></span>
-                    <span id="fDescription">Vlaue</span>
+                    <span id="fDescription"></span>
                     <h6 id="hideShowText" class="text-primary">show / hide</h6>
                 </p>
 

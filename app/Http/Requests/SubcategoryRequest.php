@@ -27,7 +27,7 @@ class SubcategoryRequest extends FormRequest
         if(request()->routeIs('admin.subcategories.store')) {
             $nameRule = ['required','string',new UniqueNameSubcategoryRule($this->name,$this->category_id)];
         } elseif (request()->routeIs('admin.subcategories.update')) {
-            $id = $this->route('subcategory');
+            $id = $this->route('subcategory')->id;
             $nameRule =['required','string',new UniqueNameSubcategoryRule($this->name,$this->category_id,$id)];
         }
         return [

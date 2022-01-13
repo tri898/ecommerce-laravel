@@ -27,7 +27,7 @@ class BlogRequest extends FormRequest
             $titleRule = 'required|string|unique:blogs|max:255';
             $imageRule = 'required|array|max:1';
         } elseif (request()->routeIs('admin.blogs.update')) {
-            $id = $this->route('blog');
+            $id = $this->route('blog')->id;
             $titleRule ='required|string|max:255|unique:blogs,title,' . $id;
             $imageRule = 'nullable|array|max:1';
         }

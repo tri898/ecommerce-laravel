@@ -27,7 +27,7 @@ class SliderRequest extends FormRequest
             $nameRule = 'required|string|unique:sliders|max:255';
             $imageRule = 'required|array|max:1';
         } elseif (request()->routeIs('admin.sliders.update')) {
-            $id = $this->route('slider');
+            $id = $this->route('slider')->id;
             $nameRule ='required|string|max:255|unique:sliders,name,' . $id;
             $imageRule = 'nullable|array|max:1';
         }

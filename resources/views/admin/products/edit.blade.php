@@ -63,14 +63,14 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="price">Price*</label>
+                                <label for="price">Price* ($)</label>
                                 <input type="text" class="form-control" id="price" name="price"
                                     value="{{ old('price',$product->price) }}" placeholder="Please enter product price">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="discount">Discount(%)</label>
+                                <label for="discount">Discount (%)</label>
                                 <input type="text" class="form-control" id="discount" name="discount"
                                     value="{{ old('discount',$product->discount) }}"
                                     placeholder="Please enter product discount">

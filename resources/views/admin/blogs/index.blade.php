@@ -29,7 +29,7 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Title</th>
+							<th class="text-center">Title</th>
 							<th>Post by</th>
 							<th>Created at</th>
 							<th>Actions</th>
@@ -84,7 +84,7 @@ $(document).ready(function() {
 
 		],
 		columnDefs: [{
-			"targets": [1, 2, 3],
+			"targets": [2, 3, 4],
 			"className": "text-center",
 		}]
 	});

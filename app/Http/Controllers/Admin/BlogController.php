@@ -23,16 +23,16 @@ class BlogController extends Controller
 			$blogs = Blog::with('user:id,name')->latest()
 				->get(['id','title','user_id','created_at']);
 			return DataTables::of($blogs)
-								->addIndexColumn()
-								->addColumn('actions', function($row) {
-									return '<a href="/admin/blogs/'.$row['id'].'/edit" class="btn btn-warning">
-											<i class="lnr lnr-pencil"></i></a>
-											<a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
-											 data-id="'.$row['id'].'" class="btn btn-danger"><i class="lnr lnr-trash"></i></a>
-											 ';
-								})
-								->rawColumns(['actions'])
-								->make(true);
+				->addIndexColumn()
+				->addColumn('actions', function($row) {
+					return '<a href="/admin/blogs/'.$row['id'].'/edit" class="btn btn-warning">
+							<i class="lnr lnr-pencil"></i></a>
+							<a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
+							 data-id="'.$row['id'].'" class="btn btn-danger">
+                             <i class="lnr lnr-trash"></i></a>';
+				})
+				->rawColumns(['actions'])
+				->make(true);
 		}
 		return view('admin.blogs.index');
     }
@@ -58,23 +58,14 @@ class BlogController extends Controller
         $fields = $request->safe()->except(['cover_image']); 
         $fields['slug'] = Str::slug($fields['title']);
         $fields['user_id'] =  auth()->user()->id;
+
         if($request->hasfile('cover_image')) {
 		    $fields['cover_image'] = implode(Helper::uploadImage($request->cover_image));
 		}
+
         $blog = Blog::create($fields);
         return redirect()->route('admin.blogs.index')
-		                        ->with('status', 'Blog created successfully!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+		    ->with('status', 'Blog created successfully!');
     }
 
     /**
@@ -83,10 +74,8 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-       $blog = Blog::findOrFail($id);
-       
+    public function edit(Blog $blog)
+    {  
        return view('admin.blogs.edit', compact('blog'));
     }
 
@@ -97,10 +86,8 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BlogRequest $request, $id)
+    public function update(BlogRequest $request, Blog $blog)
     {
-        $blog = Blog::findOrFail($id);
-
         $fields = $request->safe()->except(['cover_image','old_cover_image']); 
         $fields['slug'] = Str::slug($fields['title']);
 
@@ -108,9 +95,11 @@ class BlogController extends Controller
             Helper::deleteImage(explode(' ',$request->old_cover_image));
 		    $fields['cover_image'] = implode(Helper::uploadImage($request->cover_image));
 		}
+
         $blog->update($fields);
+
         return redirect()->route('admin.blogs.index')
-		                        ->with('status', 'Blog updated successfully!');
+		    ->with('status', 'Blog updated successfully!');
     }
 
     /**
@@ -119,12 +108,12 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Blog $blog)
     {
-        $blog = Blog::findOrFail($id);
 		Helper::deleteImage(explode(' ',$blog->cover_image));
 		$blog->delete();
 
-		return response()->json(['message' => 'Deleted blog successfully'],200);
+		return response()->json([
+            'message' => 'Deleted blog successfully'],200);
     }
 }

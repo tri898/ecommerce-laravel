@@ -49,9 +49,8 @@ Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], fun
     Route::get('products/list',[ProductController::class, 'getProducts'])->name('products.list');
     Route::resource('products', ProductController::class);
     Route::apiResource('sliders', SliderController::class);
-    Route::resource('blogs', BlogController::class);
+    Route::resource('blogs', BlogController::class)->except('show');
+
     });
-    
-    
     
 });

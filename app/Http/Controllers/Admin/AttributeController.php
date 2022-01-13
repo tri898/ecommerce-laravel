@@ -21,15 +21,17 @@ class AttributeController extends Controller
             $attributes = Attribute::latest()->get();
            
             return DataTables::of($attributes)
-                                ->addIndexColumn()
-                                ->addColumn('actions', function($row) {
-                                    return '<a href="javascript:void(0)" onclick="onEdit(event.currentTarget)"
-                                             data-id="'.$row['id'].'" class="btn btn-warning"><i class="lnr lnr-pencil"></i></a>
-                                            <a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
-                                             data-id="'.$row['id'].'" class="btn btn-danger"><i class="lnr lnr-trash"></i></a>';
-                                })
-                                ->rawColumns(['actions'])
-                                ->make(true);
+                ->addIndexColumn()
+                ->addColumn('actions', function($row) {
+                    return '<a href="javascript:void(0)" onclick="onEdit(event.currentTarget)"
+                             data-id="'.$row['id'].'" class="btn btn-warning">
+                             <i class="lnr lnr-pencil"></i></a>
+                            <a href="javascript:void(0)" onclick="onDelete(event.currentTarget)"
+                             data-id="'.$row['id'].'" class="btn btn-danger">
+                             <i class="lnr lnr-trash"></i></a>';
+                })
+                ->rawColumns(['actions'])
+                ->make(true);
         }
         return view('admin.attributes.index');
     }
@@ -42,10 +44,12 @@ class AttributeController extends Controller
      */
     public function store(AttributeRequest $request)
     {
-        $fields = $request->validated(); 
+        $fields = $request->validated();
+         
         $attribute= Attribute::create($fields);
 
-        return response()->json(['message' => 'Created attribute successfully'],201);
+        return response()->json([
+            'message' => 'Created attribute successfully'],201);
     }
 
     /**
@@ -54,10 +58,8 @@ class AttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Attribute $attribute)
     {
-        $attribute = Attribute::findOrFail($id);
-
         return response()->json($attribute);
     }
 
@@ -68,15 +70,14 @@ class AttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AttributeRequest $request, $id)
+    public function update(AttributeRequest $request, Attribute $attribute)
     {
         $fields = $request->validated(); 
 
-        $attribute = Attribute::findOrFail($id);
-
         $attribute->update($fields);
 
-        return response()->json(['message' => 'Updated attribute successfully'],200);
+        return response()->json([
+            'message' => 'Updated attribute successfully'],200);
     }
 
     /**
@@ -85,14 +86,15 @@ class AttributeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Attribute $attribute)
     {
-        $attribute = Attribute::findOrFail($id);
         if($attribute->products()->count()) {
-            return response()->json(['message' => 'Can not delete the attribute'],409);
+            return response()->json([
+                'message' => 'Can not delete the attribute'],409);
         }
         $attribute->delete();
 
-        return response()->json(['message' => 'Deleted attribute successfully'],200);
+        return response()->json([
+            'message' => 'Deleted attribute successfully'],200);
     }
 }

@@ -29,10 +29,10 @@
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Name</th>
+							<th class="text-center">Name</th>
 							<th>Category</th>
 							<th>Price</th>
-							<th>Discount(%)</th>
+							<th>Discount (%)</th>
 							<th>Status</th>
 							<th>Actions</th>
 						</tr>
@@ -102,7 +102,7 @@ $(document).ready(function() {
 
 		],
 		columnDefs: [{
-			"targets": [1, 2, 3, 4, 5,6],
+			"targets": [2, 3, 4, 5,6],
 			"className": "text-center",
 		}]
 	});
