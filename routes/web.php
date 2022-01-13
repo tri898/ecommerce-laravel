@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\{
     BlogController
 };
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

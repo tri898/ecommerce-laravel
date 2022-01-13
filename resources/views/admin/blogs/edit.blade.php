@@ -36,7 +36,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="name">Title(*)</label>
+                                <label for="name">Title*</label>
                                 <input type="text" class="form-control" id="title" name="title"
                                     value="{{old('title',$blog->title)}}" placeholder="Please enter title blog">
                             </div>
@@ -45,7 +45,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="description">Description(*)</label>
+                                <label for="description">Description*</label>
                                 <input type="text" class="form-control" id="discount" name="description"
                                     value="{{ old('description',$blog->description) }}"
                                     placeholder="Please enter description">
@@ -55,7 +55,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="prod_image">Cover Image(*)</label>
+                                <label for="prod_image">Cover Image*</label>
                                 <div class="metric">
                                     <div class="cover-img-preview">
                                         <img src="{{ asset('files/'.$blog->cover_image) }}" width="40%"
@@ -78,7 +78,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="content">Content(*)</label>
+                                <label for="content">Content*</label>
                                 <textarea id="content" name="content">{!! old('content',$blog->content) !!}</textarea>
                             </div>
                         </div>

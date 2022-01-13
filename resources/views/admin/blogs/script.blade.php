@@ -17,6 +17,9 @@ function imagesPreview(input, placeToInsertImagePreview) {
     }
 };
 $(document).ready(function() {
+    $('input[type=file]').on('change', function() {
+        $(this).trigger('blur');
+    });
     // using ck editor
     var editor = CKEDITOR.replace('content');
     $('form').submit( function(e) {
@@ -26,6 +29,7 @@ $(document).ready(function() {
                 e.preventDefault();
             }
         });
+    
 
 });
 </script>

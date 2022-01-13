@@ -23,6 +23,9 @@ $(document).ready(function() {
     $('#subcategoryId').select2({
         selectOnClose: true,
     });
+    $('#isInStock').select2({
+        selectOnClose: true,
+    });
     /*
      * When you change the value the select via select2, it triggers
      * a 'change' event, but the jquery validation plugin

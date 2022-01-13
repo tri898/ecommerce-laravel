@@ -11,14 +11,14 @@
                     <input type="hidden" name="id" id="id">
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label for="name">Name(*)</label>
+                            <label for="name">Name*</label>
                             <input type="text" class="form-control" id="name" name="name"
                                 placeholder="Please enter slider name">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label for="productId">Product(*)</label>
+                            <label for="productId">Product*</label>
                             <select name="product_id" id="productId" class="form-control" style="width: 100%;">
                                 <option value="">Choose...</option>
                             </select>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <label for="prod_image">Images(*)</label>
+                            <label for="prod_image">Images*</label>
                             <div class="metric">
                                 <div class="slider-img-preview"></div>
                                 <div class="parent-upload">

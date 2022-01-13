@@ -32,7 +32,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Parent Category</th>
-                            <th>Slug</th>
+                            <th>Created at</th>
                             <th>Actions</th>
                         </tr>
                     </thead>

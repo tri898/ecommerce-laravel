@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="name">Name(*)</label>
+                                <label for="name">Name*</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
                                     placeholder="Please enter product name">
                             </div>
@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="subcategoryId">Category(*)</label>
+                                <label for="subcategoryId">Category*</label>
                                 <select name="subcategory_id" id="subcategoryId" class="form-control"
                                     style="width: 100%">
                                     <option value="">Choose...</option>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="price">Price(*)</label>
+                                <label for="price">Price*</label>
                                 <input type="text" class="form-control" id="price" name="price"
                                     value="{{ old('price') }}" placeholder="Please enter product price">
                             </div>
@@ -75,8 +75,8 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <label for="is_in_stock">Status(*)</label>
-                            <select name="is_in_stock" id="is_in_stock" class="form-control">
+                            <label for="is_in_stock">Status*</label>
+                            <select name="is_in_stock" id="isInStock" class="form-control">
                                 <option value="1">In stock</option>
                                 <option value="0">Not Available</option>
                             </select>
@@ -85,7 +85,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="prod_image">Images(*)</label>
+                                <label for="prod_image">Images*</label>
                                 <div class="metric">
                                     <div class="product-img-preview"></div>
                                     <div class="parent-upload">

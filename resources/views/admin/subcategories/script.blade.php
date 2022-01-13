@@ -16,8 +16,13 @@ $(document).ready(function() {
                 data: 'category.name'
             },
             {
-                data: 'slug',
-                orderable: false
+                data: 'created_at',
+                orderable: false,
+                render: function(data) {
+					if (data !=null) {
+						return new Date(data).toLocaleString('en-ZA');
+					}
+				}
             },
             {
                 data: 'actions',

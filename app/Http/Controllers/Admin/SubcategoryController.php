@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Subcategory;
+use App\Models\{Subcategory, Category};
 use App\Http\Requests\SubcategoryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -19,7 +19,9 @@ class SubcategoryController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()) {
-            $subcategories = Subcategory::with(['category:id,name',])->latest()->get();
+            $subcategories = Subcategory::with(['category:id,name',])
+                ->orderBy(Category::select('name')->whereColumn('categories.id', 'subcategories.category_id'))
+                ->get();
            
             return DataTables::of($subcategories)
                                 ->addIndexColumn()

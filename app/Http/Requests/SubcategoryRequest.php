@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UniqueNameSubcategoryRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SubcategoryRequest extends FormRequest
@@ -24,10 +25,10 @@ class SubcategoryRequest extends FormRequest
     public function rules()
     {
         if(request()->routeIs('admin.subcategories.store')) {
-            $nameRule = 'required|string|unique:subcategories|max:255';
+            $nameRule = ['required','string',new UniqueNameSubcategoryRule($this->name,$this->category_id)];
         } elseif (request()->routeIs('admin.subcategories.update')) {
             $id = $this->route('subcategory');
-            $nameRule ='required|string|max:255|unique:subcategories,name,' . $id;
+            $nameRule =['required','string',new UniqueNameSubcategoryRule($this->name,$this->category_id,$id)];
         }
         return [
             'name' => $nameRule,

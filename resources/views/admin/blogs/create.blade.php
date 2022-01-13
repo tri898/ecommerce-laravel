@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="name">Title(*)</label>
+                                <label for="name">Title*</label>
                                 <input type="text" class="form-control" id="title" name="title"
                                     value="{{ old('title') }}" placeholder="Please enter title blog">
                             </div>
@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="description">Description(*)</label>
+                                <label for="description">Description*</label>
                                 <input type="text" class="form-control" id="discount" name="description"
                                     value="{{ old('description') }}" placeholder="Please enter description">
                             </div>
@@ -53,7 +53,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="prod_image">Cover Image(*)</label>
+                                <label for="prod_image">Cover Image*</label>
                                 <div class="metric">
                                     <div class="cover-img-preview"></div>
                                     <div class="parent-upload">
@@ -71,7 +71,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="content">Content(*)</label>
+                                <label for="content">Content*</label>
                                 <textarea id="content" name="content">{!! old('content') !!}</textarea>
                             </div>
                         </div>
