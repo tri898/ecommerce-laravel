@@ -23,13 +23,13 @@
                 <li><a href="{{ route('admin.attributes.index')}}"
                         class="{{ (request()->is('admin/attributes*')) ? 'active' : '' }}"><i
                             class="lnr lnr-tag"></i>
-                        <span>Attribute</span></a></li>
+                        <span>Attributes</span></a></li>
                 <li><a href="{{ route('admin.products.index')}}"
                         class="{{ (request()->is('admin/products*')) ? 'active' : '' }}"><i class="lnr lnr-shirt"></i>
-                        <span>Product</span></a></li>
+                        <span>Products</span></a></li>
                 <li><a href="{{ route('admin.sliders.index')}}"
                         class="{{ (request()->is('admin/sliders*')) ? 'active' : '' }}"><i class="lnr lnr-screen"></i>
-                        <span>Slider</span></a>
+                        <span>Sliders</span></a>
                 </li>
 
                 <li><a href="{{ route('admin.blogs.index')}}"

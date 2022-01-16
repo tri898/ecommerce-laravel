@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Slider')
+@section('title', 'Sliders')
 
 @section('vendor_css')
 <link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -14,7 +14,7 @@
 @section('content')
 <div class="main-content">
     <div class="container-fluid">
-        <h2 class="page-title">Slider</h2>
+        <h2 class="page-title">Sliders</h2>
         <div class="form-group">
             <div class="input-group">
                 <button type="button" class="btn btn-primary" onclick="onCreate()">Create new</button>

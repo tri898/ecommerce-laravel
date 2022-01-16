@@ -21,7 +21,7 @@ html {
 
 body {
   background-color: #F3F5F8;
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 15px;
   color: #676a6d; }
 
@@ -991,7 +991,7 @@ ul.activity-list > li {
     *vertical-align: auto;
     *zoom: 1;
     *display: inline;
-    width: 99%;
+    width: 95%;
     vertical-align: middle; }
   .auth-box .left {
     float: left;

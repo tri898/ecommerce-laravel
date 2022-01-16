@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Create | Product')
+@section('title', 'Create | Products')
 
 @section('vendor_css')
 <link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -14,7 +14,7 @@
 @section('content')
 <div class="main-content">
     <div class="container-fluid">
-        <h2 class="page-title">Product</h2>
+        <h2 class="page-title">Products</h2>
         <!-- FORM -->
         <div class="panel">
             <div class="panel-heading">

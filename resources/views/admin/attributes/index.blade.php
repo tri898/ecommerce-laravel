@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Attribute')
+@section('title', 'Attributes')
 
 @section('vendor_css')
 <link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
@@ -13,7 +13,7 @@
 @section('content')
 <div class="main-content">
 		<div class="container-fluid">
-			<h2 class="page-title">Attribute</h2>
+			<h2 class="page-title">Attributes</h2>
 			<div class="form-group">
 				<div class="input-group">
 					<button type="button" class="btn btn-primary" onclick="onCreate()">Create new</button>
@@ -22,7 +22,7 @@
 			<!-- TABLE HOVER -->
 			<div class="panel">
 				<div class="panel-heading">
-					<h3 class="panel-title">Attributes Table</h3>
+					<h3 class="panel-title">Attribute Table</h3>
 				</div>
 				<div class="panel-body">
 					<table id="attributeTable" class="table table-hover">

@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'SubCategory')
+@section('title', 'Subcategory')
 
 @section('vendor_css')
 <link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
