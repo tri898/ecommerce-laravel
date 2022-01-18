@@ -36,7 +36,7 @@ class ProductRequest extends FormRequest
             'name' => $nameRule,
             'subcategory_id' => 'required|integer|exists:subcategories,id',
             'price' => 'required|integer|min:1|max:999999999',
-            'discount' =>'integer|min:0|max:100|nullable',
+            'discount' =>'integer|min:1|max:100|nullable',
             'is_in_stock' => 'required|boolean',
             'description' => 'string|nullable',
             'prod_images' => $imageRule,

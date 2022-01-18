@@ -80,6 +80,7 @@
                         <div class="content text">
                             <h1 class="heading">Enjoy shopping</h1>
                             <p>with KLOROFIL</p>
+                            <a href="{{route('front.home.index')}}" class="text-right">Go to shopping →</a>
                         </div>
                     </div>
                     <div class="clearfix"></div>

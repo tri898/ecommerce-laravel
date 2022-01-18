@@ -13,6 +13,10 @@ use App\Http\Controllers\Admin\{
     SliderController,
     BlogController
 };
+use App\Http\Controllers\Front\{
+    HomeController,
+    BlogController as FrontBlogController
+};
 
 
 /*
@@ -26,30 +30,43 @@ use App\Http\Controllers\Admin\{
 |
 */
 
-// Register and login route
+// Register and login/logout route
 Route::get('register',[RegisterController::class, 'index'])->name('register.index');
 Route::post('register',[RegisterController::class, 'store'])->name('register.store');
 Route::get('login',[LoginController::class, 'index'])->name('login.index');
 Route::post('login',[LoginController::class, 'authenticate'])->name('login.auth');
 Route::get('logout',[LoginController::class, 'logout'])->name('logout');
+// Public route
+Route::name('front.')->group(function () {
+    Route::get('',[HomeController::class, 'index'])->name('home.index');
+
+    Route::get('/blog',[FrontBlogController::class, 'index'])->name('blog.index');
+    Route::get('/blog/{blog:slug}',[FrontBlogController::class, 'show'])->name('blog.show');
+});
+
+
 
 // Admin route list
 Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], function () {
     Route::name('admin.')->group(function () {
         // Dashboard route
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard.index');
-
-    // Category route
-    Route::get('categories/list',[CategoryController::class, 'getCategories'])->name('categories.list');
-    Route::apiResource('categories', CategoryController::class);
-    Route::apiResource('subcategories', SubcategoryController::class);
-    Route::apiResource('attributes', AttributeController::class);
-    Route::get('products/list',[ProductController::class, 'getProducts'])->name('products.list');
-    Route::resource('products', ProductController::class);
-    Route::apiResource('sliders', SliderController::class);
-    Route::resource('blogs', BlogController::class)->except('show');
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('dashboard.index');
+        // Category route
+        Route::get('categories/list',[CategoryController::class, 'getCategories'])->name('categories.list');
+        Route::apiResource('categories', CategoryController::class);
+        // Subcategory route
+        Route::apiResource('subcategories', SubcategoryController::class);
+        // Attribute route
+        Route::apiResource('attributes', AttributeController::class);
+        // Product route
+        Route::get('products/list',[ProductController::class, 'getProducts'])->name('products.list');
+        Route::resource('products', ProductController::class);
+        // Slider route
+        Route::apiResource('sliders', SliderController::class);
+        // Blog route
+        Route::resource('blogs', BlogController::class)->except('show');
 
     });
     
