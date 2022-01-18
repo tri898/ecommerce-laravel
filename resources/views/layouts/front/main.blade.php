@@ -57,7 +57,7 @@
             </div>
             @php
             $categories = App\Models\Category::with('subcategories:id,name,category_id')
-                ->get(['id','name']);
+            ->get(['id','name']);
             @endphp
             <div class="wrap-menu-desktop">
                 <nav class="limiter-menu-desktop p-l-45">
@@ -69,11 +69,11 @@
                     <!-- Menu desktop -->
                     <div class="menu-desktop">
                         <ul class="main-menu">
-                            <li class="active-menu">
+                            <li class="{{ (request()->is('/')) ? 'active-menu' : '' }}">
                                 <a href="{{route('front.home.index')}}">Home</a>
                             </li>
 
-                            <li>
+                            <li class="{{ (request()->is('shop')) ? 'active-menu' : '' }}">
                                 <a href="product.html">Shop</a>
                                 <ul class="sub-menu">
                                     @foreach ($categories as $category)
@@ -88,11 +88,11 @@
                                 </ul>
                             </li>
 
-                            <li>
+                            <li class="{{ (request()->is('cart')) ? 'active-menu' : '' }}">
                                 <a href="shoping-cart.html">Cart</a>
                             </li>
 
-                            <li class="label1" data-label1="hot">
+                            <li class="label1 {{ (request()->is('blog*')) ? 'active-menu' : '' }}" data-label1="hot">
                                 <a href="{{ route('front.blog.index') }}">Blog</a>
                             </li>
 

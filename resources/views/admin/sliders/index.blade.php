@@ -16,9 +16,7 @@
     <div class="container-fluid">
         <h2 class="page-title">Sliders</h2>
         <div class="form-group">
-            <div class="input-group">
-                <button type="button" class="btn btn-primary" onclick="onCreate()">Create new</button>
-            </div>
+            <button type="button" class="btn btn-primary" onclick="onCreate()">Create new</button> 
         </div>
         <!-- TABLE HOVER -->
         <div class="panel">

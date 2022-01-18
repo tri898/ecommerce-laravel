@@ -43,7 +43,7 @@ class ProductRequest extends FormRequest
             'old_prod_images' => 'required|string|sometimes',
             'prod_images.*' => 'image|mimes:jpeg,png,jpg|max:2048',
             'attributes' => 'required|array|sometimes',
-            'attributes.*' => 'required|string'
+            'attributes.*' => 'required|string|distinct'
         ];
         
     }

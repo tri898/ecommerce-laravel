@@ -80,7 +80,7 @@
                             <label for="is_in_stock">Status*</label>
                             <select name="is_in_stock" id="isInStock" class="form-control">
                                 <option value="1">In stock</option>
-                                <option value="0" @if ($product->is_in_stock==0) selected @endif>
+                                <option value="0" @if (old('is_in_stock',$product->is_in_stock) ==0) selected @endif>
                                     Not Available
                                 </option>
                             </select>
@@ -104,6 +104,23 @@
                                     <th class="text-center" width="50%">Option value</th>
                                     <th class="text-center" class="text-center"></th>
                                 </tr>
+                                @if (count(old('attributes', [])) > 0)
+
+                                @foreach (old('attributes') as $index =>$item)
+                                <tr>
+                                    <td>{{$attrArray[$index]}}</td>
+                                    <td>
+                                        <input type="text" name="attributes[{{$index}}]" data-role="tagsinput"
+                                            class="form-control" value="{{$item}}">
+                                    </td>
+                                    <td>
+                                        <button type="button" name="remove" class="btn btn-danger btn-sm remove"><span
+                                                class="glyphicon glyphicon-minus"></span></button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                @else
+                                
                                 @foreach ($prodAttributeArray as $key =>$value )
                                 <tr>
                                     <td>{{$attrArray[$key]}}</td>
@@ -117,9 +134,9 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                @endif
 
                             </table>
-
                         </div>
                     </div>
                     <div class="row">
@@ -129,7 +146,7 @@
                                 <div class="metric">
                                     <div class="product-img-preview">
                                         @foreach (json_decode($product->image_list) as $img_item)
-                                        <img src="{{ asset('files/'.$img_item) }}" width="80px" style="margin:20px">
+                                        <img src="{{ asset('files/'.$img_item) }}" width="120px" style="margin:20px">
                                         @endforeach
                                     </div>
                                     <div class="parent-upload">

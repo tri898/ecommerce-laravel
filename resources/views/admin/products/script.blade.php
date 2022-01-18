@@ -8,7 +8,7 @@ function imagesPreview(input, placeToInsertImagePreview) {
             reader.onload = function(event) {
                 $($.parseHTML('<img>')).attr({
                     'src': event.target.result,
-                    'width': '80px',
+                    'width': '120px',
                     'style': 'margin: 20px'
                 }).appendTo(placeToInsertImagePreview);
             }

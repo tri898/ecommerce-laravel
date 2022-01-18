@@ -23,7 +23,7 @@
                 </p>
                 <p>
                     <span><b>Price: </b></span>
-                    <span id="fPrice"></span><span>$</span>
+                    <span>$</span><span id="fPrice"></span>
                 </p>
                 <p>
                     <span><b>Discount (%): </b></span>

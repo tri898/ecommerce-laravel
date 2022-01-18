@@ -15,9 +15,7 @@
 	<div class="container-fluid">
 		<h2 class="page-title">Blog</h2>
 		<div class="form-group">
-			<div class="input-group">
-				<a href="{{ route('admin.blogs.create')}}" class="btn btn-primary">Create new</a>
-			</div>
+			<a href="{{ route('admin.blogs.create')}}" class="btn btn-primary">Create new</a>
 		</div>
 		<!-- TABLE HOVER -->
 		<div class="panel">

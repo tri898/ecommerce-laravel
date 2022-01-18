@@ -78,7 +78,7 @@
                             <label for="is_in_stock">Status*</label>
                             <select name="is_in_stock" id="isInStock" class="form-control">
                                 <option value="1">In stock</option>
-                                <option value="0">Not Available</option>
+                                <option value="0" @if (old('is_in_stock', 1) == 0) selected @endif>Not Available</option>
                             </select>
                         </div>
                     </div>

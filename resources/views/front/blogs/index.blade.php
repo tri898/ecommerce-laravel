@@ -55,7 +55,7 @@
 
                         <div class="p-t-32">
                             <h4 class="p-b-15">
-                                <a href="blog-detail.html" class="ltext-108 cl2 hov-cl1 trans-04">
+                                <a href="{{ route('front.blog.show', $blog->slug) }}" class="ltext-108 cl2 hov-cl1 trans-04">
                                      {{ substr($blog->title, 0, 80)}} ...
                                 </a>
                             </h4>

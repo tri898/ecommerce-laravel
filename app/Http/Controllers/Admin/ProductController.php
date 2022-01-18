@@ -79,8 +79,8 @@ class ProductController extends Controller
 		$product = Product::create($productInput);
 		
 		if($request->has('attributes')){
-			$prodAttr = $this->splitArrayIntoChunks($fields['attributes']);
-			$product->attributeValues()->createMany($prodAttr);
+			$prodAttr = $this->formatArrayToJson($fields['attributes']);
+			$product->attributes()->attach($prodAttr);
 		}
 		return redirect()->route('admin.products.index')
 		    ->with('status', 'Product created successfully!');
@@ -113,10 +113,10 @@ class ProductController extends Controller
 		$attributes = Attribute::get(['id','name']);
 		$attrArray = $this->convertCollectionToArray($attributes);
 
-		$productAttributes = $product->attributeValues()
-			->get(['attribute_id','value'])
-			->groupBy('attribute_id');
-		$prodAttributeArray = $this->mergeValuesInArray($productAttributes);
+		$productAttributes = $product->attributes()
+			->get(['attributes.id','attributes.name']);
+
+		$prodAttributeArray = $this->formatJsonToArray($productAttributes);
 
 		return view('admin.products.edit',
 			compact('product','categories','attrArray','prodAttributeArray'));
@@ -144,11 +144,12 @@ class ProductController extends Controller
 		}
 		$product->update($productInput);
 		
-		$product->attributes()->detach();
-
 		if($request->has('attributes')){
-			$prodAttr = $this->splitArrayIntoChunks($fields['attributes']);
-			$product->attributeValues()->createMany($prodAttr);	
+			$prodAttr = $this->formatArrayToJson($fields['attributes']);
+			$product->attributes()->sync($prodAttr);	
+		}
+		else {
+			$product->attributes()->detach();
 		}
 		return redirect()->route('admin.products.index')
 			->with('status', 'Product updated successfully!');
@@ -183,36 +184,33 @@ class ProductController extends Controller
 		return $result;
 	}
 	/**
-	 * Split array into chunks.
+	 * Format array to json array.
 	 *
 	 * @param  arr $array
 	 * @return array
 	 */
-	public function splitArrayIntoChunks($array)
+	public function formatArrayToJson($array)
 	{
 		$result = [];
 		foreach($array as $key => $item) {
 			$values = explode(',',$item);
-			foreach($values as $value) {
-				$result[] = ['attribute_id'=> $key,'value'=>$value];
-			}
+			$result[$key] = ['value' => json_encode($values)];
 		}
 		return $result;
 	}
 	/**
-	 * Merge values in an array.
+	 * Format collection to array string.
 	 *
 	 * @param  arr $array
 	 * @return array
 	 */
-	public function mergeValuesInArray($array) {
+	public function formatJsonToArray($items) {
 		$result= [];
-		foreach($array as $key => $item) {
-			$str = '';	
-			foreach($item as $attribute) {
-				$str .= $attribute->value . ',';
-			}
-			$result[$key] = $str;
+		foreach($items as $item) {
+			//decode json here
+			$values = json_decode($item->pivot->value);
+			// then parse arr to string
+			$result[$item->id] = implode(',',$values);
 		}
 		return $result;
 

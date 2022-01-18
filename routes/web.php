@@ -36,10 +36,11 @@ Route::post('register',[RegisterController::class, 'store'])->name('register.sto
 Route::get('login',[LoginController::class, 'index'])->name('login.index');
 Route::post('login',[LoginController::class, 'authenticate'])->name('login.auth');
 Route::get('logout',[LoginController::class, 'logout'])->name('logout');
+
 // Public route
 Route::name('front.')->group(function () {
     Route::get('',[HomeController::class, 'index'])->name('home.index');
-
+    // Blog route
     Route::get('/blog',[FrontBlogController::class, 'index'])->name('blog.index');
     Route::get('/blog/{blog:slug}',[FrontBlogController::class, 'show'])->name('blog.show');
 });
