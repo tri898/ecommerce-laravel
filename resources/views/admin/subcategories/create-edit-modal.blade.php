@@ -20,7 +20,7 @@
                         <div class="col-md-12">
                             <label for="categoryId">Parent category*</label>
                             <select name="categoryId" id="categoryId" class="form-control"
-                                style="width: 100%; max-height: 100%;">
+                                style="width: 100%;">
                                 <option value="">Choose...</option>
                             </select>
 

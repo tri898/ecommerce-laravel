@@ -76,9 +76,9 @@
                         </div>
                         <div class="col-md-2">
                             <label for="is_in_stock">Status*</label>
-                            <select name="is_in_stock" id="isInStock" class="form-control">
+                            <select name="is_in_stock" id="isInStock" class="form-control" style="width: 100%">
                                 <option value="1">In stock</option>
-                                <option value="0" @if (old('is_in_stock', 1) == 0) selected @endif>Not Available</option>
+                                <option value="0" @if (old('is_in_stock', 1)==0) selected @endif>Not Available</option>
                             </select>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                                             @endforeach
                                         </select>
                                     </th>
-                                    <th class="text-center" width="50%">Option value</th>
+                                    <th class="text-center" width="50%">Option values</th>
                                     <th class="text-center" class="text-center"></th>
                                 </tr>
                                 @if (count(old('attributes', [])) > 0)

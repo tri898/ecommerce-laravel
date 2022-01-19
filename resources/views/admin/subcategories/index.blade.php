@@ -20,10 +20,19 @@
         </div>
         <!-- TABLE HOVER -->
         <div class="panel">
+
             <div class="panel-heading">
                 <h3 class="panel-title">Subcategory Table</h3>
             </div>
+
             <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label for="">Filters:</label>
+                        <div class="filter-table">
+                        </div>
+                    </div>
+                </div>
                 <table id="subcategoryTable" class="table table-hover">
                     <thead>
                         <tr>

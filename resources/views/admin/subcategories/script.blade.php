@@ -34,7 +34,28 @@ $(document).ready(function() {
                 "targets": [1,2,3,4] , 
                 "className": "text-center"
             }
-        ]
+        ],
+        initComplete: function() {
+            this.api().columns([2]).every( function () {
+                var column = this;
+                var select = 
+                    $('<select class="form-control input-group"><option value="">'+this.header().textContent+'</option></select>')
+                    .appendTo($('.filter-table') )
+                    .on('change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }
     });
     //add data to select option
     getCategories();

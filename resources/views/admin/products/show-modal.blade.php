@@ -26,8 +26,9 @@
                     <span>$</span><span id="fPrice"></span>
                 </p>
                 <p>
-                    <span><b>Discount (%): </b></span>
-                    <span id="fDiscount"></span>
+                    <span><b>Discount: </b></span>
+                    <span id="fDiscount"></span><span>%</span>
+                    
                 </p>
                 <p>
                     <span><b>Status: </b></span>

@@ -30,7 +30,7 @@
 							<th class="text-center">Name</th>
 							<th>Category</th>
 							<th>Price</th>
-							<th>Discount (%)</th>
+							<th>Discount</th>
 							<th>Status</th>
 							<th>Actions</th>
 						</tr>
@@ -68,10 +68,13 @@ $(document).ready(function() {
 				data: 'name'
 			},
 			{
-				data: 'subcategory.name',
+				data: 'subcategory.name'
 			},
 			{
-				data: 'price'
+				data: 'price',
+				render: function(data) {
+					return '$'+new Intl.NumberFormat('en-IN').format(data);
+				}
 			},
 			{
 				data: 'discount',
@@ -79,7 +82,7 @@ $(document).ready(function() {
 					if (data ==null) {
 						return '-';
 					} else {
-						return data;
+						return data+ '%';
 					}
 				}
 			},
@@ -87,9 +90,9 @@ $(document).ready(function() {
 				data: 'is_in_stock',
 				render: function(data) {
 					if (data == 1) {
-						return 'In stock';
+						return '<span class="label label-success">In stock</span>';
 					} else {
-						return 'Not available';
+						return '<span class="label label-warning">Not available</span>';
 					}
 				}
 			},
@@ -129,7 +132,7 @@ function onShow(event) {
 				$('#fName').text(response.name);
 				$('#fSlug').text(response.slug);
 				$('#fCategory').text(response.subcategory.name);
-				$('#fPrice').text(response.price);
+				$('#fPrice').text(new Intl.NumberFormat('en-IN').format(response.price));
 				$('#fDiscount').text(response.discount);
 				$('#fDescription').append(response.description);
 				$('#fCreatedAt').text(new Date(response.created_at).toLocaleString('en-ZA'));
@@ -145,7 +148,7 @@ function onShow(event) {
 				$.each(images, function(key, value) {
 					var url = '{{ asset('files/') }}/'+value;
 					var htmls= '';
-					htmls += '<img src="'+url+'" width="80px" style="margin:20px">';
+					htmls += '<img src="'+url+'" width="120px" style="margin:20px">';
 					$('.product-images').append(htmls);
 				});
 
