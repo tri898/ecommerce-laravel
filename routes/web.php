@@ -15,7 +15,8 @@ use App\Http\Controllers\Admin\{
 };
 use App\Http\Controllers\Front\{
     HomeController,
-    BlogController as FrontBlogController
+    BlogController as FrontBlogController,
+    ProductController as FrontProductController
 };
 
 
@@ -43,6 +44,9 @@ Route::name('front.')->group(function () {
     // Blog route
     Route::get('/blog',[FrontBlogController::class, 'index'])->name('blog.index');
     Route::get('/blog/{blog:slug}',[FrontBlogController::class, 'show'])->name('blog.show');
+    // Product route
+    Route::get('/p/{product:slug}',[FrontProductController::class, 'show'])->name('product.show');
+
 });
 
 

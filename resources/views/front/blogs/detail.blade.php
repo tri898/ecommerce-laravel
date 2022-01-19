@@ -121,12 +121,12 @@
                                 @php
                                 $image = json_decode($product->image_list, true);
                                 @endphp
-                                <a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
+                                <a href="{{ route('front.product.show', $product->slug) }}" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
                                     <img src="{{ asset('files/'.$image[0]) }}" style="width:90px;" alt="PRODUCT">
                                 </a>
 
                                 <div class="size-215 flex-col-t p-t-8">
-                                    <a href="#" class="stext-116 cl8 hov-cl1 trans-04">
+                                    <a href="{{ route('front.product.show', $product->slug) }}" class="stext-116 cl8 hov-cl1 trans-04">
                                         {{ $product->name}}
                                     </a>
 
