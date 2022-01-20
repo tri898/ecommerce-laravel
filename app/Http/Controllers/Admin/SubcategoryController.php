@@ -83,7 +83,8 @@ class SubcategoryController extends Controller
 
         $subcategory->update($fields);
 
-        return response()->json(['message' => 'Updated subcategory successfully'],200);
+        return response()->json([
+            'message' => 'Updated subcategory successfully'],200);
     }
 
     /**
@@ -96,6 +97,7 @@ class SubcategoryController extends Controller
     { 
         $subcategory->delete();
 
-        return response()->json(['message' => 'Deleted subcategory successfully'],200);
+        return response()->json([
+            'message' => 'Deleted subcategory successfully'],200);
     }
 }

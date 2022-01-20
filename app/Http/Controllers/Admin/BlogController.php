@@ -22,6 +22,7 @@ class BlogController extends Controller
         if($request->ajax()) {
 			$blogs = Blog::with('user:id,name')->latest()
 				->get(['id','title','user_id','created_at']);
+                
 			return DataTables::of($blogs)
 				->addIndexColumn()
 				->addColumn('actions', function($row) {

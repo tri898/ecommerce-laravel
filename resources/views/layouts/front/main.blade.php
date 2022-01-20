@@ -56,8 +56,8 @@
                 </div>
             </div>
             @php
-            $categories = App\Models\Category::with('subcategories:id,name,category_id')
-            ->get(['id','name']);
+            $categories = App\Models\Category::with('subcategories:name,slug,category_id')
+            ->get(['id','name','slug']);
             @endphp
             <div class="wrap-menu-desktop">
                 <nav class="limiter-menu-desktop p-l-45">
@@ -74,13 +74,18 @@
                             </li>
 
                             <li class="{{ (request()->is('shop')) ? 'active-menu' : '' }}">
-                                <a href="product.html">Shop</a>
+                                <a href="{{ route('front.product.all') }}">Shop</a>
                                 <ul class="sub-menu">
                                     @foreach ($categories as $category)
-                                    <li><a href="home-03.html">{{ $category->name}}</a>
+                                    <li><a
+                                            href="{{ route('front.product.category', $category->slug) }}">{{ $category->name}}</a>
                                         <ul class="sub-menu">
                                             @foreach ($category->subcategories as $subcategory )
-                                            <li><a href="">{{ $subcategory->name }}</a></li>
+                                            <li><a href="{{ route('front.product.subcategory',
+                                                [$category->slug,$subcategory->slug]) }}">
+                                                    {{ $subcategory->name }}
+                                                </a>
+                                            </li>
                                             @endforeach
                                         </ul>
                                     </li>
@@ -203,13 +208,15 @@
                 </li>
 
                 <li>
-                    <a href="product.html">Shop</a>
+                    <a href="{{ route('front.product.all') }}">Shop</a>
                     <ul class="sub-menu-m">
                         @foreach ($categories as $category)
-                        <li><a href="home-03.html">{{ $category->name}}</a>
+                        <li><a href="{{ route('front.product.category', $category->slug) }}">{{ $category->name}}</a>
                             <ul class="sub-menu-m">
                                 @foreach ($category->subcategories as $subcategory )
-                                <li><a href="">{{ $subcategory->name }}</a></li>
+                                <li><a
+                                        href="{{ route('front.product.subcategory',[$category->slug,$subcategory->slug]) }}">{{ $subcategory->name }}</a>
+                                </li>
                                 @endforeach
                             </ul>
                         </li>

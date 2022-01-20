@@ -3,11 +3,19 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Blog, Product};
+use App\Models\Blog;
+use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+    protected $productRepository;
+
+    public function __construct(ProductRepository $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
     public function index()
     {
         $blogs = Blog::select(['slug','title','user_id',
@@ -15,20 +23,17 @@ class BlogController extends Controller
             ->with('user:id,name')->latest()
             ->paginate(4);
 
-        $randomProduct = Product::inRandomOrder()
-            ->get(['name','slug',
-            'price', 'discount','image_list'])
-            ->take(4);
-
-        return view('front.blogs.index', compact('blogs','randomProduct'));
+        $randomProduct = $this->productRepository
+            ->getRandomProduct();
+        
+        return view('front.blogs.index', compact(
+            'blogs','randomProduct'));
     }
     public function show(Blog $blog)
     {
-        $randomProduct = Product::inRandomOrder()
-            ->get(['name','slug',
-            'price','discount','image_list'])
-            ->take(4);
+        $randomProduct = $this->productRepository->getRandomProduct();
 
-        return view('front.blogs.detail', compact('blog','randomProduct'));
+        return view('front.blogs.detail', compact(
+            'blog','randomProduct'));
     }
 }

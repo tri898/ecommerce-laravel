@@ -10,10 +10,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $sliders = Slider::with('product:id,name')
-            ->latest()
-            ->take(4)
-            ->get();
+        $sliders = Slider::with('product:id,name,slug')
+            ->latest()->take(4)->get();
 
         $products = Product::get(['name', 'slug',
             'price', 'discount', 'image_list'])

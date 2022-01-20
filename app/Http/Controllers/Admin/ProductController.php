@@ -132,6 +132,7 @@ class ProductController extends Controller
 	public function update(ProductRequest $request, Product $product)
 	{	
 		$fields = $request->validated();
+		
 		$productInput = $request->safe()->except([
 			'prod_images','old_prod_images','attributes']);
 		$productInput['slug'] = Str::slug($fields['name']);

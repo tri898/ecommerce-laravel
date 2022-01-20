@@ -26,11 +26,21 @@ class Product extends Model
     public function attributes()
     {
         return $this->belongsToMany(Attribute::class, 'attribute_values', 'product_id', 'attribute_id')
-                ->withPivot('value')->withTimestamps();
+            ->withPivot('value')->withTimestamps();
     }
-    public function attributeValues()
+    // Scope query category
+    public function scopeFindByCategoryId($query, $categoryId)
     {
-        return $this->hasMany(AttributeValue::class);
+        return $query->whereHas('subcategory.category', function ($query) use ($categoryId) {
+            $query->where('id', $categoryId);
+        });
+    }
+    // Scope query subcategory
+    public function scopeFindBySubcategoryId($query, $subcategoryId)
+    {
+        return $query->whereHas('subcategory', function ($query) use ($subcategoryId) {
+            $query->where('id', $subcategoryId);
+        });
     }
 
 }

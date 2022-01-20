@@ -29,7 +29,6 @@
 <section class="section-slide">
     <div class="wrap-slick1 rs1-slick1">
         <div class="slick1">
-
             @foreach ($sliders as $slider)
             <div class="item-slick1" style="background-image: url({{ asset('files/'.$slider->image) }});">
                 <div class="container h-full">
@@ -47,7 +46,7 @@
                         </div>
 
                         <div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
-                            <a href="product.html"
+                            <a href="{{ route('front.product.show', $slider->product->slug) }}"
                                 class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                 Shop Now
                             </a>
@@ -176,7 +175,7 @@
 
         <!-- Load more -->
         <div class="flex-c-m flex-w w-full p-t-45">
-            <a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+            <a href="{{ route('front.product.all') }}" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
                 View All Products
             </a>
         </div>
