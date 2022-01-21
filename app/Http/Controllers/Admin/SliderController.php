@@ -11,6 +11,11 @@ use DataTables;
 
 class SliderController extends Controller
 {
+    protected $helper;
+	public function __construct(Helper $helper)
+	{
+		$this->helper = $helper;
+	}
     /**
      * Display a listing of the resource.
      *
@@ -49,7 +54,7 @@ class SliderController extends Controller
         $fields = $request->safe()->except(['image','old_image']); 
 
         if($request->hasfile('image')) {
-		    $fields['image'] = implode(Helper::uploadImage($request->image));
+		    $fields['image'] = implode($this->helper->uploadImage($request->image));
 		}
         $slider = Slider::create($fields);
 
@@ -80,8 +85,8 @@ class SliderController extends Controller
         $fields = $request->safe()->except(['image','old_image']); 
 
         if($request->hasfile('image')) {
-            Helper::deleteImage(explode(' ',$request->old_image));
-		    $fields['image'] = implode(Helper::uploadImage($request->image));
+            $this->helper->deleteImage(explode(' ',$request->old_image));
+		    $fields['image'] = implode($this->helper->uploadImage($request->image));
 		}
         $slider->update($fields);
 
@@ -97,7 +102,7 @@ class SliderController extends Controller
      */
     public function destroy(Slider $slider)
     {
-		Helper::deleteImage(explode(' ',$slider->image));
+		$this->helper->deleteImage(explode(' ',$slider->image));
 		$slider->delete();
 
 		return response()->json([
