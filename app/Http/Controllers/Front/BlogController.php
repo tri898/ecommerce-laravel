@@ -3,37 +3,33 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\Blog;
+use App\Models\{Blog, Product};
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    protected $productRepository;
-
-    public function __construct(ProductRepository $productRepository)
-    {
-        $this->productRepository = $productRepository;
-    }
 
     public function index()
     {
-        $blogs = Blog::select(['slug','title','user_id',
-            'created_at','description', 'cover_image'])
+        $blogs = Blog::select([
+            'slug','title','user_id','created_at','description','cover_image'])
             ->with('user:id,name')->latest()
             ->paginate(4);
 
-        $randomProduct = $this->productRepository
-            ->getRandomProduct();
+        $randomProducts = Product::inRandomOrder()->get([
+            'name','slug','price','discount','image_list'])
+            ->take(4);
         
-        return view('front.blogs.index', compact(
-            'blogs','randomProduct'));
+        return view('front.blogs.index', compact('blogs','randomProducts'));
     }
+
     public function show(Blog $blog)
     {
-        $randomProduct = $this->productRepository->getRandomProduct();
+        $randomProducts = Product::inRandomOrder()
+            ->get(['name','slug','price','discount','image_list'])
+            ->take(4);
 
-        return view('front.blogs.detail', compact(
-            'blog','randomProduct'));
+        return view('front.blogs.detail', compact('blog','randomProducts'));
     }
 }

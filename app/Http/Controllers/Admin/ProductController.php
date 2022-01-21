@@ -82,8 +82,8 @@ class ProductController extends Controller
 			$prodAttr = $this->formatArrayToJson($fields['attributes']);
 			$product->attributes()->attach($prodAttr);
 		}
-		return redirect()->route('admin.products.index')
-		    ->with('status', 'Product created successfully!');
+		return redirect()->route('admin.products.index')->with(
+			'status', 'Product created successfully!');
 	}
 
 	/**
@@ -118,8 +118,8 @@ class ProductController extends Controller
 
 		$prodAttributeArray = $this->formatJsonToArray($productAttributes);
 
-		return view('admin.products.edit',
-			compact('product','categories','attrArray','prodAttributeArray'));
+		return view('admin.products.edit', compact(
+			'product','categories','attrArray','prodAttributeArray'));
 	}
 
 	/**
@@ -152,8 +152,9 @@ class ProductController extends Controller
 		else {
 			$product->attributes()->detach();
 		}
-		return redirect()->route('admin.products.index')
-			->with('status', 'Product updated successfully!');
+
+		return redirect()->route('admin.products.index')->with(
+			'status', 'Product updated successfully!');
 	}
 
 	/**

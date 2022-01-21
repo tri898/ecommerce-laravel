@@ -39,14 +39,16 @@ Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], fun
             return view('admin.dashboard');
         })->name('dashboard.index');
         // Category route
-        Route::get('categories/list',[CategoryController::class, 'getCategories'])->name('categories.list');
+        Route::get('categories/list',[CategoryController::class, 'getCategories'])
+            ->name('categories.list');
         Route::apiResource('categories', CategoryController::class);
         // Subcategory route
         Route::apiResource('subcategories', SubcategoryController::class);
         // Attribute route
         Route::apiResource('attributes', AttributeController::class);
         // Product route
-        Route::get('products/list',[ProductController::class, 'getProducts'])->name('products.list');
+        Route::get('products/list',[ProductController::class, 'getProducts'])
+            ->name('products.list');
         Route::resource('products', ProductController::class);
         // Slider route
         Route::apiResource('sliders', SliderController::class);
@@ -71,12 +73,12 @@ Route::get('logout',[LoginController::class, 'logout'])->name('logout');
 Route::name('front.')->group(function () {
     Route::get('',[HomeController::class, 'index'])->name('home.index');
     // Blog route
-    Route::get('/blog',[FrontBlogController::class, 'index'])->name('blog.index');
-    Route::get('/blog/{blog:slug}',[FrontBlogController::class, 'show'])->name('blog.show');
+    Route::get('blog',[FrontBlogController::class, 'index'])->name('blog.index');
+    Route::get('blog/{blog:slug}',[FrontBlogController::class, 'show'])->name('blog.show');
     // Product route
-    Route::get('/p/{product:slug}',[FrontProductController::class, 'show'])->name('product.show');
+    Route::get('p/{product:slug}',[FrontProductController::class, 'show'])->name('product.show');
     // All product route
-    Route::get('/product/all',[FrontProductController::class, 'index'])->name('product.all');
+    Route::get('products',[FrontProductController::class, 'index'])->name('product.all');
     // Product by category route
     Route::get('{category:slug}',[FrontProductController::class, 'cateProduct'])
         ->name('product.category');

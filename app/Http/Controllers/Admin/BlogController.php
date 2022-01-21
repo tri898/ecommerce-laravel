@@ -58,15 +58,17 @@ class BlogController extends Controller
     {
         $fields = $request->safe()->except(['cover_image']); 
         $fields['slug'] = Str::slug($fields['title']);
-        $fields['user_id'] =  auth()->user()->id;
+        $fields['user_id'] = auth()->user()->id;
 
         if($request->hasfile('cover_image')) {
-		    $fields['cover_image'] = implode(Helper::uploadImage($request->cover_image));
+		    $fields['cover_image'] = implode(
+                Helper::uploadImage($request->cover_image));
 		}
 
         $blog = Blog::create($fields);
-        return redirect()->route('admin.blogs.index')
-		    ->with('status', 'Blog created successfully!');
+
+        return redirect()->route('admin.blogs.index')->with(
+            'status', 'Blog created successfully!');
     }
 
     /**
@@ -94,7 +96,8 @@ class BlogController extends Controller
 
         if($request->hasfile('cover_image')) {
             Helper::deleteImage(explode(' ',$request->old_cover_image));
-		    $fields['cover_image'] = implode(Helper::uploadImage($request->cover_image));
+		    $fields['cover_image'] = implode(
+                Helper::uploadImage($request->cover_image));
 		}
 
         $blog->update($fields);

@@ -21,8 +21,7 @@ class SubcategoryController extends Controller
         if($request->ajax()) {
             $subcategories = Subcategory::with(['category:id,name',])
                 ->orderBy(Category::select('name')
-                    ->whereColumn('categories.id',
-                    'subcategories.category_id'))
+                ->whereColumn('categories.id','subcategories.category_id'))
                 ->get();
            
             return DataTables::of($subcategories)

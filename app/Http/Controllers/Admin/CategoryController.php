@@ -91,8 +91,8 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         if($category->subcategories()->count()) {
-            return response()->json(
-                ['message' => 'Can not delete the category'],409);
+            return response()->json([
+                'message' => 'Can not delete the category'],409);
         } 
         $category->delete();
 

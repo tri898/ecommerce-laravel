@@ -35,20 +35,20 @@
 <div class="bg0 m-t-50 p-b-140">
     <div class="container">
 
-    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-50 p-lr-0-lg">
-        <a href="{{ route('front.home.index')}}" class="stext-109 cl8 hov-cl1 trans-04">
-            Home
-            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
-        </a>
-        <a href="{{ route('front.product.category', $category->slug)}}" class="stext-109 cl8 hov-cl1 trans-04">
-           {{ $category->name}}
-            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
-        </a>
-        <span class="stext-109 cl4">
-           {{ $subcategory->name}}
-        </span>
+        <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-50 p-lr-0-lg">
+            <a href="{{ route('front.home.index')}}" class="stext-109 cl8 hov-cl1 trans-04">
+                Home
+                <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+            </a>
+            <a href="{{ route('front.product.category', $category->slug)}}" class="stext-109 cl8 hov-cl1 trans-04">
+                {{ $category->name}}
+                <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+            </a>
+            <span class="stext-109 cl4">
+                {{ $subcategory->name}}
+            </span>
+        </div>
     </div>
-</div>
     <div class="container">
         <div class="flex-w flex-sb-m p-b-52">
 
@@ -292,7 +292,8 @@
 
                     <div class="block2-txt flex-w flex-t p-t-14">
                         <div class="block2-txt-child1 flex-col-l ">
-                            <a href="{{ route('front.product.show', $product->slug) }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                            <a href="{{ route('front.product.show', $product->slug) }}"
+                                class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                 {{ $product->name}}
                             </a>
 
@@ -315,12 +316,8 @@
 
         </div>
 
-        <!-- Load more -->
-        <div class="flex-c-m flex-w w-full p-t-45">
-            <a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-                Load More
-            </a>
-        </div>
+        <!-- Pagination -->
+        {{ $products->links() }}
     </div>
 </div>
 @endsection
@@ -333,16 +330,6 @@
 <script src="{{ asset('users/vendor/bootstrap/js/popper.js') }}"></script>
 <script src="{{ asset('users/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <!--===============================================================================================-->
-<script src="{{ asset('users/vendor/select2/select2.min.js') }}"></script>
-<script>
-$(".js-select2").each(function() {
-    $(this).select2({
-        minimumResultsForSearch: 20,
-        dropdownParent: $(this).next('.dropDownSelect2')
-    });
-})
-</script>
-<!--===============================================================================================-->
 <script src="{{ asset('users/vendor/daterangepicker/moment.min.js') }}"></script>
 <script src="{{ asset('users/vendor/daterangepicker/daterangepicker.js') }}"></script>
 <!--===============================================================================================-->
@@ -354,61 +341,7 @@ $(".js-select2").each(function() {
 $('.parallax100').parallax100();
 </script>
 <!--===============================================================================================-->
-<script src="{{ asset('users/vendor/MagnificPopup/jquery.magnific-popup.min.js') }}">
-</script>
-<script>
-$('.gallery-lb').each(function() { // the containers for all your galleries
-    $(this).magnificPopup({
-        delegate: 'a', // the selector for gallery item
-        type: 'image',
-        gallery: {
-            enabled: true
-        },
-        mainClass: 'mfp-fade'
-    });
-});
-</script>
-<!--===============================================================================================-->
 <script src="{{ asset('users/vendor/isotope/isotope.pkgd.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/sweetalert/sweetalert.min.js') }}"></script>
-<script>
-$('.js-addwish-b2, .js-addwish-detail').on('click', function(e) {
-    e.preventDefault();
-});
-
-$('.js-addwish-b2').each(function() {
-    var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-    $(this).on('click', function() {
-        swal(nameProduct, "is added to wishlist !", "success");
-
-        $(this).addClass('js-addedwish-b2');
-        $(this).off('click');
-    });
-});
-
-$('.js-addwish-detail').each(function() {
-    var nameProduct = $(this).parent().parent().parent().find('.js-name-detail')
-        .html();
-
-    $(this).on('click', function() {
-        swal(nameProduct, "is added to wishlist !", "success");
-
-        $(this).addClass('js-addedwish-detail');
-        $(this).off('click');
-    });
-});
-
-/*---------------------------------------------*/
-
-$('.js-addcart-detail').each(function() {
-    var nameProduct = $(this).parent().parent().parent().parent().find(
-        '.js-name-detail').html();
-    $(this).on('click', function() {
-        swal(nameProduct, "is added to cart !", "success");
-    });
-});
-</script>
 <!--===============================================================================================-->
 <script src="{{ asset('users/vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}">
 </script>

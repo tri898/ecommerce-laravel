@@ -114,7 +114,7 @@
                             Maybe You Like
                         </h4>
                         <ul>
-                            @foreach ($randomProduct as $product)
+                            @foreach ($randomProducts as $product)
                             <li class="flex-w flex-t p-b-30">
                                 @php
                                 $image = json_decode($product->image_list, true);

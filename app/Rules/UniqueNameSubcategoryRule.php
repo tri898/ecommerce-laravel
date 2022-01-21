@@ -8,6 +8,9 @@ use Illuminate\Contracts\Validation\Rule;
 
 class UniqueNameSubcategoryRule implements Rule
 {
+    protected $name;
+    protected $category_id;
+    protected $except;
     /**
      * Create a new rule instance.
      *
