@@ -12,6 +12,11 @@ use DataTables;
 
 class ProductController extends Controller
 {
+	protected $helper;
+	public function __construct(Helper $helper)
+	{
+		$this->helper = $helper;
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -73,7 +78,7 @@ class ProductController extends Controller
 
 		if($request->hasfile('prod_images')) {
 		    $productInput['image_list'] = json_encode(
-				Helper::uploadImage($fields['prod_images']));
+				$this->helper->uploadImage($fields['prod_images']));
 		}
 
 		$product = Product::create($productInput);
@@ -138,10 +143,10 @@ class ProductController extends Controller
 		$productInput['slug'] = Str::slug($fields['name']);
 
 		if($request->hasfile('prod_images')) {
-			Helper::deleteImage(json_decode($fields['old_prod_images']));
+			$this->helper->deleteImage(json_decode($fields['old_prod_images']));
 
 			$productInput['image_list'] = json_encode(
-				Helper::uploadImage($fields['prod_images']));
+				$this->helper->uploadImage($fields['prod_images']));
 		}
 		$product->update($productInput);
 		
@@ -165,7 +170,7 @@ class ProductController extends Controller
 	 */
 	public function destroy(Product $product)
 	{
-		Helper::deleteImage(json_decode($product->image_list));
+		$this->helper->deleteImage(json_decode($product->image_list));
 		$product->delete();
 
 		return response()->json([

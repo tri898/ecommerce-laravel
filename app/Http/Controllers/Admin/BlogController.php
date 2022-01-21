@@ -12,6 +12,11 @@ use DataTables;
 
 class BlogController extends Controller
 {
+    protected $helper;
+	public function __construct(Helper $helper)
+	{
+		$this->helper = $helper;
+	}
     /**
      * Display a listing of the resource.
      *
@@ -62,7 +67,7 @@ class BlogController extends Controller
 
         if($request->hasfile('cover_image')) {
 		    $fields['cover_image'] = implode(
-                Helper::uploadImage($request->cover_image));
+                $this->helper->uploadImage($request->cover_image));
 		}
 
         $blog = Blog::create($fields);
@@ -95,9 +100,9 @@ class BlogController extends Controller
         $fields['slug'] = Str::slug($fields['title']);
 
         if($request->hasfile('cover_image')) {
-            Helper::deleteImage(explode(' ',$request->old_cover_image));
+            $this->helper->deleteImage(explode(' ',$request->old_cover_image));
 		    $fields['cover_image'] = implode(
-                Helper::uploadImage($request->cover_image));
+                $this->helper->uploadImage($request->cover_image));
 		}
 
         $blog->update($fields);
@@ -114,7 +119,7 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-		Helper::deleteImage(explode(' ',$blog->cover_image));
+		$this->helper->deleteImage(explode(' ',$blog->cover_image));
 		$blog->delete();
 
 		return response()->json([
