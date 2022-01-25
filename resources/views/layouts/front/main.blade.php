@@ -63,7 +63,7 @@
                 <nav class="limiter-menu-desktop p-l-45">
 
                     <!-- Logo desktop -->
-                    <a href="#" class="logo">
+                    <a href="{{route('front.home.index')}}" class="logo">
                         <img src="{{ asset('admins/assets/img/logo-dark.png') }}" alt="Klorofil Logo">
                     </a>
                     <!-- Menu desktop -->
@@ -134,7 +134,7 @@
         <div class="wrap-header-mobile">
             <!-- Logo moblie -->
             <div class="logo-mobile">
-                <a href="#"><img src="{{ asset('users/images/icons/logo-01.png') }}" alt="IMG-LOGO"></a>
+                <a href="{{route('front.home.index')}}"><img src="{{ asset('admins/assets/img/logo-dark.png') }}" alt="IMG-LOGO"></a>
             </div>
 
             <!-- Icon header -->

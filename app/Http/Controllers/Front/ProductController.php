@@ -22,33 +22,60 @@ class ProductController extends Controller
             'productDetails','relatedProducts'));
     }
     
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::select([
-            'name','slug','price','discount','image_list'])
-            ->latest()->paginate(12);
+       if ($request->ajax()) {
+            $products = Product::select([
+                'name','slug','price','discount','image_list'])
+				->Sort($request)
+				->Price($request)
+				->Color($request)
+            	->paginate(12);
+			$view = view('front.products.list', ['products' => $products])->render();
 
-        return view('front.products.all', compact('products'));
+			return response()->json([
+				'data' => $view, 'filter' =>$request->all(), 'url' =>$request->fullUrl()]);
+        }
+       
+        return view('front.products.all');
     }
 
-    public function cateProduct(Category $category)
+    public function cateProduct(Request $request, Category $category)
     {
-        $products = Product::select([
-            'name','slug','price','discount','image_list'])
-            ->FindByCategoryId($category->id)
-            ->latest()->paginate(12);
+        if ($request->ajax()) {
+            $products = Product::select([
+            	'name','slug','price','discount','image_list'])
+                ->FindByCategoryId($category->id)
+				->Sort($request)
+				->Price($request)
+				->Color($request)
+            	->paginate(12);
+			$view = view('front.products.list', ['products' => $products])->render();
 
-        return view('front.products.category', compact('category','products'));
+			return response()->json([
+				'data' => $view, 'filter' =>$request->all(), 'url' =>$request->fullUrl()]);
+        }
+
+        return view('front.products.category', compact('category'));
     }
 
-    public function subProduct(Category $category, Subcategory $subcategory)
+    public function subProduct(Request $request, Category $category, Subcategory $subcategory)
     {
-        $products = Product::select([
-            'name','slug','price','discount','image_list'])
-            ->FindBySubcategoryId($subcategory->id)
-            ->latest()->paginate(12);
+        if ($request->ajax()) {
+            $products = Product::select([
+                'name','slug','price','discount','image_list'])
+                ->FindBySubcategoryId($subcategory->id)
+				->Sort($request)
+				->Price($request)
+				->Color($request)
+            	->paginate(12);
+			$view = view('front.products.list', ['products' => $products])->render();
+
+			return response()->json([
+				'data' => $view, 'filter' =>$request->all(), 'url' =>$request->fullUrl()]);
+        }
 
         return view('front.products.subcategory', compact(
-            'category','subcategory','products'));
+            'category','subcategory'));
     }
 }

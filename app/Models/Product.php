@@ -25,7 +25,8 @@ class Product extends Model
     }
     public function attributes()
     {
-        return $this->belongsToMany(Attribute::class, 'attribute_values', 'product_id', 'attribute_id')
+        return $this->belongsToMany(
+            Attribute::class,'attribute_values','product_id','attribute_id')
             ->withPivot('value')->withTimestamps();
     }
     // Scope query category
@@ -41,6 +42,41 @@ class Product extends Model
         return $query->whereHas('subcategory', function ($query) use ($subcategoryId) {
             $query->where('id', $subcategoryId);
         });
+    }
+    // Scope sort by
+    public function scopeSort($query, $request)
+    {
+        if ($request->input('sort') == 'azSort') {
+           $query->orderBy('name');
+        };
+        if ($request->input('sort') == 'zaSort') {
+           $query->orderByDesc('name');
+        };
+        if ($request->input('sort') == 'lPrice') {
+           $query->orderBy('price');
+        };
+        if ($request->input('sort') == 'hPrice') {
+           $query->orderByDesc('price');
+        };
+        if ($request->input('sort') == 'default') {
+           $query->latest();
+        };
+    }
+    // Scope price range
+    public function scopePrice($query, $request)
+    {
+        if ($request->price) {
+           $query->whereBetween('price',explode('-',$request->price));
+        };
+    }
+    // Scope color
+    public function scopeColor($query, $request)
+    {
+        if ($request->colors) {
+            $query->whereHas('attributes', function ($query) use ($request) {
+                $query->whereJsonContains('value', explode(',',$request->colors));
+            });
+        };
     }
 
 }

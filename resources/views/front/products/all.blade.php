@@ -86,39 +86,33 @@
 
                             <ul>
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Default
-                                    </a>
+                                    <input type="radio" id="default" class="selector sort" name="sort" value="default">
+                                    <label for="default" class="filter-link stext-106 trans-04">
+                                        Default</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Popularity
-                                    </a>
+                                    <input type="radio" id="azSort" class="selector sort" name="sort" value="azSort">
+                                    <label for="azSort" class="filter-link stext-106 trans-04">
+                                        Name: A-Z</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Average rating
-                                    </a>
+                                    <input type="radio" id="zaSort" class="selector sort" name="sort" value="zaSort">
+                                    <label for="zaSort" class="filter-link stext-106 trans-04">
+                                        Name: Z-A</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-                                        Newness
-                                    </a>
+                                    <input type="radio" id="hPrice" class="selector sort" name="sort" value="hPrice">
+                                    <label for="hPrice" class="filter-link stext-106 trans-04">
+                                        Price: High to Low</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Price: Low to High
-                                    </a>
-                                </li>
-
-                                <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Price: High to Low
-                                    </a>
+                                    <input type="radio" id="lPrice" class="selector sort" name="sort" value="lPrice">
+                                    <label for="lPrice" class="filter-link stext-106 trans-04">
+                                        Price: Low to High</label>
                                 </li>
                             </ul>
                         </div>
@@ -130,39 +124,42 @@
 
                             <ul>
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-                                        All
+                                    <input type="radio" id="0-9999" class="selector price" name="price" value="0-9999">
+                                    <label for="0-9999" class="filter-link stext-106 trans-04">
+                                        All</label>
+                                </li>
+
+                                <li class="p-b-6">
+                                    <input type="radio" id="0-50" class="selector price" name="price" value="0-50">
+                                    <label for="0-50" class="filter-link stext-106 trans-04">
+                                        $0.00 - $50.00</label>
+                                    <a href="#" class="filter-link stext-106 trans-04">
+
                                     </a>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        $0.00 - $50.00
-                                    </a>
+                                    <input type="radio" id="50-100" class="selector price" name="price" value="50-100">
+                                    <label for="50-100" class="filter-link stext-106 trans-04">
+                                        $50.00 - $100.00</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        $50.00 - $100.00
-                                    </a>
+                                    <input type="radio" id="100-150" class="selector price" name="price" value="100-150">
+                                    <label for="100-150" class="filter-link stext-106 trans-04">
+                                        $100.00 - $150.00</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        $100.00 - $150.00
-                                    </a>
+                                    <input type="radio" id="150-200" class="selector price" name="price" value="150-200">
+                                    <label for="150-200" class="filter-link stext-106 trans-04">
+                                        $150.00 - $200.00</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        $150.00 - $200.00
-                                    </a>
-                                </li>
-
-                                <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        $200.00+
-                                    </a>
+                                    <input type="radio" id="200-9999" class="selector price" name="price" value="200-9999">
+                                    <label for="200-9999" class="filter-link stext-106 trans-04">
+                                        $200.00+</label>
                                 </li>
                             </ul>
                         </div>
@@ -174,63 +171,40 @@
 
                             <ul>
                                 <li class="p-b-6">
-                                    <span class="fs-15 lh-12 m-r-6" style="color: #222;">
-                                        <i class="zmdi zmdi-circle"></i>
-                                    </span>
-
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Black
-                                    </a>
+                                    <input type="checkbox" id="black" class="selector colors" name="color" value="Black">
+                                    <label for="black" class="filter-link stext-106 trans-04">
+                                        Black</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-                                        <i class="zmdi zmdi-circle"></i>
-                                    </span>
-
-                                    <a href="#" class="filter-link stext-106 trans-04 filter-link-active">
-                                        Blue
-                                    </a>
+                                    <input type="checkbox" id="blue" class="selector colors" name="color" value="Blue">
+                                    <label for="blue" class="filter-link stext-106 trans-04">
+                                        Blue</label>
+                                </li>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-                                        <i class="zmdi zmdi-circle"></i>
-                                    </span>
-
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Grey
-                                    </a>
+                                    <input type="checkbox" id="grey" class="selector colors" name="color" value="Grey">
+                                    <label for="grey" class="filter-link stext-106 trans-04">
+                                        Grey</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-                                        <i class="zmdi zmdi-circle"></i>
-                                    </span>
-
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Green
-                                    </a>
+                                    <input type="checkbox" id="green" class="selector colors" name="color" value="Green">
+                                    <label for="green" class="filter-link stext-106 trans-04">
+                                        Green</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-                                        <i class="zmdi zmdi-circle"></i>
-                                    </span>
-
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Red
-                                    </a>
+                                    <input type="checkbox" id="red" class="selector colors" name="color" value="Red">
+                                    <label for="red" class="filter-link stext-106 trans-04">
+                                        Red</label>
                                 </li>
 
                                 <li class="p-b-6">
-                                    <span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-                                        <i class="zmdi zmdi-circle-o"></i>
-                                    </span>
-
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        White
-                                    </a>
+                                    <input type="checkbox" id="white" class="selector colors" name="color" value="White">
+                                    <label for="white" class="filter-link stext-106 trans-04">
+                                        White</label>
                                 </li>
                             </ul>
                         </div>
@@ -239,7 +213,6 @@
                             <div class="mtext-102 cl2 p-b-15">
                                 Tags
                             </div>
-
                             <div class="flex-w p-t-4 m-r--5">
                                 <a href="#"
                                     class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
@@ -270,52 +243,8 @@
                     </div>
                 </div>
             </div>
+            <div id="data-list"></div>
 
-            <div class="row isotope-grid">
-                @foreach ($products as $product)
-                <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
-                    <!-- Block2 -->
-                    <div class="block2">
-                        <div class="block2-pic hov-img0">
-                            @php
-                            $image = json_decode($product->image_list, true);
-                            @endphp
-                            <img src="{{ asset('files/'.$image[0]) }}" alt="IMG-PRODUCT">
-
-                            <a href="{{ route('front.product.show', $product->slug) }}"
-                                class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
-                                View Details
-                            </a>
-                        </div>
-
-                        <div class="block2-txt flex-w flex-t p-t-14">
-                            <div class="block2-txt-child1 flex-col-l ">
-                                <a href="{{ route('front.product.show', $product->slug) }}"
-                                    class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                    {{ $product->name}}
-                                </a>
-
-                                <span class="stext-105 cl3">
-                                    @php
-                                    $isActive = $product->discount;
-                                    @endphp
-                                    <span @class(['strike-through-text'=> $isActive])>
-                                        ${{ number_format($product->price, 2) }}
-                                    </span>
-                                    @isset($product->discount)
-                                    ${{ number_format($product->price - ($product->discount/100)*$product->price, 2) }}
-                                    @endisset
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-
-            </div>
-
-            <!-- Pagination -->
-            {{ $products->links() }}
         </div>
     </div>
     @endsection
@@ -424,4 +353,81 @@
     </script>
     <!--===============================================================================================-->
     <script src="{{ asset('users/js/main.js') }}"></script>
+    <script>
+    $(document).ready(function() {
+
+        loadData();
+
+        function loadData() {
+           
+            // get page
+            var urlParams = new URLSearchParams(window.location.search);
+            var page = urlParams.get('page') || 1;
+
+            var sort = getClass('sort') || urlParams.get('sort') || 'default';
+            var price = getClass('price') || urlParams.get('price');
+            var colors = getClasses('colors') || urlParams.get('colors');
+            _url = '{{ route('front.product.all')}}'+  `?page=${page}`;
+            $.ajax({
+                url: _url,
+                type: 'GET',
+                data: {
+                    sort: sort,
+                    price: price,
+                    colors: colors
+                },
+                success: function(response) {
+                    if (response) {
+                        $('#data-list').html(response.data);
+            
+                        if(response.filter.sort) {
+                            $('#'+response.filter.sort).prop('checked', true);
+                        }
+                        if(response.filter.price) {
+                            $('#'+response.filter.price).prop('checked', true);
+                        }
+                        if(response.filter.colors) {
+                            var colorsChecked  = response.filter.colors.split(',');
+                            $.each(colorsChecked, function(key, value) {
+                                 $('#'+value.toLowerCase()).prop('checked', true);
+                            });
+                        }
+                        history.pushState(null, null, decodeQueryParam(response.url));
+
+                        
+                        
+                    }
+                }
+            });
+        }
+        // get class
+        function getClass(className) {
+            var result = $('.'+ className+ ':checked').val();
+            return result;
+        }
+        // get classes
+        function getClasses(className) {
+            var result = [];
+            $('.'+ className+ ':checked').each(function() {
+                result.push($(this).val());
+            });
+            return result.join(',');
+        }
+        // selector
+        $('.selector').click(function() {
+            var colors = getClasses('colors');
+            
+            if(!colors) {
+                history.pushState(null, null, '/products?colors=&page=&price=&sort=');
+            }
+            loadData();
+        });
+        
+        function decodeQueryParam(p) {
+          return decodeURIComponent(p.replace(/\+/g, ' '));
+        }
+
+
+    });
+    </script>
     @endsection

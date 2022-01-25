@@ -13,7 +13,7 @@ class HomeController extends Controller
         $sliders = Slider::with('product:id,name,slug')
             ->latest()->take(4)->get();
 
-        $products = Product::get([
+        $products = Product::latest()->get([
             'name','slug','price','discount','image_list'])
             ->take(12);
 
