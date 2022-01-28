@@ -16,7 +16,8 @@ use App\Http\Controllers\Admin\{
 use App\Http\Controllers\Front\{
     HomeController,
     BlogController as FrontBlogController,
-    ProductController as FrontProductController
+    ProductController as FrontProductController,
+    CartController
 };
 
 
@@ -71,7 +72,13 @@ Route::get('logout',[LoginController::class, 'logout'])->name('logout');
 
 // Public route
 Route::name('front.')->group(function () {
+    // Home route
     Route::get('',[HomeController::class, 'index'])->name('home.index');
+    // Cart route
+    Route::get('/cart',[CartController::class, 'index'])->name('cart.index');
+    Route::post('cart/{product}',[CartController::class, 'store'])->name('cart.store');
+    Route::put('cart/{id}',[CartController::class, 'update'])->name('cart.update');
+    Route::delete('cart/{id}',[CartController::class, 'destroy'])->name('cart.destroy');
     // Blog route
     Route::get('blog',[FrontBlogController::class, 'index'])->name('blog.index');
     Route::get('blog/{blog:slug}',[FrontBlogController::class, 'show'])->name('blog.show');
@@ -85,5 +92,4 @@ Route::name('front.')->group(function () {
     // Product by subcategory route
     Route::get('{category:slug}/{subcategory:slug}',[FrontProductController::class, 'subProduct'])
         ->name('product.subcategory');
-
 });

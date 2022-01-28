@@ -41,8 +41,7 @@
         </a>
 
         <a href="{{ route('front.product.category',
-            $productDetails->subcategory->category->slug) }}"
-            class="stext-109 cl8 hov-cl1 trans-04">
+            $productDetails->subcategory->category->slug) }}" class="stext-109 cl8 hov-cl1 trans-04">
             {{ $productDetails->subcategory->category->name}}
             <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
         </a>
@@ -86,7 +85,8 @@
 
             <div class="col-md-6 col-lg-5 p-b-30">
                 <div class="p-r-50 p-t-5 p-lr-0-lg">
-                    <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+                    <input type="hidden" id="idProduct" value="{{ $productDetails->id}}">
+                    <h4 class="mtext-105 cl2 p-b-14" id="nameProduct">
                         {{ $productDetails->name}}
                     </h4>
 
@@ -94,11 +94,15 @@
                         @php
                         $isActive = $productDetails->discount;
                         @endphp
-                        <span @class(['strike-through-text'=> $isActive])>
+                        <span @class(['strike-through-text'=> $isActive])
+                            id="originalPrice">
                             ${{ number_format($productDetails->price, 2) }}
                         </span>
                         @isset($productDetails->discount)
-                        ${{ number_format($productDetails->price - ($productDetails->discount/100)*$productDetails->price, 2) }}
+                        <span id="discountedPrice">
+                            ${{ number_format($productDetails->price - 
+                            ($productDetails->discount/100)*$productDetails->price, 2) }}
+                        </span>
                         @endisset
                     </span>
 
@@ -111,8 +115,7 @@
                             </div>
                             <div class="size-204 respon6-next p-b-10">
                                 <div class="rs1-select2 bor8 bg0">
-                                    <select class="js-select2" name="time">
-                                        <option>Choose an option</option>
+                                    <select class="js-select2" name="options[]" data-name="{{$attribute->name}}">
                                         @foreach (json_decode($attribute->pivot->value) as $value)
                                         <option value="{{$value}}">{{$value}}</option>
                                         @endforeach
@@ -132,18 +135,26 @@
                                         <i class="fs-16 zmdi zmdi-minus"></i>
                                     </div>
 
-                                    <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product"
-                                        value="1">
+                                    <input class="mtext-104 cl3 txt-center num-product" type="number"
+                                        id="quantityProduct" name="num-product" value="1" disabled>
 
                                     <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                         <i class="fs-16 zmdi zmdi-plus"></i>
                                     </div>
                                 </div>
-
-                                <button
-                                    class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                @if ($productDetails->is_in_stock == 1)
+                                    <button id="addToCart"
+                                    class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                     Add to cart
                                 </button>
+                                @else
+                                    <button
+                                    class="flex-c-m stext-101 cl0 size-101 bg3 bor1 hov-btn3 p-lr-15 trans-04" disabled>
+                                    Not available
+                                </button>
+                                @endif
+                                
+                                
                             </div>
                         </div>
                     </div>
@@ -386,39 +397,48 @@ $('.gallery-lb').each(function() { // the containers for all your galleries
 <!--===============================================================================================-->
 <script src="{{ asset('users/vendor/sweetalert/sweetalert.min.js') }}"></script>
 <script>
-$('.js-addwish-b2, .js-addwish-detail').on('click', function(e) {
-    e.preventDefault();
-});
+$('#addToCart').on('click', function() {
 
-$('.js-addwish-b2').each(function() {
-    var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-    $(this).on('click', function() {
-        swal(nameProduct, "is added to wishlist !", "success");
+    var id = $('#idProduct').val();
 
-        $(this).addClass('js-addedwish-b2');
-        $(this).off('click');
+    var name = $('#nameProduct').html(); //xx
+    var price = $('#discountedPrice').html() || $('#originalPrice').html();
+    var quantity = $('#quantityProduct').val();
+
+    var options = [];
+    $('select[name^=options]').each(function() {
+        var string = $(this).attr('data-name') + ' ' + this.value;
+        options.push(string);
     });
-});
 
-$('.js-addwish-detail').each(function() {
-    var nameProduct = $(this).parent().parent().parent().find('.js-name-detail')
-        .html();
+    let _url = '{{route('front.cart.store',':id')}}';
+    _url = _url.replace(':id', id);
 
-    $(this).on('click', function() {
-        swal(nameProduct, "is added to wishlist !", "success");
-
-        $(this).addClass('js-addedwish-detail');
-        $(this).off('click');
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
     });
-});
+    $.ajax({
+        url: _url,
+        type: 'POST',
+        data: {
+            quantity: quantity,
+            price: price.trim().slice(1),
+            options: options.join('/')
+        },
+        success: function(response, textStatus, jqXHR) {
+            if (jqXHR.status == 201) {
+                $('#ajax-header-cart').load(location.href + ' .header-cart-load');
+                $('#ajax-noti-cart').load(location.href + ' .noti-cart-load');
+                $('#ajax-noti-cart-m').load(location.href + ' .noti-cart-load-m');
+                swal(name, "is added to cart !", "success");
+            }
 
-/*---------------------------------------------*/
-
-$('.js-addcart-detail').each(function() {
-    var nameProduct = $(this).parent().parent().parent().parent().find(
-        '.js-name-detail').html();
-    $(this).on('click', function() {
-        swal(nameProduct, "is added to cart !", "success");
+        },
+        error: function(jqXHR) {
+            console.log(jqXHR.responseText);
+        }
     });
 });
 </script>

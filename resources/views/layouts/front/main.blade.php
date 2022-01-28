@@ -5,6 +5,7 @@
     <title>@yield('title')</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!--===============================================================================================-->
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('admins/assets/img/apple-icon.png') }}">
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('admins/assets/img/favicon.png') }}">
@@ -94,7 +95,7 @@
                             </li>
 
                             <li class="{{ (request()->is('cart')) ? 'active-menu' : '' }}">
-                                <a href="shoping-cart.html">Cart</a>
+                                <a href="{{route('front.cart.index')}}">Cart</a>
                             </li>
 
                             <li class="label1 {{ (request()->is('blog*')) ? 'active-menu' : '' }}" data-label1="hot">
@@ -120,9 +121,11 @@
                         </div>
 
                         <div class="flex-c-m h-full p-l-18 p-r-25 bor5">
-                            <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart"
-                                data-notify="2">
-                                <i class="zmdi zmdi-shopping-cart"></i>
+                            <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-cart">
+                                <i class="zmdi zmdi-shopping-cart js-show-cart"></i>
+                            </div>
+                            <div id="ajax-noti-cart">
+                                <div class="noti-cart-load">({{ count((array) session('cart')) }})</div>
                             </div>
                         </div>
                     </div>
@@ -134,7 +137,8 @@
         <div class="wrap-header-mobile">
             <!-- Logo moblie -->
             <div class="logo-mobile">
-                <a href="{{route('front.home.index')}}"><img src="{{ asset('admins/assets/img/logo-dark.png') }}" alt="IMG-LOGO"></a>
+                <a href="{{route('front.home.index')}}"><img src="{{ asset('admins/assets/img/logo-dark.png') }}"
+                        alt="IMG-LOGO"></a>
             </div>
 
             <!-- Icon header -->
@@ -146,9 +150,11 @@
                 </div>
 
                 <div class="flex-c-m h-full p-lr-10 bor5">
-                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart"
-                        data-notify="2">
+                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-lr-11 js-show-cart">
                         <i class="zmdi zmdi-shopping-cart"></i>
+                    </div>
+                    <div id="ajax-noti-cart-m">
+                        <div class="noti-cart-load-m">({{ count((array) session('cart')) }})</div>
                     </div>
                 </div>
             </div>
@@ -215,7 +221,8 @@
                             <ul class="sub-menu-m">
                                 @foreach ($category->subcategories as $subcategory )
                                 <li><a
-                                        href="{{ route('front.product.subcategory',[$category->slug,$subcategory->slug]) }}">{{ $subcategory->name }}</a>
+                                        href="{{ route('front.product.subcategory',[$category->slug,$subcategory->slug]) }}">
+                                        {{ $subcategory->name }}</a>
                                 </li>
                                 @endforeach
                             </ul>
@@ -228,7 +235,7 @@
                 </li>
 
                 <li>
-                    <a href="shoping-cart.html">Cart</a>
+                    <a href="{{route('front.cart.index')}}">Cart</a>
                 </li>
 
                 <li>
