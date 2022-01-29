@@ -78,5 +78,12 @@ class Product extends Model
             });
         };
     }
+    // Scope name
+    public function scopeName($query, $request)
+    {
+        if ($request->q) {
+           $query->where('name', 'like', '%'. $request->q .'%');
+        };
+    }
 
 }

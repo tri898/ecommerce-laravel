@@ -56,8 +56,8 @@
                                 </div>
                                 <div class="form-group clearfix">
                                     <label class="fancy-checkbox element-left">
-                                        <input type="checkbox">
-                                        <span>Remember me</span>
+                                        <input type="checkbox" id="isAdmin">
+                                        <span>Login as admin</span>
                                     </label>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
@@ -90,17 +90,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script>
-$('#login-form').validate({
-    rules: {
-        email: {
-            required: true,
-            email: true
-        },
-        password: {
-            required: true,
-            minlength: 6
+$(document).ready(function() {
+    $('#login-form').validate({
+        rules: {
+            email: {
+                required: true,
+                email: true
+            },
+            password: {
+                required: true,
+                minlength: 6
+            }
         }
-    }
+    });
+
+    $('#isAdmin').change(function() {
+        if (this.checked) {
+            $('#signin-email').val('admin@gmail.com');
+            $('#signin-password').val('password');
+        } else {
+            $('#signin-email').val('');
+            $('#signin-password').val('');
+        }
+    });
 });
 </script>
 

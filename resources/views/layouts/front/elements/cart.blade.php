@@ -42,6 +42,8 @@
                         @endif
 
                     </ul>
+                    
+                    @if (count((array) session('cart')) > 0)
                     <div class="w-full">
                         @php $total = 0 @endphp
                         @foreach((array) session('cart') as $id => $details)
@@ -63,13 +65,15 @@
                             </a>
                         </div>
                     </div>
+                    @else
+                    <span class="mtext-101 cl2">
+                        Cart is empty
+                    </span>
+                    @endif
                 </div>
 
             </div>
         </div>
-
-
-
 
     </div>
 </div>

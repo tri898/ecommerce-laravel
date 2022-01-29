@@ -82,7 +82,9 @@ Route::name('front.')->group(function () {
     // Blog route
     Route::get('blog',[FrontBlogController::class, 'index'])->name('blog.index');
     Route::get('blog/{blog:slug}',[FrontBlogController::class, 'show'])->name('blog.show');
-    // Product route
+    // Product search route
+    Route::get('search',[FrontProductController::class, 'search'])->name('product.search');
+    // Product details route
     Route::get('p/{product:slug}',[FrontProductController::class, 'show'])->name('product.show');
     // All product route
     Route::get('products',[FrontProductController::class, 'index'])->name('product.all');

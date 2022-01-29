@@ -40,6 +40,7 @@ class ProductController extends Controller
         return view('front.products.all');
     }
 
+
     public function cateProduct(Request $request, Category $category)
     {
         if ($request->ajax()) {
@@ -77,5 +78,16 @@ class ProductController extends Controller
 
         return view('front.products.subcategory', compact(
             'category','subcategory'));
+    }
+
+    public function search(Request $request)
+    {
+       $products = Product::select([
+                'name','slug','price','discount','image_list'])
+                ->Name($request)
+            	->paginate(12);
+        $query = $request->q;
+       
+        return view('front.products.search',compact('products','query'));
     }
 }

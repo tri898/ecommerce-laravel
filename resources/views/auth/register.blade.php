@@ -93,25 +93,27 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script>
-$('#register-form').validate({
-    rules: {
-        name: {
-            required: true,
-            minlength: 2
-        },
-        email: {
-            required: true,
-            email: true
-        },
-        password: {
-            required: true,
-            minlength: 6
-        },
-        password_confirmation: {
-            required: true,
-            equalTo: "#reg-password"
+$(document).ready(function() {
+    $('#register-form').validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 2
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            password: {
+                required: true,
+                minlength: 6
+            },
+            password_confirmation: {
+                required: true,
+                equalTo: "#reg-password"
+            }
         }
-    }
+    });
 });
 </script>
 
