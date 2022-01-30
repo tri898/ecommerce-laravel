@@ -402,7 +402,6 @@ $('#addToCart').on('click', function() {
     var id = $('#idProduct').val();
 
     var name = $('#nameProduct').html(); //xx
-    var price = $('#discountedPrice').html() || $('#originalPrice').html();
     var quantity = $('#quantityProduct').val();
 
     var options = [];
@@ -424,7 +423,6 @@ $('#addToCart').on('click', function() {
         type: 'POST',
         data: {
             quantity: quantity,
-            price: price.trim().slice(1),
             options: options.join('/')
         },
         success: function(response, textStatus, jqXHR) {

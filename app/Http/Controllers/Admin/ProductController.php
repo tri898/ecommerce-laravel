@@ -56,8 +56,7 @@ class ProductController extends Controller
 		$categories = Category::with('subcategories:id,name,category_id')
 			->get(['id','name']);
 
-		$attributes = Attribute::get(['id','name']);
-		$attrArray = $this->convertCollectionToArray($attributes);
+		$attrArray = Attribute::select(['id','name'])->pluck('name', 'id');
 
 		return view('admin.products.create',compact(
 			'categories','attrArray'));
@@ -115,8 +114,7 @@ class ProductController extends Controller
 		$categories = Category::with('subcategories:id,name,category_id')
 			->get(['id','name']);
 
-		$attributes = Attribute::get(['id','name']);
-		$attrArray = $this->convertCollectionToArray($attributes);
+		$attrArray = Attribute::select(['id','name'])->pluck('name', 'id');
 
 		$productAttributes = $product->attributes()
 			->get(['attributes.id','attributes.name']);
@@ -175,20 +173,6 @@ class ProductController extends Controller
 
 		return response()->json([
 			'message' => 'Deleted product successfully'],200);
-	}
-	/**
-	 * Convert collection (id-name) to associative array.
-	 *
-	 * @param Collection $inputs
-	 * @return Associative Array
-	 */
-	public function convertCollectionToArray($inputs)
-	{
-		$result = [];
-		foreach($inputs as $input) {
-			$result[$input->id] = $input->name; 
-		}
-		return $result;
 	}
 	/**
 	 * Format array to json array.

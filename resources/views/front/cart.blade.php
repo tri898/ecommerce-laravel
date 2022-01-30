@@ -66,10 +66,14 @@
                                     </div>
                                 </td>
                                 <td class="column-2">
-                                    <span>{{ $details['name'] }}</span>
+                                    <span class="mtext-104">
+                                        <a href="{{route('front.product.show',$details['slug']) }}">
+                                            {{ $details['name'] }}
+                                        </a>
+                                    </span>
                                     <p>{{ $details['options'] }}</p>
                                 </td>
-                                <td class="column-3">$ {{ $details['price'] }}</td>
+                                <td class="column-3 product-price">$ {{ $details['price'] }}</td>
                                 <td class="column-4">
                                     <div class="wrap-num-product flex-w m-l-auto m-r-0">
                                         <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
@@ -171,7 +175,9 @@ $(document).ready(function() {
     $('.btn-num-product-down, .btn-num-product-up').click(function(e) {
         var id = $(this).parents('tr').attr('id');
         var quantity = $(this).parents('tr').find('.num-product').val();
+
         var totalPrice = $(this).parents('tr').find('.product-total-price');
+        var price = $(this).parents('tr').find('.product-price');
 
         let _url = '{{ route('front.cart.update',':id')}}';
         _url = _url.replace(':id', id);
@@ -189,6 +195,7 @@ $(document).ready(function() {
             },
             success: function(response) {
                 totalPrice.text('$ ' + response.totalPrice);
+                price.text('$ ' + response.price);
                 $('#ajax-load').load(location.href + ' .total-load');
                 $('#ajax-header-cart').load(location.href + ' .header-cart-load');
                 $('#ajax-noti-cart-m').load(location.href + ' .noti-cart-load-m');
