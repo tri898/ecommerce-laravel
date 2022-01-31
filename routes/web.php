@@ -17,7 +17,8 @@ use App\Http\Controllers\Front\{
     HomeController,
     BlogController as FrontBlogController,
     ProductController as FrontProductController,
-    CartController
+    CartController,
+    CheckoutController
 };
 
 
@@ -39,20 +40,27 @@ Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], fun
         Route::get('/dashboard', function () {
             return view('admin.dashboard');
         })->name('dashboard.index');
+
         // Category route
         Route::get('categories/list',[CategoryController::class, 'getCategories'])
             ->name('categories.list');
         Route::apiResource('categories', CategoryController::class);
+
         // Subcategory route
         Route::apiResource('subcategories', SubcategoryController::class);
+
         // Attribute route
         Route::apiResource('attributes', AttributeController::class);
+        
         // Product route
         Route::get('products/list',[ProductController::class, 'getProducts'])
             ->name('products.list');
+
         Route::resource('products', ProductController::class);
+
         // Slider route
         Route::apiResource('sliders', SliderController::class);
+        
         // Blog route
         Route::resource('blogs', BlogController::class)->except('show');
 
@@ -74,14 +82,19 @@ Route::get('logout',[LoginController::class, 'logout'])->name('logout');
 Route::name('front.')->group(function () {
     // Home route
     Route::get('',[HomeController::class, 'index'])->name('home.index');
+
     // Cart route
-    Route::get('/cart',[CartController::class, 'index'])->name('cart.index');
+    Route::get('cart',[CartController::class, 'index'])->name('cart.index');
     Route::post('cart/{product}',[CartController::class, 'store'])->name('cart.store');
     Route::put('cart/{id}',[CartController::class, 'update'])->name('cart.update');
     Route::delete('cart/{id}',[CartController::class, 'destroy'])->name('cart.destroy');
+    // Checkout route
+    Route::get('checkout',[CheckoutController::class, 'index'])->name('checkout.index');
+
     // Blog route
     Route::get('blog',[FrontBlogController::class, 'index'])->name('blog.index');
     Route::get('blog/{blog:slug}',[FrontBlogController::class, 'show'])->name('blog.show');
+
     // Product search route
     Route::get('search',[FrontProductController::class, 'search'])->name('product.search');
     // Product details route

@@ -37,110 +37,118 @@
             Shoping Cart
         </span>
     </div>
-</div>
-<!-- Shoping Cart -->
-<form class="bg0 p-t-75 p-b-85">
-    <div class="container">
-        @if (count((array) session('cart')) > 0)
-        <div class="row">
-            <div class="col-lg-10 col-xl-10 m-lr-auto m-b-50">
-                <div class="m-l-25 m-r--38 m-lr-0-xl">
-                    <div class="wrap-table-shopping-cart">
-                        <table class="table-shopping-cart">
-                            <tr class="table_head">
-                                <th class="column-1">Product</th>
-                                <th class="column-2"></th>
-                                <th class="column-3">Price</th>
-                                <th class="column-4">Quantity</th>
-                                <th class="column-5">Total</th>
-                                <th class="column-6"></th>
-                            </tr>
-                            @php $total = 0 @endphp
-                            @if(session('cart'))
-                            @foreach(session('cart') as $id => $details)
-                            @php $total += $details['price'] * $details['quantity'] @endphp
-                            <tr class="table_row" id="{{ $id }}">
-                                <td class="column-1">
-                                    <div class="how-itemcart1">
-                                        <img src="{{ asset('files/'. $details['image']) }}" alt="IMG">
-                                    </div>
-                                </td>
-                                <td class="column-2">
-                                    <span class="mtext-104">
-                                        <a href="{{route('front.product.show',$details['slug']) }}">
-                                            {{ $details['name'] }}
+
+    <!-- Shoping Cart -->
+    <form class="bg0 p-t-75 p-b-85">
+        <div class="container">
+            @if (count((array) session('cart')) > 0)
+            <div class="row">
+                <div class="col-lg-10 col-xl-10 m-lr-auto m-b-50">
+                    <div class="m-l-25 m-r--38 m-lr-0-xl">
+                        <div class="wrap-table-shopping-cart">
+                            <table class="table-shopping-cart">
+                                <tr class="table_head">
+                                    <th class="column-1">Product</th>
+                                    <th class="column-2"></th>
+                                    <th class="column-3">Price</th>
+                                    <th class="column-4">Quantity</th>
+                                    <th class="column-5">Total</th>
+                                    <th class="column-6"></th>
+                                </tr>
+                                @php $total = 0 @endphp
+                                @if(session('cart'))
+                                @foreach(session('cart') as $id => $details)
+                                @php $total += $details['price'] * $details['quantity'] @endphp
+                                <tr class="table_row" id="{{ $id }}">
+                                    <td class="column-1">
+                                        <div class="how-itemcart1">
+                                            <img src="{{ asset('files/'. $details['image']) }}" alt="IMG">
+                                        </div>
+                                    </td>
+                                    <td class="column-2">
+                                        <span class="mtext-104">
+                                            <a href="{{route('front.product.show',$details['slug']) }}">
+                                                {{ $details['name'] }}
+                                            </a>
+                                        </span>
+                                        <p>{{ $details['options'] }}</p>
+                                    </td>
+                                    <td class="column-3 product-price">$ {{ $details['price'] }}</td>
+                                    <td class="column-4">
+                                        <div class="wrap-num-product flex-w m-l-auto m-r-0">
+                                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
+                                                <i class="fs-16 zmdi zmdi-minus"></i>
+                                            </div>
+
+                                            <input class="mtext-104 cl3 txt-center num-product" type="number" min="1"
+                                                max="999" name="num-product1" value="{{ $details['quantity'] }}"
+                                                disabled>
+
+                                            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
+                                                <i class="fs-16 zmdi zmdi-plus"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="column-5 product-total-price">
+                                        $ {{ number_format($details['price'] * $details['quantity'],2) }}
+                                    </td>
+                                    <td class="column-6">
+                                        <a href="javascript:void(0)" data-id="{{ $id }}" class=""
+                                            onclick="deleteProduct(event.currentTarget)">
+                                            <img src="{{ asset('users/images/icons/icon-close2.png') }}" alt="Delete">
                                         </a>
-                                    </span>
-                                    <p>{{ $details['options'] }}</p>
-                                </td>
-                                <td class="column-3 product-price">$ {{ $details['price'] }}</td>
-                                <td class="column-4">
-                                    <div class="wrap-num-product flex-w m-l-auto m-r-0">
-                                        <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                            <i class="fs-16 zmdi zmdi-minus"></i>
-                                        </div>
+                                    </td>
 
-                                        <input class="mtext-104 cl3 txt-center num-product" type="number" min="1"
-                                            max="999" name="num-product1" value="{{ $details['quantity'] }}" disabled>
+                                </tr>
+                                @endforeach
+                                @endif
 
-                                        <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                            <i class="fs-16 zmdi zmdi-plus"></i>
-                                        </div>
+                            </table>
+                        </div>
+                        <div class="bor15">
+                            <div id="ajax-load">
+                                <div class="total-load">
+                                    <div class="flex-w flex-r bor12 p-t-18 p-b-15 p-lr-25 p-lr-15-sm">
+                                        <span class="mtext-101 cl2 p-lr-20">
+                                            Total:
+                                        </span>
+                                        <span class="mtext-103 cl2">
+                                            $ {{ number_format($total, 2) }}
+                                        </span>
                                     </div>
-                                </td>
-                                <td class="column-5 product-total-price">
-                                    $ {{ number_format($details['price'] * $details['quantity'],2) }}
-                                </td>
-                                <td class="column-6">
-                                    <a href="javascript:void(0)" data-id="{{ $id }}" class=""
-                                        onclick="deleteProduct(event.currentTarget)">
-                                        <img src="{{ asset('users/images/icons/icon-close2.png') }}" alt="Delete">
-                                    </a>
-                                </td>
-
-                            </tr>
-                            @endforeach
-                            @endif
-
-                        </table>
-                    </div>
-                    <div class="bor15">
-                        <div id="ajax-load">
-                            <div class="total-load">
-                                <div class="flex-w flex-r bor12 p-t-18 p-b-15 p-lr-25 p-lr-15-sm">
-                                    <span class="mtext-101 cl2 p-lr-20">
-                                        Total:
-                                    </span>
-                                    <span class="mtext-103 cl2">
-                                        $ {{ number_format($total, 2) }}
-                                    </span>
+                                    <div class="flex-w flex-r p-t-18 p-b-15 p-lr-20 p-lr-15-sm">
+                                        <a href="{{route('front.checkout.index')}}" 
+                                            class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                                            Proceed to Checkout
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="flex-w flex-r p-t-18 p-b-15 p-lr-20 p-lr-15-sm">
-                                    <button
-                                        class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-                                        Proceed to Checkout
-                                    </button>
-                                </div>
+
                             </div>
 
                         </div>
-
                     </div>
                 </div>
             </div>
-        </div>
-        @else
-        <div class="flex-w flex-sb-m bor12 p-t-18 p-b-15 p-lr-25 p-lr-15-sm total-load">
-            <span class="mtext-101 cl2 p-lr-20">
-                Cart is empty.
-            </span>
-            <p><a href="{{route('front.product.all')}}">Go to shopping</a></p>
-        </div>
+            @else
+            <div class="row">
+                <div class="col-lg-10 col-xl-10 m-lr-auto m-b-50">
+                    <div class="flex-w flex-sb-m bor12 p-t-18 p-b-15 p-lr-25 p-lr-15-sm total-load">
+                        <span class="mtext-101 cl2 p-lr-20">
+                            Cart is empty.
+                        </span>
+                        <p><a href="{{route('front.product.all')}}">Go to shopping</a></p>
+                    </div>
+                </div>
+            </div>
 
-        @endif
 
-    </div>
-</form>
+
+            @endif
+
+        </div>
+    </form>
+</div>
 @endsection
 @section('script')
 <script src="{{ asset('users/vendor/jquery/jquery-3.2.1.min.js') }}">

@@ -1,6 +1,6 @@
 @extends('layouts.front.main')
 
-@section('title', 'Search')
+@section('title', 'Search results for '.$query)
 
 @section('vendor_css')
 <link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/bootstrap/css/bootstrap.min.css') }}">

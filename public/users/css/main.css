@@ -2634,7 +2634,9 @@ input.num-product::-webkit-inner-spin-button {
 .size-218 {
   max-width: 286px;
 }
-
+.size-219{
+  width: 32.5%;
+}
 
 
 /*//////////////////////////////////////////////////////////////////
@@ -2650,7 +2652,9 @@ input.num-product::-webkit-inner-spin-button {
 .size-303 {
   height: 390px;
 }
-
+.size-304 {
+  height: 25%;
+}
 
 /*==================================================================
    BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND BACKGROUND 
