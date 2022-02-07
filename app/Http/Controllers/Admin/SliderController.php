@@ -5,16 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
 use App\Http\Requests\SliderRequest;
-use App\Helpers\Helper;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use DataTables;
 
 class SliderController extends Controller
 {
-    protected $helper;
-	public function __construct(Helper $helper)
+    protected $imageService;
+
+	public function __construct(ImageService $imageService)
 	{
-		$this->helper = $helper;
+		$this->imageService = $imageService;
 	}
     /**
      * Display a listing of the resource.
@@ -54,7 +55,7 @@ class SliderController extends Controller
         $fields = $request->safe()->except(['image','old_image']); 
 
         if($request->hasfile('image')) {
-		    $fields['image'] = implode($this->helper->uploadImage($request->image));
+		    $fields['image'] = implode($this->imageServices->uploadImage($request->image));
 		}
         $slider = Slider::create($fields);
 
@@ -85,8 +86,8 @@ class SliderController extends Controller
         $fields = $request->safe()->except(['image','old_image']); 
 
         if($request->hasfile('image')) {
-            $this->helper->deleteImage(explode(' ',$request->old_image));
-		    $fields['image'] = implode($this->helper->uploadImage($request->image));
+            $this->imageServices->deleteImage(explode(' ',$request->old_image));
+		    $fields['image'] = implode($this->imageServices->uploadImage($request->image));
 		}
         $slider->update($fields);
 
@@ -102,7 +103,7 @@ class SliderController extends Controller
      */
     public function destroy(Slider $slider)
     {
-		$this->helper->deleteImage(explode(' ',$slider->image));
+		$this->imageServices->deleteImage(explode(' ',$slider->image));
 		$slider->delete();
 
 		return response()->json([

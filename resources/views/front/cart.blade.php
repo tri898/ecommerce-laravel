@@ -39,7 +39,7 @@
     </div>
 
     <!-- Shoping Cart -->
-    <form class="bg0 p-t-75 p-b-85">
+    <section class="bg0 p-t-75 p-b-85">
         <div class="container">
             @if (count((array) session('cart')) > 0)
             <div class="row">
@@ -73,7 +73,7 @@
                                         </span>
                                         <p>{{ $details['options'] }}</p>
                                     </td>
-                                    <td class="column-3 product-price">$ {{ $details['price'] }}</td>
+                                    <td class="column-3 product-price">${{ $details['price'] }}</td>
                                     <td class="column-4">
                                         <div class="wrap-num-product flex-w m-l-auto m-r-0">
                                             <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
@@ -90,7 +90,7 @@
                                         </div>
                                     </td>
                                     <td class="column-5 product-total-price">
-                                        $ {{ number_format($details['price'] * $details['quantity'],2) }}
+                                        ${{ number_format($details['price'] * $details['quantity'],2) }}
                                     </td>
                                     <td class="column-6">
                                         <a href="javascript:void(0)" data-id="{{ $id }}" class=""
@@ -113,13 +113,13 @@
                                             Total:
                                         </span>
                                         <span class="mtext-103 cl2">
-                                            $ {{ number_format($total, 2) }}
+                                            ${{ number_format($total, 2) }}
                                         </span>
                                     </div>
                                     <div class="flex-w flex-r p-t-18 p-b-15 p-lr-20 p-lr-15-sm">
-                                        <a href="{{route('front.checkout.index')}}" 
+                                        <a href="{{route('front.purchase.index')}}"
                                             class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-                                            Proceed to Checkout
+                                            Proceed to Purchase
                                         </a>
                                     </div>
                                 </div>
@@ -131,9 +131,28 @@
                 </div>
             </div>
             @else
+            @if(Session::has('success'))
             <div class="row">
                 <div class="col-lg-10 col-xl-10 m-lr-auto m-b-50">
-                    <div class="flex-w flex-sb-m bor12 p-t-18 p-b-15 p-lr-25 p-lr-15-sm total-load">
+                    <div class="flex-c flex-c-m p-t-18 p-b-15 p-lr-25 p-lr-15-sm">
+                        <img src="{{ asset('users/images/icons/success.png') }}" alt="ICON">
+                    </div>
+                    <div class="flex-c flex-c-m p-t-18 p-b-15 p-lr-25 p-lr-15-sm">
+                        <span class="mtext-105 cl2 p-lr-20">
+                            THANK YOU FOR YOUR PURCHASE
+                        </span>
+                    </div>
+                    <div class="flex-c flex-c-m bor12 p-t-18 p-b-15 p-lr-25 p-lr-15-sm">
+                        <span class="mtext-100 cl2 p-lr-20">
+                            You can check your order<a href="{{route('user.order.index')}}"> here</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            @endif
+            <div class="row">
+                <div class="col-lg-10 col-xl-10 m-lr-auto m-b-50">
+                    <div class="flex-w flex-sb-m p-t-18 p-b-15 p-lr-25 p-lr-15-sm total-load">
                         <span class="mtext-101 cl2 p-lr-20">
                             Cart is empty.
                         </span>
@@ -143,11 +162,10 @@
             </div>
 
 
-
             @endif
 
         </div>
-    </form>
+    </section>
 </div>
 @endsection
 @section('script')
@@ -202,8 +220,8 @@ $(document).ready(function() {
                 quantity: quantity
             },
             success: function(response) {
-                totalPrice.text('$ ' + response.totalPrice);
-                price.text('$ ' + response.price);
+                totalPrice.text('$' + response.totalPrice);
+                price.text('$' + response.price);
                 $('#ajax-load').load(location.href + ' .total-load');
                 $('#ajax-header-cart').load(location.href + ' .header-cart-load');
                 $('#ajax-noti-cart-m').load(location.href + ' .noti-cart-load-m');

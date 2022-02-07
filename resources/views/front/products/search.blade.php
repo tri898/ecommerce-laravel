@@ -71,12 +71,12 @@
                                 @php
                                 $isActive = $product->discount;
                                 @endphp
-                                <span @class(['strike-through-text'=> $isActive])>
-                                    ${{ number_format($product->price, 2) }}
-                                </span>
                                 @isset($product->discount)
                                 ${{ number_format($product->price - ($product->discount/100)*$product->price, 2) }}
                                 @endisset
+                                <span @class(['strike-through-text'=> $isActive])>
+                                    ${{ number_format($product->price, 2) }}
+                                </span>
                             </span>
                         </div>
                     </div>

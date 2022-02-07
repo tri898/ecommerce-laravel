@@ -1,7 +1,8 @@
 <?php
-namespace App\Helpers;
+namespace App\Services;
 use File;
-class Helper
+
+class ImageService
 {
     public function uploadImage($images)
 	{
@@ -23,4 +24,3 @@ class Helper
 		}
 	}
 }
-?>

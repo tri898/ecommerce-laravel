@@ -31,7 +31,7 @@
                                 </a>
 
                                 <span class="header-cart-item-info">
-                                    {{ $details['quantity'] }} x $ {{ $details['price'] }}
+                                    {{ $details['quantity'] }} x ${{ $details['price'] }}
                                 </span>
                                 <span class="header-cart-item-info">
                                     {{ $details['options'] }}
@@ -50,7 +50,7 @@
                         @php $total += $details['price'] * $details['quantity'] @endphp
                         @endforeach
                         <div class="header-cart-total w-full p-tb-40">
-                            Total: $ {{ number_format($total, 2) }}
+                            Total: ${{ number_format($total, 2) }}
                         </div>
 
                         <div class="header-cart-buttons flex-w w-full">
@@ -59,9 +59,9 @@
                                 View Cart
                             </a>
 
-                            <a href="{{route('front.checkout.index')}}"
+                            <a href="{{route('front.purchase.index')}}"
                                 class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-                                Check Out
+                                Purchase
                             </a>
                         </div>
                     </div>

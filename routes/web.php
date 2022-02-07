@@ -13,12 +13,16 @@ use App\Http\Controllers\Admin\{
     SliderController,
     BlogController
 };
+use App\Http\Controllers\User\{
+    OrderController as UserOrderController,
+};
 use App\Http\Controllers\Front\{
     HomeController,
     BlogController as FrontBlogController,
     ProductController as FrontProductController,
     CartController,
-    CheckoutController
+    PurchaseController,
+    StateCityController
 };
 
 
@@ -33,7 +37,7 @@ use App\Http\Controllers\Front\{
 |
 */
 
-// Admin route list
+//===================Admin route list========================
 Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], function () {
     Route::name('admin.')->group(function () {
         // Dashboard route
@@ -68,8 +72,17 @@ Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], fun
     
 });
 
+//===================User route list==============================
+Route::group(['middleware' => ['auth'], 'prefix' => 'user' ], function () {
+    Route::name('user.')->group(function () {
 
-// Register and login/logout route
+        Route::get('order',[UserOrderController::class, 'index'])->name('order.index');
+    });
+    
+});
+
+
+//==============Register and login/logout route list================
 Route::get('register',[RegisterController::class, 'index'])->name('register.index');
 Route::post('register',[RegisterController::class, 'store'])->name('register.store');
 
@@ -78,7 +91,9 @@ Route::post('login',[LoginController::class, 'authenticate'])->name('login.auth'
 
 Route::get('logout',[LoginController::class, 'logout'])->name('logout');
 
-// Public route
+
+
+//==================Shop route list=====================
 Route::name('front.')->group(function () {
     // Home route
     Route::get('',[HomeController::class, 'index'])->name('home.index');
@@ -88,8 +103,14 @@ Route::name('front.')->group(function () {
     Route::post('cart/{product}',[CartController::class, 'store'])->name('cart.store');
     Route::put('cart/{id}',[CartController::class, 'update'])->name('cart.update');
     Route::delete('cart/{id}',[CartController::class, 'destroy'])->name('cart.destroy');
-    // Checkout route
-    Route::get('checkout',[CheckoutController::class, 'index'])->name('checkout.index');
+    
+    // Purchase route
+    Route::get('state/{id}/cities',[StateCityController::class, 'getCitiesOfState'])
+        ->name('state.cities');
+    Route::get('purchase',[PurchaseController::class, 'index'])->name('purchase.index')
+        ->middleware('auth');
+    Route::post('purchase',[PurchaseController::class, 'store'])->name('purchase.store')
+        ->middleware('auth');
 
     // Blog route
     Route::get('blog',[FrontBlogController::class, 'index'])->name('blog.index');

@@ -185,7 +185,7 @@ $(document).ready(function() {
             },
             discount: {
                 number: true,
-                range: [0, 100]
+                range: [1, 100]
             }
         },
         errorPlacement: function(error, element) {

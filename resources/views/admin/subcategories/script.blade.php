@@ -119,7 +119,6 @@ function storeData() {
     var name = $('#name').val();
     var category_id = $("#categoryId").val();
     let _url = '{{ route('admin.subcategories.store')}}';
-    _url = _url.replace(':id', id);
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

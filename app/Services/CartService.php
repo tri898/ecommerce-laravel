@@ -1,21 +1,12 @@
 <?php
-
-namespace App\Http\Controllers\Front;
-
-use App\Http\Controllers\Controller;
+namespace App\Services;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
-class CheckoutController extends Controller
+class CartService
 {
-    public function index()
-    {   
-        
-        $cart = session()->get('cart', []);
-
-        if (!$cart) {
-            return redirect()->route('front.cart.index');
-        }
+    public function checkProduct()
+	{
+		$cart = session()->get('cart', []);
 
         $product = Product::select('id','price','discount','is_in_stock')
             ->whereIn('id', array_column($cart, 'id'))
@@ -40,6 +31,5 @@ class CheckoutController extends Controller
                 session()->put('cart', $cart);
             }
         }
-        return view('front.checkout');
-    }
+	}
 }

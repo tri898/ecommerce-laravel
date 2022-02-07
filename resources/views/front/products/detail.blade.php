@@ -34,7 +34,7 @@
 <!-- breadcrumb -->
 <div class="container">
 
-    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-50 p-lr-0-lg">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-80 p-lr-0-lg">
         <a href="{{ route('front.home.index')}}" class="stext-109 cl8 hov-cl1 trans-04">
             Home
             <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
@@ -94,16 +94,16 @@
                         @php
                         $isActive = $productDetails->discount;
                         @endphp
-                        <span @class(['strike-through-text'=> $isActive])
-                            id="originalPrice">
-                            ${{ number_format($productDetails->price, 2) }}
-                        </span>
                         @isset($productDetails->discount)
                         <span id="discountedPrice">
                             ${{ number_format($productDetails->price - 
                             ($productDetails->discount/100)*$productDetails->price, 2) }}
                         </span>
                         @endisset
+                        <span @class(['strike-through-text'=> $isActive])
+                            id="originalPrice">
+                            ${{ number_format($productDetails->price, 2) }}
+                        </span>
                     </span>
 
                     <!--  -->
@@ -149,7 +149,7 @@
                                 </button>
                                 @else
                                     <button
-                                    class="flex-c-m stext-101 cl0 size-101 bg3 bor1 hov-btn3 p-lr-15 trans-04" disabled>
+                                    class="flex-c-m stext-101 cl0 size-101 bg10 bor1 p-lr-15 trans-04" disabled>
                                     Not available
                                 </button>
                                 @endif
@@ -331,12 +331,12 @@
                                     @php
                                     $isActive = $relatedProduct->discount;
                                     @endphp
-                                    <span @class(['strike-through-text'=> $isActive])>
-                                        ${{ number_format($relatedProduct->price, 2) }}
-                                    </span>
                                     @isset($relatedProduct->discount)
                                     ${{ number_format($relatedProduct->price - ($relatedProduct->discount/100)*$relatedProduct->price, 2) }}
                                     @endisset
+                                    <span @class(['strike-through-text'=> $isActive])>
+                                        ${{ number_format($relatedProduct->price, 2) }}
+                                    </span>
                                 </span>
                             </div>
                         </div>

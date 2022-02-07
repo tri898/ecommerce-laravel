@@ -5,17 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\{Category, Attribute, Product};
 use App\Http\Requests\ProductRequest;
-use App\Helpers\Helper;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use DataTables;
 
 class ProductController extends Controller
 {
-	protected $helper;
-	public function __construct(Helper $helper)
+	protected $imageService;
+	
+	public function __construct(ImageService $imageService)
 	{
-		$this->helper = $helper;
+		$this->imageService = $imageService;
 	}
 	/**
 	 * Display a listing of the resource.
@@ -77,7 +78,7 @@ class ProductController extends Controller
 
 		if($request->hasfile('prod_images')) {
 		    $productInput['image_list'] = json_encode(
-				$this->helper->uploadImage($fields['prod_images']));
+				$this->imageService->uploadImage($fields['prod_images']));
 		}
 
 		$product = Product::create($productInput);
@@ -141,10 +142,10 @@ class ProductController extends Controller
 		$productInput['slug'] = Str::slug($fields['name']);
 
 		if($request->hasfile('prod_images')) {
-			$this->helper->deleteImage(json_decode($fields['old_prod_images']));
+			$this->imageService->deleteImage(json_decode($fields['old_prod_images']));
 
 			$productInput['image_list'] = json_encode(
-				$this->helper->uploadImage($fields['prod_images']));
+				$this->imageService->uploadImage($fields['prod_images']));
 		}
 		$product->update($productInput);
 		
@@ -168,7 +169,7 @@ class ProductController extends Controller
 	 */
 	public function destroy(Product $product)
 	{
-		$this->helper->deleteImage(json_decode($product->image_list));
+		$this->imageService->deleteImage(json_decode($product->image_list));
 		$product->delete();
 
 		return response()->json([

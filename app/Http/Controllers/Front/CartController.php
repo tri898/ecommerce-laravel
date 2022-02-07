@@ -4,37 +4,21 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    protected $cartService;
+
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     public function index()
     {
-        $cart = session()->get('cart', []);
-
-        $product = Product::select('id','price','discount','is_in_stock')
-        ->whereIn('id', array_column($cart, 'id'))
-        ->get();
-        $productArr = $product->mapWithKeys(function ($item, $key) {
-            return [$item['id'] => ['price' =>$item['price'],
-                'discount' =>$item['discount'],
-                'status' =>$item['is_in_stock']]];
-        });
-        foreach ($cart as $key => $value) {
-
-            $productPrice = number_format(
-                $productArr[$value['id']]['price'] - ($productArr[$value['id']]['price'] * 
-                ($productArr[$value['id']]['discount']/100)), 2);
-
-            if($value['price'] != $productPrice) {
-                $cart[$key]['price'] = $productPrice;
-                session()->put('cart', $cart);
-            }
-            if ($productArr[$value['id']]['status'] == 0) {
-                unset($cart[$key]);
-                session()->put('cart', $cart);
-            }
-        }
+        $this->cartService->checkProduct();
         return view('front.cart');
     }
 
@@ -69,6 +53,7 @@ class CartController extends Controller
         return response()->json([
             'message' =>'Add to cart successfully'],201);
     }
+    
     public function update($id, Request $request)
     {
         $cart = session()->get('cart');

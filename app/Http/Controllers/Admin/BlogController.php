@@ -5,17 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Http\Requests\BlogRequest;
-use App\Helpers\Helper;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use DataTables;
 
 class BlogController extends Controller
 {
-    protected $helper;
-	public function __construct(Helper $helper)
+    protected $imageService;
+
+	public function __construct(ImageService $imageService)
 	{
-		$this->helper = $helper;
+		$this->imageService = $imageService;
 	}
     /**
      * Display a listing of the resource.
@@ -67,7 +68,7 @@ class BlogController extends Controller
 
         if($request->hasfile('cover_image')) {
 		    $fields['cover_image'] = implode(
-                $this->helper->uploadImage($request->cover_image));
+                $this->imageService->uploadImage($request->cover_image));
 		}
 
         $blog = Blog::create($fields);
@@ -100,9 +101,9 @@ class BlogController extends Controller
         $fields['slug'] = Str::slug($fields['title']);
 
         if($request->hasfile('cover_image')) {
-            $this->helper->deleteImage(explode(' ',$request->old_cover_image));
+            $this->imageService->deleteImage(explode(' ',$request->old_cover_image));
 		    $fields['cover_image'] = implode(
-                $this->helper->uploadImage($request->cover_image));
+                $this->imageService->uploadImage($request->cover_image));
 		}
 
         $blog->update($fields);
@@ -119,7 +120,7 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-		$this->helper->deleteImage(explode(' ',$blog->cover_image));
+		$this->imageService->deleteImage(explode(' ',$blog->cover_image));
 		$blog->delete();
 
 		return response()->json([

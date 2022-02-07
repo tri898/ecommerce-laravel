@@ -2129,7 +2129,12 @@ input.num-product::-webkit-inner-spin-button {
   top: 42px;
   left: 12px;
 }
-
+/*---------------------------------------------*/
+label.error {
+  color:red;
+  font-family: Poppins-Regular;
+  font-size: 12px;
+}
 
 
 /*==================================================================
@@ -2351,7 +2356,11 @@ input.num-product::-webkit-inner-spin-button {
   line-height: 1.333333;
   text-transform: uppercase;
 }
-
+.mtext-114 {
+  font-family: Poppins-Regular;
+  font-size: 14px;
+  line-height: 1.5;
+}
 
 /*//////////////////////////////////////////////////////////////////
 [ L-Text >= 26 ]*/
@@ -2664,11 +2673,13 @@ input.num-product::-webkit-inner-spin-button {
 .bg1 {background-color: #717fe0;}
 .bg2 {background-color: #e6e6e6;}
 .bg3 {background-color: #222;}
+.bg4 {background-color: rgb(189, 19, 19);}
 .bg5 {background-color: rgba(0,0,0,0.5);}
 .bg6 {background-color: #f2f2f2;}
 .bg7 {background-color: #333;}
 .bg8 {background-color: #f3f3f3;}
 .bg9 {background-color: rgba(255,255,255,0.9);}
+.bg10 {background-color: #666;}
 
 /*---------------------------------------------*/
 .bg-overlay1::before {
@@ -2786,6 +2797,10 @@ input.num-product::-webkit-inner-spin-button {
 .bor19 {
   border: 1px solid #d9d9d9;
   border-radius: 2px;
+}
+.bor20 {
+  border: 1px solid #141212;
+  border-radius: 20px;
 }
 
 
@@ -2982,7 +2997,7 @@ input.num-product::-webkit-inner-spin-button {
 }
 
 .how-itemcart1 img {
-  width: 130%;
+  width: 120%;
 }
 
 .how-itemcart1::after {
@@ -2997,7 +3012,7 @@ input.num-product::-webkit-inner-spin-button {
   justify-content: center;
   align-items: center;
   position: absolute;
-  width: 130%;
+  width: 120%;
   height: 100%;
   top: 0;
   left: 0;
