@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\{
 };
 use App\Http\Controllers\User\{
     OrderController as UserOrderController,
+    ProfileController
 };
 use App\Http\Controllers\Front\{
     HomeController,
@@ -75,8 +76,20 @@ Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], fun
 //===================User route list==============================
 Route::group(['middleware' => ['auth'], 'prefix' => 'user' ], function () {
     Route::name('user.')->group(function () {
-
+        // Order route
         Route::get('order',[UserOrderController::class, 'index'])->name('order.index');
+        Route::get('order/{id}/details',[UserOrderController::class, 'show'])->name('order.show');
+        Route::put('order/{id}/cancel',[UserOrderController::class, 'cancel'])->name('order.cancel');
+
+        // Profile route
+        Route::get('profile',[ProfileController::class, 'profile'])->name('profile.index');
+        Route::put('profile/update',[ProfileController::class, 'updateProfile'])
+            ->name('profile.update');
+
+        Route::get('profile/password',[ProfileController::class, 'password'])->name('password.index');
+        Route::put('profile/password',[ProfileController::class, 'changePassword'])
+            ->name('password.change');
+        
     });
     
 });
@@ -118,6 +131,9 @@ Route::name('front.')->group(function () {
 
     // Product search route
     Route::get('search',[FrontProductController::class, 'search'])->name('product.search');
+    // Review product
+    Route::post('p/{product}/review',[FrontProductController::class, 'review'])
+        ->name('product.review')->middleware('auth');
     // Product details route
     Route::get('p/{product:slug}',[FrontProductController::class, 'show'])->name('product.show');
     // All product route

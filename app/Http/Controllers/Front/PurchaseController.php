@@ -40,7 +40,7 @@ class PurchaseController extends Controller
         		$subtotal += $value['quantity'] * $value['price'];
            	}
 
-            $address = $request->address . '-' . $request->state . '-' . $request->city;
+            $address = $request->address . ' - ' . $request->state . ' - ' . $request->city;
 			$order = Order::create([
 				'name' => $request->name,
 				'address' => $address,
@@ -52,16 +52,15 @@ class PurchaseController extends Controller
 				'note' => $request->note
 			]);
 
-            $items = [];
             foreach($cart as $value) {
-        		$items[$value['id']] = [
+        		$order->products()->attach($value['id'],[
                     'options' => $value['options'],
                     'quantity' => $value['quantity'],
                     'price' => $value['price'],
                     'total' => $value['quantity'] * $value['price'],
-                ];
+                ]);
            	}
-            $order->products()->attach($items);
+            
             session()->forget('cart');
         } 
         return redirect()->route('front.cart.index')

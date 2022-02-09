@@ -28,10 +28,10 @@
                     </div>
                     @auth
                     <div class="right-top-bar flex-w h-full">
-                        <a href="#" class="flex-c-m trans-04 p-lr-25">
+                        <a href="{{route('user.profile.index')}}" class="flex-c-m trans-04 p-lr-25">
                             {{ auth()->user()->name }}
                         </a>
-                        <a href="#" class="flex-c-m trans-04 p-lr-25">
+                        <a href="{{route('user.order.index')}}" class="flex-c-m trans-04 p-lr-25">
                             My Orders
                         </a>
                         @if (auth()->user()->is_admin)
@@ -178,11 +178,11 @@
                 <li>
                     @auth
                     <div class="right-top-bar flex-w h-full">
-                        <a href="#" class="flex-c-m trans-04 p-lr-25">
+                        <a href="{{route('user.profile.index')}}" class="flex-c-m trans-04 p-lr-25">
                             {{ auth()->user()->name }}
                         </a>
 
-                        <a href="#" class="flex-c-m trans-04 p-lr-25">
+                        <a href="{{route('user.order.index')}}" class="flex-c-m trans-04 p-lr-25">
                             My Orders
                         </a>
                         @if (auth()->user()->is_admin)

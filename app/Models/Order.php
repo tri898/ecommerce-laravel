@@ -17,6 +17,7 @@ class Order extends Model
         'shipping_fee',
         'subtotal',
         'total',
+        'status',
         'note'
     ];
     protected $primaryKey = 'id';
@@ -36,6 +37,6 @@ class Order extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class ,'order_details', 'order_id', 'product_id')
-            ->withTimestamps()->withPivot(['quantity','price','options']);
+            ->withTimestamps()->withPivot(['quantity','price','options','total']);
     }
 }

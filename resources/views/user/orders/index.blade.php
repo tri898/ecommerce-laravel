@@ -13,8 +13,6 @@
 <!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/animate/animate.css') }}">
 <!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/select2/select2.min.css') }}">
-<!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/css-hamburgers/hamburgers.min.css') }}">
 <!--===============================================================================================-->
 <link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/animsition/css/animsition.min.css') }}">
@@ -43,8 +41,25 @@
 
 
     <!-- Information -->
-    <section class="bg0 p-t-80 p-b-80">
+    <section class="bg0 p-t-50 p-b-80">
         <div class="container">
+            <div class="flex-w flex-r p-t-18 p-b-15 p-lr-85 p-lr-15-sm">
+                <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+                    <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+                    <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+                    Search
+                </div>
+            </div>
+            <!-- Search product -->
+				<div class="dis-none panel-search w-full p-t-10 p-b-15 p-lr-85">
+					<div class="bor8 dis-flex p-l-15">
+						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+							<i class="zmdi zmdi-search"></i>
+						</button>
+
+						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
+					</div>	
+				</div>
             @foreach ($orders as $order)
             <div class="row">
                 <div class="col-lg-10 col-xl-10 m-lr-auto m-b-25 bor10">
@@ -54,7 +69,7 @@
                         </span>
                         <span class="mtext-102 cl2 p-lr-20">
                             @if ($order->status == 0)
-                            Canceled by you
+                            Canceled by me
                             @elseif ($order->status == 1)
                             Pending
                             @elseif ($order->status == 2)
@@ -62,7 +77,7 @@
                             @elseif ($order->status == 3)
                             Delivery
                             @elseif ($order->status == 4)
-                            Complete
+                            Completed
                             @else
                             Canceled by admin
                             @endif
@@ -83,6 +98,12 @@
                             <span class="mtext-114 cl2 p-lr-20">
                                 {{$item->name}}
                             </span>
+                            @if ($item->pivot->options)
+                            <span class="mtext-114">
+                                ({{$item->pivot->options}})
+                            </span>
+                            @endif
+
                             <p class="mtext-114 cl2 p-lr-20">
                                 x {{$item->pivot->quantity}}
                             </p>
@@ -102,13 +123,16 @@
                     </div>
                     <div class="flex-w flex-r p-t-10 p-b-15 p-lr-20 p-lr-15-sm">
                         @if ($order->status == 1)
-                        <a href="{{route('front.purchase.index')}}"
-                            class="flex-c-m stext-101 cl0 size-107 bg4 bor2 hov-btn1 p-lr-15 trans-04 m-r-8 m-b-10">
-                            Cancel
-                        </a>
+                        <form action="{{route('user.order.cancel', $order->id)}}" method="POST">
+                            @csrf
+                            <input type="hidden" name="_method" value="PUT">
+                            <button type="submit"
+                                class="flex-c-m stext-101 cl10 size-107 bg0 bor2 hov-btn1 p-lr-15 trans-04 m-r-8 m-b-10">
+                                Cancel</button>
+                        </form>
                         @endif
-                        <a href="{{route('front.purchase.index')}}"
-                            class="flex-c-m stext-101 cl10 size-107 bg0 bor20 p-lr-15 trans-04 m-r-8 m-b-10">
+                        <a href="{{route('user.order.show', $order->id)}}"
+                            class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
                             View details
                         </a>
                     </div>
@@ -149,30 +173,6 @@ $('.js-pscroll').each(function() {
         ps.update();
     })
 });
-$('.js-pscroll2').each(function() {
-    $(this).css('position', 'relative');
-    $(this).css('overflow', 'auto');
-    $(this).css('max-height', '420px');
-    var ps = new PerfectScrollbar(this, {
-        wheelSpeed: 1,
-        scrollingThreshold: 5000,
-        wheelPropagation: false,
-    });
-
-    $(window).on('resize', function() {
-        ps.update();
-    })
-});
-</script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/select2/select2.min.js') }}"></script>
-<script>
-$(".js-select2").each(function() {
-    $(this).select2({
-        minimumResultsForSearch: 20,
-        dropdownParent: $(this).next('.dropDownSelect2')
-    });
-})
 </script>
 <!--===============================================================================================-->
 <script src="{{ asset('users/js/main.js') }}"></script>

@@ -45,6 +45,7 @@
             {{ $productDetails->subcategory->category->name}}
             <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
         </a>
+
         <a href="{{ route('front.product.subcategory',[$productDetails->subcategory->category->slug,
             $productDetails->subcategory->name]) }}" class="stext-109 cl8 hov-cl1 trans-04">
             {{ $productDetails->subcategory->name}}
@@ -124,10 +125,7 @@
                                 </div>
                             </div>
                             @endforeach
-
                         </div>
-
-
                         <div class="flex-w flex-r-m p-b-10">
                             <div class="size-204 flex-w flex-m respon6-next">
                                 <div class="wrap-num-product flex-w m-r-20 m-tb-10">
@@ -143,18 +141,17 @@
                                     </div>
                                 </div>
                                 @if ($productDetails->is_in_stock == 1)
-                                    <button id="addToCart"
+                                <button id="addToCart"
                                     class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                     Add to cart
                                 </button>
                                 @else
-                                    <button
-                                    class="flex-c-m stext-101 cl0 size-101 bg10 bor1 p-lr-15 trans-04" disabled>
+                                <button class="flex-c-m stext-101 cl0 size-101 bg10 bor1 p-lr-15 trans-04" disabled>
                                     Not available
                                 </button>
                                 @endif
-                                
-                                
+
+
                             </div>
                         </div>
                     </div>
@@ -190,7 +187,8 @@
                     </li>
 
                     <li class="nav-item p-b-10">
-                        <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews (1)</a>
+                        <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Reviews
+                            ({{count($productReviews)}})</a>
                     </li>
                 </ul>
 
@@ -204,49 +202,40 @@
                             </p>
                         </div>
                     </div>
-
                     <!-- - -->
                     <div class="tab-pane fade" id="reviews" role="tabpanel">
                         <div class="row">
                             <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
                                 <div class="p-b-30 m-lr-15-sm">
+                                    @foreach ($productReviews as $review )
                                     <!-- Review -->
-                                    <div class="flex-w flex-t p-b-68">
-                                        <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-                                            <img src="images/avatar-01.jpg" alt="AVATAR">
-                                        </div>
-
+                                    <div class="flex-w flex-t p-b-30">
                                         <div class="size-207">
                                             <div class="flex-w flex-sb-m p-b-17">
                                                 <span class="mtext-107 cl2 p-r-20">
-                                                    Ariana Grande
+                                                    {{$review->name}}
                                                 </span>
-
                                                 <span class="fs-18 cl11">
-                                                    <i class="zmdi zmdi-star"></i>
-                                                    <i class="zmdi zmdi-star"></i>
-                                                    <i class="zmdi zmdi-star"></i>
-                                                    <i class="zmdi zmdi-star"></i>
-                                                    <i class="zmdi zmdi-star-half"></i>
+                                                    @for ($i = 0; $i < $review->rating; $i++)
+                                                        <i class="zmdi zmdi-star"></i>
+                                                    @endfor
                                                 </span>
                                             </div>
 
                                             <p class="stext-102 cl6">
-                                                Quod autem in homine praestantissimum atque optimum est, id deseruit.
-                                                Apud ceteros autem philosophos
+                                                {{ $review->content}}
                                             </p>
                                         </div>
                                     </div>
-
+                                    @endforeach
+                                    @auth
                                     <!-- Add review -->
-                                    <form class="w-full">
-                                        <h5 class="mtext-108 cl2 p-b-7">
+                                    <form class="w-full" action="{{route('front.product.review', $productDetails->id)}}"
+                                        method="POST">
+                                        @csrf
+                                        <h5 class="mtext-108 cl2 p-b-7 m-t-20">
                                             Add a review
                                         </h5>
-
-                                        <p class="stext-102 cl6">
-                                            Your email address will not be published. Required fields are marked *
-                                        </p>
 
                                         <div class="flex-w flex-m p-t-50 p-b-23">
                                             <span class="stext-102 cl3 m-r-16">
@@ -267,19 +256,7 @@
                                             <div class="col-12 p-b-5">
                                                 <label class="stext-102 cl3" for="review">Your review</label>
                                                 <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
-                                                    id="review" name="review"></textarea>
-                                            </div>
-
-                                            <div class="col-sm-6 p-b-5">
-                                                <label class="stext-102 cl3" for="name">Name</label>
-                                                <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text"
-                                                    name="name">
-                                            </div>
-
-                                            <div class="col-sm-6 p-b-5">
-                                                <label class="stext-102 cl3" for="email">Email</label>
-                                                <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email"
-                                                    type="text" name="email">
+                                                    id="review" name="content"></textarea>
                                             </div>
                                         </div>
 
@@ -288,6 +265,12 @@
                                             Submit
                                         </button>
                                     </form>
+                                    @endauth
+                                    @guest
+                                    <span class="stext-102 cl3 m-r-16">
+                                        Please login to review *.
+                                    </span>
+                                    @endguest
                                 </div>
                             </div>
                         </div>

@@ -29,6 +29,10 @@ class Product extends Model
             Attribute::class,'attribute_values','product_id','attribute_id')
             ->withPivot('value')->withTimestamps();
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
     // Scope query category
     public function scopeFindByCategoryId($query, $categoryId)
     {

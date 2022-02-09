@@ -30,8 +30,9 @@
                     <div class="left">
                         <div class="content">
                             <div class="header">
-                                <div class="logo text-center"><img src="{{ asset('admins/assets/img/logo-dark.png') }}"
-                                        alt="Klorofil Logo"></div>
+                                <div class="logo text-center"><a href="{{route('front.home.index')}}"><img
+                                            src="{{ asset('admins/assets/img/logo-dark.png') }}"
+                                            alt="Klorofil Logo"></a></div>
                                 <p class="lead">Login to your account</p>
                             </div>
                             @if ($errors->any())
@@ -61,11 +62,12 @@
                                     </label>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">LOGIN</button>
+                                <a href="{{route('register.index')}}" type="button"
+                                    class="btn btn-success btn-lg">REGISTER</a>
                                 <div class="bottom">
                                     <span class="helper-text"><i class="fa fa-lock"></i> <a href="#">Forgot
                                             password?</a></span>
                                 </div>
-                                <a href="{{route('register.index')}}" type="button" class="btn btn-success">Register</a>
                             </form>
                         </div>
                     </div>
@@ -74,7 +76,6 @@
                         <div class="content text">
                             <h1 class="heading">Enjoy shopping</h1>
                             <p>with KLOROFIL</p>
-                            <a href="{{route('front.home.index')}}" class="text-right">Go to shopping →</a>
                         </div>
 
                     </div>

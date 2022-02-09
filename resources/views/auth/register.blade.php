@@ -30,8 +30,9 @@
                     <div class="left">
                         <div class="content">
                             <div class="header">
-                                <div class="logo text-center"><img src="{{ asset('admins/assets/img/logo-dark.png') }}"
-                                        alt="Klorofil Logo"></div>
+                                <div class="logo text-center"><a href="{{route('front.home.index')}}"><img
+                                            src="{{ asset('admins/assets/img/logo-dark.png') }}"
+                                            alt="Klorofil Logo"></a></div>
                                 <p class="lead">Register account</p>
                             </div>
                             @if ($errors->any())
@@ -80,7 +81,6 @@
                         <div class="content text">
                             <h1 class="heading">Enjoy shopping</h1>
                             <p>with KLOROFIL</p>
-                            <a href="{{route('front.home.index')}}" class="text-right">Go to shopping →</a>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -111,6 +111,15 @@ $(document).ready(function() {
             password_confirmation: {
                 required: true,
                 equalTo: "#reg-password"
+            }
+        },
+        messages: {
+            password: {
+                required: "Please enter password."
+            },
+            password_confirmation: {
+                required: "Please enter password confirmation.",
+                equalTo: "Please enter the same password."
             }
         }
     });
