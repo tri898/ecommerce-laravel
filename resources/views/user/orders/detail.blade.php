@@ -54,13 +54,13 @@
                         @if ($order->status == 0)
                         <div class="stepper-item completed active">
                             <div class="step-counter">2</div>
-                            <div class="step-name cl2">Canceled by me</div>
+                            <div class="step-name cl2">Cancelled by you</div>
                         </div>
 
                         @elseif ($order->status == 5)
                         <div class="stepper-item completed active">
                             <div class="step-counter">2</div>
-                            <div class="step-name cl2">Canceled by admin</div>
+                            <div class="step-name cl2">Cancelled by admin</div>
                         </div>
 
                         @else
@@ -154,7 +154,7 @@
                 <div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
                     <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
                         <h4 class="mtext-109 cl2 p-b-30">
-                            Delivery information</h4>
+                            Order information</h4>
                         </h4>
                         <div class="flex-w flex-t bor12 p-b-13">
                             <div class="size-208">

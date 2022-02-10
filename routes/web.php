@@ -11,7 +11,9 @@ use App\Http\Controllers\Admin\{
     AttributeController,
     ProductController,
     SliderController,
-    BlogController
+    BlogController,
+    OrderController,
+    DashboardController
 };
 use App\Http\Controllers\User\{
     OrderController as UserOrderController,
@@ -41,10 +43,10 @@ use App\Http\Controllers\Front\{
 //===================Admin route list========================
 Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], function () {
     Route::name('admin.')->group(function () {
+
         // Dashboard route
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard.index');
+        Route::get('dashboard',[DashboardController::class, 'index'])
+            ->name('dashboard.index');
 
         // Category route
         Route::get('categories/list',[CategoryController::class, 'getCategories'])
@@ -68,6 +70,9 @@ Route::group(['middleware' => ['auth', 'check_role'], 'prefix' => 'admin' ], fun
         
         // Blog route
         Route::resource('blogs', BlogController::class)->except('show');
+
+        // Order route
+        Route::resource('orders', OrderController::class)->only(['index','show','update']);
 
     });
     

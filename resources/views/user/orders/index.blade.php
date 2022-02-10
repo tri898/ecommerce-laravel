@@ -69,7 +69,7 @@
                         </span>
                         <span class="mtext-102 cl2 p-lr-20">
                             @if ($order->status == 0)
-                            Canceled by me
+                            Cancelled by you
                             @elseif ($order->status == 1)
                             Pending
                             @elseif ($order->status == 2)
@@ -79,7 +79,7 @@
                             @elseif ($order->status == 4)
                             Completed
                             @else
-                            Canceled by admin
+                            Cancelled by admin
                             @endif
                         </span>
                     </div>

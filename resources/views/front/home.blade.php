@@ -65,10 +65,9 @@
     <div class="container">
         <div class="p-b-32">
             <h3 class="ltext-105 cl5 txt-center respon1">
-                Best Seller
+                Best Selling
             </h3>
         </div>
-
         <!-- Tab01 -->
         <div class="tab01">
             <!-- Tab panes -->
@@ -78,7 +77,7 @@
                     <!-- Slide2 -->
                     <div class="wrap-slick2">
                         <div class="slick2">
-                            @foreach ($products as $product)
+                            @foreach ($sellingProducts as $product)
                             <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
                                 <!-- Block2 -->
                                 <div class="block2">
@@ -87,7 +86,6 @@
                                         $image = json_decode($product->image_list, true);
                                         @endphp
                                         <img src="{{ asset('files/'.$image[0]) }}" alt="IMG-PRODUCT">
-
                                         <a href="#"
                                             class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                             View Details

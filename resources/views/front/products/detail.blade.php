@@ -268,7 +268,7 @@
                                     @endauth
                                     @guest
                                     <span class="stext-102 cl3 m-r-16">
-                                        Please login to review *.
+                                        Please login to add a review.
                                     </span>
                                     @endguest
                                 </div>

@@ -33,6 +33,10 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class ,'order_details', 'product_id', 'order_id');
+    }
     // Scope query category
     public function scopeFindByCategoryId($query, $categoryId)
     {

@@ -64,32 +64,32 @@
                         @csrf
                         <input type="hidden" name="_method" value="PUT">
                         <div class="row p-b-25">
-                            <div class="col-sm-12 p-b-5">
+                            <div class="col-sm-12 p-b-20">
                                 <label class="stext-102 cl3" for="name">Name</label>
                                 <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="name" type="text" name="name"
                                     value="{{ old('name', auth()->user()->name) }}">
                             </div>
 
-                            <div class="col-sm-6 p-b-5">
+                            <div class="col-sm-6 p-b-20">
                                 <label class="stext-102 cl3" for="email">Email</label>
                                 <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="email" type="text" name="email"
                                     value="{{ old('email', auth()->user()->email) }}" disabled>
                             </div>
 
-                            <div class="col-sm-6 p-b-5">
+                            <div class="col-sm-6 p-b-20">
                                 <label class="stext-102 cl3" for="phone">Phone</label>
                                 <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="phone" type="text" name="phone"
                                     value="{{ old('phone', auth()->user()->phone) }}">
                             </div>
 
-                            <div class="col-12 p-b-5">
+                            <div class="col-12 p-b-20">
                                 <label class="stext-102 cl3" for="address">Address</label>
                                 <input class="size-111 bor8 stext-102 cl2 p-lr-20" id="address" type="text"
                                     name="address" value="{{ old('address', auth()->user()->address) }}">
                             </div>
                         </div>
 
-                        <div class="flex-w flex-sb-m p-t-18 p-b-10 p-lr-20 p-lr-15-sm">
+                        <div class="flex-w flex-sb-m p-b-10 p-lr-15-sm">
                             <a href="{{route('user.password.index')}}">Change password</a>
                             <button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
                                 Save Changes

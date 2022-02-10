@@ -21,12 +21,14 @@
                     </div>
                 </li>
                 <li><a href="{{ route('admin.attributes.index')}}"
-                        class="{{ (request()->is('admin/attributes*')) ? 'active' : '' }}"><i
-                            class="lnr lnr-tag"></i>
+                        class="{{ (request()->is('admin/attributes*')) ? 'active' : '' }}"><i class="lnr lnr-tag"></i>
                         <span>Attributes</span></a></li>
                 <li><a href="{{ route('admin.products.index')}}"
                         class="{{ (request()->is('admin/products*')) ? 'active' : '' }}"><i class="lnr lnr-shirt"></i>
                         <span>Products</span></a></li>
+                <li><a href="{{ route('admin.orders.index')}}"
+                        class="{{ (request()->is('admin/orders*')) ? 'active' : '' }}"><i class="lnr lnr-store"></i>
+                        <span>Orders</span></a></li>
                 <li><a href="{{ route('admin.sliders.index')}}"
                         class="{{ (request()->is('admin/sliders*')) ? 'active' : '' }}"><i class="lnr lnr-screen"></i>
                         <span>Sliders</span></a>
@@ -35,9 +37,6 @@
                 <li><a href="{{ route('admin.blogs.index')}}"
                         class="{{ (request()->is('admin/blogs*')) ? 'active' : '' }}"><i class="lnr lnr-bullhorn"></i>
                         <span>Blog</span></a></li>
-                <li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>Typography</span></a>
-                </li>
-                <li><a href="icons.html" class=""><i class="lnr lnr-linearicons"></i> <span>Icons</span></a></li>
             </ul>
         </nav>
     </div>

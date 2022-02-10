@@ -19,7 +19,7 @@
 						if (data !=null) {
 							return new Date(data).toLocaleString('en-ZA');
 						}
-				}
+					}
 					
 				},
 				{
