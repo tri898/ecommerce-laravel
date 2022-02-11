@@ -68,7 +68,7 @@
                                         @endphp
                                         <img src="{{ asset('files/'.$image[0]) }}" alt="IMG-PRODUCT">
                                         <a href="{{ route('front.product.show', $product->slug) }}"
-                                            class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                                            class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">
                                             View Details
                                         </a>
                                     </div>
