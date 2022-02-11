@@ -3,12 +3,8 @@
 @section('title', 'Order | Details')
 
 @section('vendor_css')
-<link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
-<link rel="stylesheet" href="{{ asset('admins/assets/vendor/font-awesome/css/font-awesome.min.css') }}">
-<link rel="stylesheet" href="{{ asset('admins/assets/vendor/toastr/toastr.min.css') }}">
-<link rel="stylesheet" href="{{ asset('admins/assets/vendor/linearicons/style.css') }}">
+@parent
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
 @endsection
 
 @section('content')
@@ -32,7 +28,6 @@
                                 <label for="name">Phone: </label>
                                 <span>{{$orderDetails->phone}}</span>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -118,59 +113,70 @@
                                 <tr>
                                     <td>{{$item->name}}</td>
                                     <td>{{$item->pivot->options}}</td>
-                                    <td class="text-center">${{number_format($item->pivot->price, 2)}}</td>
-                                    <td class="text-center">{{$item->pivot->quantity}}</td>
-                                    <td class="text-center">${{number_format($item->pivot->total, 2)}}</td>
+                                    <td class="text-center">
+                                        ${{number_format($item->pivot->price, 2)}}
+                                    </td>
+                                    <td class="text-center">
+                                        {{$item->pivot->quantity}}
+                                    </td>
+                                    <td class="text-center">
+                                        ${{number_format($item->pivot->total, 2)}}
+                                    </td>
                                 </tr>
                                 @endforeach
                                 <tr>
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td class="text-right"><b>Subtotal:</b></td>
-                                    <td class="text-center"><b>${{number_format($orderDetails->subtotal, 2)}}</b></td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="text-right"><b>Shipping fee:</td>
-                                    <td class="text-center"><b>${{number_format($orderDetails->shipping_fee, 2)}}</b>
+                                    <td class="text-right">
+                                        <b>Subtotal:</b>
+                                    </td>
+                                    <td class="text-center">
+                                        <b>${{number_format($orderDetails->subtotal, 2)}}</b>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td class="text-right"><b>Total:</td>
-                                    <td class="text-center"><b>${{number_format($orderDetails->total, 2)}}</b></td>
+                                    <td class="text-right">
+                                        <b>Shipping fee:
+
+                                    </td>
+                                    <td class="text-center">
+                                        <b>${{number_format($orderDetails->shipping_fee, 2)}}</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-right">
+                                        <b>Total:
+                                    </td>
+                                    <td class="text-center">
+                                        <b>${{number_format($orderDetails->total, 2)}}</b>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
-
                     </div>
                 </div>
                 <!-- END TABLE STRIPED -->
             </div>
-
         </div>
     </div>
 </div>
 @endsection
 
 @section('script')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script src="{{ asset('admins/assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('admins/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ asset('admins/assets/vendor/toastr/toastr.min.js')}}"></script>
-<script src="{{ asset('admins/assets/scripts/klorofil-common.js') }}"></script>
+@parent
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
     $('#status').select2();
     @if(session('status'))
-    toastr.success('{{ session('
-        status ') }}', 'Success')
+    toastr.success('{{ session('status') }}', 'Success')
     @endif
 });
 </script>

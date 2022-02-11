@@ -55,7 +55,7 @@ class SliderController extends Controller
         $fields = $request->safe()->except(['image','old_image']); 
 
         if($request->hasfile('image')) {
-		    $fields['image'] = implode($this->imageServices->uploadImage($request->image));
+		    $fields['image'] = implode($this->imageService->uploadImage($request->image));
 		}
         $slider = Slider::create($fields);
 
@@ -86,8 +86,8 @@ class SliderController extends Controller
         $fields = $request->safe()->except(['image','old_image']); 
 
         if($request->hasfile('image')) {
-            $this->imageServices->deleteImage(explode(' ',$request->old_image));
-		    $fields['image'] = implode($this->imageServices->uploadImage($request->image));
+            $this->imageService->deleteImage(explode(' ',$request->old_image));
+		    $fields['image'] = implode($this->imageService->uploadImage($request->image));
 		}
         $slider->update($fields);
 
@@ -103,7 +103,7 @@ class SliderController extends Controller
      */
     public function destroy(Slider $slider)
     {
-		$this->imageServices->deleteImage(explode(' ',$slider->image));
+		$this->imageService->deleteImage(explode(' ',$slider->image));
 		$slider->delete();
 
 		return response()->json([

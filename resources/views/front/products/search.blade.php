@@ -3,26 +3,7 @@
 @section('title', 'Search results for '.$query)
 
 @section('vendor_css')
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/bootstrap/css/bootstrap.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/fonts/iconic/css/material-design-iconic-font.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/fonts/linearicons-v1.0.0/icon-font.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/animate/animate.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/slick/slick.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/css-hamburgers/hamburgers.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/animsition/css/animsition.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/perfect-scrollbar/perfect-scrollbar.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/css/util.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('users/css/main.css') }}">
+@parent
 @endsection
 @section('content')
 <!-- Product -->
@@ -92,39 +73,5 @@
 </div>
 @endsection
 @section('script')
-<script src="{{ asset('users/vendor/jquery/jquery-3.2.1.min.js') }}">
-</script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/animsition/js/animsition.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/bootstrap/js/popper.js') }}"></script>
-<script src="{{ asset('users/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/slick/slick.min.js') }}"></script>
-<script src="{{ asset('users/js/slick-custom.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/parallax100/parallax100.js') }}"></script>
-<script>
-$('.parallax100').parallax100();
-</script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}">
-</script>
-<script>
-$('.js-pscroll').each(function() {
-    $(this).css('position', 'relative');
-    $(this).css('overflow', 'hidden');
-    var ps = new PerfectScrollbar(this, {
-        wheelSpeed: 1,
-        scrollingThreshold: 1000,
-        wheelPropagation: false,
-    });
-
-    $(window).on('resize', function() {
-        ps.update();
-    })
-});
-</script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/js/main.js') }}"></script>
+@parent
 @endsection

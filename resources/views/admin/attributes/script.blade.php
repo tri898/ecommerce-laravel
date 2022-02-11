@@ -35,7 +35,6 @@
         	    }
         	]
 		});
-		
     });
 </script>
 <script type="text/javascript">
@@ -214,5 +213,4 @@
 			'preventOpenDuplicates': true
 		};
 	});
-	
 </script>

@@ -21,7 +21,7 @@ class HomeController extends Controller
             'name','slug','price','discount','image_list'])
             ->take(12);
         
-        $sellingProducts = Product::select([
+        $featuredProducts = Product::select([
             'name','slug','price','discount','image_list'])
             ->withSum(['orders' => function ($query) use ($currentDate, $threeMonthAgo) {
                 $query->whereBetween('orders.created_at', [$threeMonthAgo, $currentDate]);               
@@ -34,6 +34,6 @@ class HomeController extends Controller
             'slug','title','user_id','created_at','description','cover_image'])
             ->take(3);
 
-        return view('front.home', compact('sliders','products','sellingProducts','blogs'));
+        return view('front.home', compact('sliders','products','featuredProducts','blogs'));
     }
 }

@@ -22,7 +22,6 @@
                     <button type="submit" id="btnSave" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
-
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

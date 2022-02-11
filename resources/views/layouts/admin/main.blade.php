@@ -8,10 +8,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <!-- VENDOR CSS -->
-    @yield('vendor_css')
+    @section('vendor_css')
+
+    <link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admins/assets/vendor/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admins/assets/vendor/linearicons/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('admins/assets/vendor/toastr/toastr.min.css') }}">
+    @show
+
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="{{ asset('admins/assets/css/main.css') }}">
-
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,600,700" rel="stylesheet">
     <!-- ICONS -->
@@ -46,7 +52,14 @@
     </div>
     <!-- END WRAPPER -->
     <!-- Javascript -->
-    @yield('script')
+
+    @section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="{{ asset('admins/assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('admins/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('admins/assets/vendor/toastr/toastr.min.js')}}"></script>
+    <script src="{{ asset('admins/assets/scripts/klorofil-common.js') }}"></script>
+    @show
 </body>
 
 </html>

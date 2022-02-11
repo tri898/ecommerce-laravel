@@ -44,7 +44,7 @@
                             @endif
                             <form id="register-form" class="form-auth-small" action="{{ route('register.store') }}"
                                 method="POST">
-                                {{ csrf_field() }}
+                                @csrf
                                 <div class="form-group">
                                     <label for="reg-name" class="control-label sr-only">Name</label>
                                     <input type="text" class="form-control" id="reg-name" name="name"
@@ -67,7 +67,7 @@
                                         name="password_confirmation" value="{{ old('password_confirmation') }}"
                                         placeholder="Confirm password">
                                 </div>
-
+                                
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">REGISTER</button>
                                 <div class="bottom">
                                     <span class="helper-text"><i class="lnr lnr-user"></i> <a

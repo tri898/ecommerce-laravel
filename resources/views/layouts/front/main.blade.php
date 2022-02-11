@@ -10,8 +10,29 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('admins/assets/img/apple-icon.png') }}">
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('admins/assets/img/favicon.png') }}">
     <!--=========================================VENDOR CSS=================================================-->
-    @yield('vendor_css')
+    @section('vendor_css')
+    <link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/bootstrap/css/bootstrap.min.css') }}">
     <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('users/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('users/fonts/iconic/css/material-design-iconic-font.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('users/fonts/linearicons-v1.0.0/icon-font.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/animate/animate.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/css-hamburgers/hamburgers.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/animsition/css/animsition.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/perfect-scrollbar/perfect-scrollbar.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('users/css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('users/css/main.css') }}">
+    <!--===============================================================================================-->
+    @show
 </head>
 
 <body class="animsition">
@@ -73,7 +94,6 @@
                             <li class="{{ (request()->is('/')) ? 'active-menu' : '' }}">
                                 <a href="{{route('front.home.index')}}">Home</a>
                             </li>
-
                             <li class="{{ (request()->is('shop')) ? 'active-menu' : '' }}">
                                 <a href="{{ route('front.product.all') }}">Shop</a>
                                 <ul class="sub-menu">
@@ -103,11 +123,11 @@
                             </li>
 
                             <li>
-                                <a href="about.html">About</a>
+                                <a href="#">About</a>
                             </li>
 
                             <li>
-                                <a href="contact.html">Contact</a>
+                                <a href="#">Contact</a>
                             </li>
                         </ul>
                     </div>
@@ -243,11 +263,11 @@
                 </li>
 
                 <li>
-                    <a href="about.html">About</a>
+                    <a href="#">About</a>
                 </li>
 
                 <li>
-                    <a href="contact.html">Contact</a>
+                    <a href="#">Contact</a>
                 </li>
             </ul>
         </div>
@@ -269,8 +289,36 @@
         </span>
     </div>
     <!-- Script -->
-    @yield('script')
+    @section('script')
+    <script src="{{ asset('users/vendor/jquery/jquery-3.2.1.min.js') }}">
+    </script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('users/vendor/animsition/js/animsition.min.js') }}"></script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('users/vendor/bootstrap/js/popper.js') }}"></script>
+    <script src="{{ asset('users/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <!--===============================================================================================-->
+    <!--===============================================================================================-->
+    <script src="{{ asset('users/vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}">
+    </script>
+    <script>
+    $('.js-pscroll').each(function() {
+        $(this).css('position', 'relative');
+        $(this).css('overflow', 'hidden');
+        var ps = new PerfectScrollbar(this, {
+            wheelSpeed: 1,
+            scrollingThreshold: 1000,
+            wheelPropagation: false,
+        });
 
+        $(window).on('resize', function() {
+            ps.update();
+        })
+    });
+    </script>
+    <!--===============================================================================================-->
+    <script src="{{ asset('users/js/main.js') }}"></script>
+    @show
 </body>
 
 </html>

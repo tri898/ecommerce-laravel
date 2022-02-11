@@ -83,15 +83,19 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'user' ], function () {
     Route::name('user.')->group(function () {
         // Order route
         Route::get('order',[UserOrderController::class, 'index'])->name('order.index');
+        
         Route::get('order/{id}/details',[UserOrderController::class, 'show'])->name('order.show');
+
         Route::put('order/{id}/cancel',[UserOrderController::class, 'cancel'])->name('order.cancel');
 
         // Profile route
         Route::get('profile',[ProfileController::class, 'profile'])->name('profile.index');
+
         Route::put('profile/update',[ProfileController::class, 'updateProfile'])
             ->name('profile.update');
 
         Route::get('profile/password',[ProfileController::class, 'password'])->name('password.index');
+
         Route::put('profile/password',[ProfileController::class, 'changePassword'])
             ->name('password.change');
         
@@ -102,9 +106,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'user' ], function () {
 
 //==============Register and login/logout route list================
 Route::get('register',[RegisterController::class, 'index'])->name('register.index');
+
 Route::post('register',[RegisterController::class, 'store'])->name('register.store');
 
 Route::get('login',[LoginController::class, 'index'])->name('login.index');
+
 Route::post('login',[LoginController::class, 'authenticate'])->name('login.auth');
 
 Route::get('logout',[LoginController::class, 'logout'])->name('logout');
@@ -118,15 +124,20 @@ Route::name('front.')->group(function () {
 
     // Cart route
     Route::get('cart',[CartController::class, 'index'])->name('cart.index');
+
     Route::post('cart/{product}',[CartController::class, 'store'])->name('cart.store');
+
     Route::put('cart/{id}',[CartController::class, 'update'])->name('cart.update');
+
     Route::delete('cart/{id}',[CartController::class, 'destroy'])->name('cart.destroy');
     
     // Purchase route
     Route::get('state/{id}/cities',[StateCityController::class, 'getCitiesOfState'])
         ->name('state.cities');
+
     Route::get('purchase',[PurchaseController::class, 'index'])->name('purchase.index')
         ->middleware('auth');
+
     Route::post('purchase',[PurchaseController::class, 'store'])->name('purchase.store')
         ->middleware('auth');
 
@@ -136,16 +147,21 @@ Route::name('front.')->group(function () {
 
     // Product search route
     Route::get('search',[FrontProductController::class, 'search'])->name('product.search');
-    // Review product
+
+    // Review product route
     Route::post('p/{product}/review',[FrontProductController::class, 'review'])
         ->name('product.review')->middleware('auth');
+
     // Product details route
     Route::get('p/{product:slug}',[FrontProductController::class, 'show'])->name('product.show');
+
     // All product route
     Route::get('products',[FrontProductController::class, 'index'])->name('product.all');
+
     // Product by category route
     Route::get('{category:slug}',[FrontProductController::class, 'cateProduct'])
         ->name('product.category');
+
     // Product by subcategory route
     Route::get('{category:slug}/{subcategory:slug}',[FrontProductController::class, 'subProduct'])
         ->name('product.subcategory');

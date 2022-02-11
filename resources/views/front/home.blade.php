@@ -3,26 +3,8 @@
 @section('title', 'Home')
 
 @section('vendor_css')
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/bootstrap/css/bootstrap.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/fonts/iconic/css/material-design-iconic-font.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/fonts/linearicons-v1.0.0/icon-font.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/animate/animate.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/css-hamburgers/hamburgers.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/animsition/css/animsition.min.css') }}">
-<!--===============================================================================================-->
+@parent
 <link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/slick/slick.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/perfect-scrollbar/perfect-scrollbar.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/css/util.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('users/css/main.css') }}">
 @endsection
 @section('content')
 <!-- Slider -->
@@ -44,7 +26,7 @@
                                 {{ $slider->name}}
                             </h2>
                         </div>
-
+                        
                         <div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
                             <a href="{{ route('front.product.show', $slider->product->slug) }}"
                                 class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
@@ -55,7 +37,6 @@
                 </div>
             </div>
             @endforeach
-
         </div>
     </div>
 </section>
@@ -65,7 +46,7 @@
     <div class="container">
         <div class="p-b-32">
             <h3 class="ltext-105 cl5 txt-center respon1">
-                Best Selling
+                Featured Product
             </h3>
         </div>
         <!-- Tab01 -->
@@ -73,11 +54,11 @@
             <!-- Tab panes -->
             <div class="tab-content p-t-23">
                 <!-- - -->
-                <div class="tab-pane fade show active" id="best-seller" role="tabpanel">
+                <div class="tab-pane fade show active" id="featured" role="tabpanel">
                     <!-- Slide2 -->
                     <div class="wrap-slick2">
                         <div class="slick2">
-                            @foreach ($sellingProducts as $product)
+                            @foreach ($featuredProducts as $product)
                             <div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
                                 <!-- Block2 -->
                                 <div class="block2">
@@ -86,7 +67,7 @@
                                         $image = json_decode($product->image_list, true);
                                         @endphp
                                         <img src="{{ asset('files/'.$image[0]) }}" alt="IMG-PRODUCT">
-                                        <a href="#"
+                                        <a href="{{ route('front.product.show', $product->slug) }}"
                                             class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                                             View Details
                                         </a>
@@ -94,7 +75,7 @@
 
                                     <div class="block2-txt flex-w flex-t p-t-14">
                                         <div class="block2-txt-child1 flex-col-l ">
-                                            <a href="product-detail.html"
+                                            <a href="{{ route('front.product.show', $product->slug) }}"
                                                 class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                                 {{ $product->name}}
                                             </a>
@@ -172,7 +153,7 @@
         </div>
 
         <!-- Load more -->
-        <div class="flex-c-m flex-w w-full p-t-45">
+        <div class="flex-c-m flex-w w-full p-t-20">
             <a href="{{ route('front.product.all') }}" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
                 View All Products
             </a>
@@ -182,7 +163,7 @@
 
 
 <!-- Blog -->
-<section class="sec-blog bg0 p-t-60 p-b-90">
+<section class="sec-blog bg0 p-t-40 p-b-90">
     <div class="container">
         <div class="p-b-66">
             <h3 class="ltext-105 cl5 txt-center respon1">
@@ -250,39 +231,10 @@
 </section>
 @endsection
 @section('script')
-<script src="{{ asset('users/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/animsition/js/animsition.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/bootstrap/js/popper.js') }}"></script>
-<script src="{{ asset('users/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<!--===============================================================================================-->
+@parent
 <script src="{{ asset('users/vendor/slick/slick.min.js') }}"></script>
 <script src="{{ asset('users/js/slick-custom.js') }}"></script>
 <!--===============================================================================================-->
 <script src="{{ asset('users/vendor/isotope/isotope.pkgd.min.js') }}"></script>
 <!--===============================================================================================-->
-<script src="{{ asset('users/vendor/parallax100/parallax100.js') }}"></script>
-<script>
-$('.parallax100').parallax100();
-</script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-<script>
-$('.js-pscroll').each(function() {
-    $(this).css('position', 'relative');
-    $(this).css('overflow', 'hidden');
-    var ps = new PerfectScrollbar(this, {
-        wheelSpeed: 1,
-        scrollingThreshold: 1000,
-        wheelPropagation: false,
-    });
-
-    $(window).on('resize', function() {
-        ps.update();
-    })
-});
-</script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/js/main.js') }}"></script>
 @endsection

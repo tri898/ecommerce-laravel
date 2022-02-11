@@ -332,13 +332,7 @@
 </section>
 @endsection
 @section('script')
-<script src="{{ asset('users/vendor/jquery/jquery-3.2.1.min.js') }}">
-</script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/animsition/js/animsition.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/bootstrap/js/popper.js') }}"></script>
-<script src="{{ asset('users/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+@parent
 <!--===============================================================================================-->
 <script src="{{ asset('users/vendor/select2/select2.min.js') }}"></script>
 <script>
@@ -355,11 +349,6 @@ $(".js-select2").each(function() {
 <!--===============================================================================================-->
 <script src="{{ asset('users/vendor/slick/slick.min.js') }}"></script>
 <script src="{{ asset('users/js/slick-custom.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/parallax100/parallax100.js') }}"></script>
-<script>
-$('.parallax100').parallax100();
-</script>
 <!--===============================================================================================-->
 <script src="{{ asset('users/vendor/MagnificPopup/jquery.magnific-popup.min.js') }}">
 </script>
@@ -423,24 +412,4 @@ $('#addToCart').on('click', function() {
     });
 });
 </script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}">
-</script>
-<script>
-$('.js-pscroll').each(function() {
-    $(this).css('position', 'relative');
-    $(this).css('overflow', 'hidden');
-    var ps = new PerfectScrollbar(this, {
-        wheelSpeed: 1,
-        scrollingThreshold: 1000,
-        wheelPropagation: false,
-    });
-
-    $(window).on('resize', function() {
-        ps.update();
-    })
-});
-</script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/js/main.js') }}"></script>
 @endsection

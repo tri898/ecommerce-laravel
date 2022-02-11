@@ -3,10 +3,7 @@
 @section('title', 'Create | Products')
 
 @section('vendor_css')
-<link rel="stylesheet" href="{{ asset('admins/assets/vendor/bootstrap/css/bootstrap.min.css') }}">
-<link rel="stylesheet" href="{{ asset('admins/assets/vendor/font-awesome/css/font-awesome.min.css') }}">
-<link rel="stylesheet" href="{{ asset('admins/assets/vendor/toastr/toastr.min.css') }}">
-<link rel="stylesheet" href="{{ asset('admins/assets/vendor/linearicons/style.css') }}">
+@parent
 <link rel="stylesheet" href="{{ asset('admins/assets/vendor/tagsinput/bootstrap-tagsinput.css') }}">
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
@@ -31,7 +28,6 @@
                 <form id="createProductForm" action="{{ route('admin.products.store')}}" method="POST"
                     enctype='multipart/form-data'>
                     @csrf
-
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -97,7 +93,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="row">
@@ -119,7 +114,6 @@
                                     <th class="text-center" class="text-center"></th>
                                 </tr>
                                 @if (count(old('attributes', [])) > 0)
-
                                 @foreach (old('attributes') as $index =>$item)
                                 <tr>
                                     <td>{{$attrArray[$index]}}</td>
@@ -133,10 +127,8 @@
                                     </td>
                                 </tr>
                                 @endforeach
-
                                 @endif
                             </table>
-
                         </div>
                     </div>
                     <div class="row">
@@ -156,12 +148,8 @@
 @endsection
 
 @section('script')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script src="{{ asset('admins/assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('admins/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+@parent
 <script src="{{ asset('admins/assets/vendor/tagsinput/bootstrap-tagsinput.js') }}"></script>
-<script src="{{ asset('admins/assets/vendor/toastr/toastr.min.js')}}"></script>
-<script src="{{ asset('admins/assets/scripts/klorofil-common.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>

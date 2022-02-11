@@ -3,24 +3,7 @@
 @section('title', 'My orders')
 
 @section('vendor_css')
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/bootstrap/css/bootstrap.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/fonts/iconic/css/material-design-iconic-font.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/fonts/linearicons-v1.0.0/icon-font.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/animate/animate.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/css-hamburgers/hamburgers.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/animsition/css/animsition.min.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/vendor/perfect-scrollbar/perfect-scrollbar.css') }}">
-<!--===============================================================================================-->
-<link rel="stylesheet" type="text/css" href="{{ asset('users/css/util.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('users/css/main.css') }}">
+@parent
 @endsection
 @section('content')
 <!-- breadcrumb -->
@@ -38,28 +21,9 @@
             </span>
         </div>
     </div>
-
-
     <!-- Information -->
     <section class="bg0 p-t-50 p-b-80">
         <div class="container">
-            <div class="flex-w flex-r p-t-18 p-b-15 p-lr-85 p-lr-15-sm">
-                <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
-                    <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
-                    <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
-                    Search
-                </div>
-            </div>
-            <!-- Search product -->
-				<div class="dis-none panel-search w-full p-t-10 p-b-15 p-lr-85">
-					<div class="bor8 dis-flex p-l-15">
-						<button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
-							<i class="zmdi zmdi-search"></i>
-						</button>
-
-						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
-					</div>	
-				</div>
             @foreach ($orders as $order)
             <div class="row">
                 <div class="col-lg-10 col-xl-10 m-lr-auto m-b-25 bor10">
@@ -147,33 +111,5 @@
 
 @endsection
 @section('script')
-<script src="{{ asset('users/vendor/jquery/jquery-3.2.1.min.js') }}">
-</script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/animsition/js/animsition.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/bootstrap/js/popper.js') }}"></script>
-<script src="{{ asset('users/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}">
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js">
-</script>
-<script>
-$('.js-pscroll').each(function() {
-    $(this).css('position', 'relative');
-    $(this).css('overflow', 'hidden');
-    var ps = new PerfectScrollbar(this, {
-        wheelSpeed: 1,
-        scrollingThreshold: 1000,
-        wheelPropagation: false,
-    });
-
-    $(window).on('resize', function() {
-        ps.update();
-    })
-});
-</script>
-<!--===============================================================================================-->
-<script src="{{ asset('users/js/main.js') }}"></script>
+@parent
 @endsection
