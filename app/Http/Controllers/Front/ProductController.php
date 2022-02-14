@@ -101,6 +101,6 @@ class ProductController extends Controller
             	->paginate(12);
         $query = $request->q;
        
-        return view('front.products.search',compact('products','query'));
+        return view('front.products.search', compact('products','query'));
     }
 }

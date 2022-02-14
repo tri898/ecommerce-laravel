@@ -26,7 +26,7 @@
                                 {{ $slider->name}}
                             </h2>
                         </div>
-                        
+
                         <div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
                             <a href="{{ route('front.product.show', $slider->product->slug) }}"
                                 class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
@@ -81,7 +81,15 @@
                                             </a>
 
                                             <span class="stext-105 cl3">
-                                                $16.64
+                                                @php
+                                                $isActive = $product->discount;
+                                                @endphp
+                                                @isset($product->discount)
+                                                ${{ number_format($product->price - ($product->discount/100)*$product->price, 2) }}
+                                                @endisset
+                                                <span @class(['strike-through-text'=> $isActive])>
+                                                    ${{ number_format($product->price, 2) }}
+                                                </span>
                                             </span>
                                         </div>
 
@@ -129,7 +137,8 @@
 
                     <div class="block2-txt flex-w flex-t p-t-14">
                         <div class="block2-txt-child1 flex-col-l ">
-                            <a href="{{ route('front.product.show', $product->slug) }}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                            <a href="{{ route('front.product.show', $product->slug) }}"
+                                class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
                                 {{ $product->name}}
                             </a>
 
@@ -154,7 +163,8 @@
 
         <!-- Load more -->
         <div class="flex-c-m flex-w w-full p-t-20">
-            <a href="{{ route('front.product.all') }}" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+            <a href="{{ route('front.product.all') }}"
+                class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
                 View All Products
             </a>
         </div>
